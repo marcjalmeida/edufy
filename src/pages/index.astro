@@ -75,6 +75,7 @@ const breaking = null; // Phase 4: condition-driven alert object {headline, upda
     <nav>
       {desks.map((d) => <a href={`/topics#${d.slug}`}>{d.name}</a>)}
       <a href="/editions">Editions</a>
+      <a href="/story/banco-master">Investigation</a>
       <a href="/dossier/banco-master">Dossiers</a>
       <a href="/about">Standards</a>
     </nav>
@@ -86,7 +87,7 @@ const breaking = null; // Phase 4: condition-driven alert object {headline, upda
         <article>
           <span class="chip">{sampleStory.desk}</span>
           <span class="chip status">{sampleStory.status}</span>
-          <h2><a href="/dossier/banco-master">{sampleStory.headline}</a></h2>
+          <h2><a href="/story/banco-master">{sampleStory.headline}</a></h2>
           <p class="deck">{sampleStory.deck}</p>
           <p class="meta">Published {sampleStory.updated} · Updated {sampleStory.updated} · <strong>What changed: {dossier.updates?.length ?? 0} logged updates</strong></p>
           <p class="meta" style="margin-top:0.8rem">Confirmed: {dossier.primary_sources?.length ?? 0} primary documents on file · {dossier.known_facts?.length ?? 0} graded facts · {dossier.open_questions?.length ?? 0} open questions</p>
@@ -113,7 +114,7 @@ const breaking = null; // Phase 4: condition-driven alert object {headline, upda
             <dt>{dossier.entities?.length ?? 0} entities mapped</dt><dd>justices, banker, agencies, intermediaries</dd>
             <dt>{dossier.contradictions?.length ?? 0} contradictions tracked</dt><dd>with calibrated assessments</dd>
           </dl>
-          <p style="margin-top:.5rem"><a class="more" href="/dossier/banco-master">Open the dossier →</a></p>
+          <p style="margin-top:.5rem"><a class="more" href="/story/banco-master">Read the investigation →</a> · <a class="more" href="/dossier/banco-master">Dossier →</a></p>
         </div>
         <div class="cell">
           <h4>Editions (Central Time)</h4>
