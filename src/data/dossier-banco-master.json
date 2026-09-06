@@ -1,0 +1,394 @@
+{
+  "id": "BRAZIL-BANCO-MASTER",
+  "title": "Banco Master / Vorcaro ↔ Moraes ↔ Mendonça STF crisis",
+  "desk": "brazil-public-integrity",
+  "status": "MONITORING",
+  "priority": "P2",
+  "created": "2026-09-06T07:00:00Z",
+  "last_updated": "2026-09-06T07:00:00Z",
+  "overview": "PF forensic report (218pp, 27 Aug) documented 52 one-way WhatsApp messages (30 Oct–17 Nov 2025) from banker Daniel Vorcaro to a contact saved as 'Alexandre de Moraes BRASÍLIA', plus a R$3M/month contract between Vorcaro's Banco Master and Barci de Moraes Advogados (Moraes's family firm; metadata lists 'Ministro Alexandre de Moraes' as last editor). Justice Mendonça's September unsealing triggered Moraes's counter-accusations of procedural abuse; Fachin centralized the matter with 5-business-day manifestações and a postponed plenary (late September). Calibrated verdict so far: proximity scandal confirmed; judicial misconduct unproven on both sides.",
+  "known_facts": [
+    {
+      "fact": "PF forensic report on Daniel Vorcaro's phone found WhatsApp messages sent to a contact saved as 'Alexandre de Moraes BRASÍLIA', including days before Vorcaro's Nov 2025 arrest",
+      "classification": "CONFIRMED FACT",
+      "source": "https://www.aljazeera.com/news/2026/9/4/brazilian-supreme-court-roiled-by-dispute-between-justices",
+      "date": "2026-09-02"
+    },
+    {
+      "fact": "Contract worth over R$40 million signed early 2024 between Moraes's wife Viviane Barci's firm and Vorcaro",
+      "classification": "PRIMARY DOCUMENT",
+      "source": "https://youtu.be/ZdBa8cIS_B8",
+      "date": "2026-09"
+    },
+    {
+      "fact": "Justice Mendonça's unsealing of the PF report violated custody chain / procedural rules — per Moraes's formal accusation",
+      "classification": "ALLEGATION",
+      "source": "https://youtube.com/watch?v=E_nDEcK-hAA",
+      "date": "2026-09-03"
+    },
+    {
+      "fact": "Chief Justice Fachin gave PGR 5 days to weigh allegations against Mendonça, and STF to decide next week on investigating Moraes",
+      "classification": "CONFIRMED FACT",
+      "source": "https://www.aljazeera.com/news/2026/9/4/brazilian-supreme-court-roiled-by-dispute-between-justices",
+      "date": "2026-09-04"
+    },
+    {
+      "fact": "Two Banco Master cards for Moraes's children with R$300k limits each (R$600k total) discussed in Vorcaro phone materials",
+      "classification": "ALLEGATION",
+      "source": "https://youtu.be/fp7i84KFTR4",
+      "date": "2026-09"
+    },
+    {
+      "fact": "US Treasury (OFAC) sanctioned Alexandre de Moraes in relation to Bolsonaro trial and platform suspensions (sanction later lifted)",
+      "classification": "CONFIRMED FACT",
+      "source": "https://www.aljazeera.com/news/2026/9/4/brazilian-supreme-court-roiled-by-dispute-between-justices",
+      "date": "2026-09-04"
+    },
+    {
+      "fact": "PF report documents 52 WhatsApp messages sent BY Vorcaro (30/10–17/11/2025) to contact 'Alexandre de Moraes BRASÍLIA'; one-way; content of Moraes's replies never recovered (only reply timing + emoji reactions per O Globo extraction)",
+      "classification": "PRIMARY DOCUMENT",
+      "source": "caso_master_docs/pf_relatorio_218p.pdf",
+      "date": "2026-08-27"
+    },
+    {
+      "fact": "Contract metadata shows 'Ministro Alexandre de Moraes' as last editor of the Barci-Vorcaro contract document",
+      "classification": "PRIMARY DOCUMENT",
+      "source": "caso_master_docs/pf_relatorio_218p.pdf",
+      "date": "2026-08-27"
+    },
+    {
+      "fact": "Moraes officially DENIES receiving Vorcaro messages (STF note, 6 Mar 2026)",
+      "classification": "PRIMARY DOCUMENT",
+      "source": "(STF nota oficial)",
+      "date": "2026-03-06"
+    },
+    {
+      "fact": "Fachin despacho (3 Sep 2026, PET 16704): 5 business days for manifestações from Moraes, Mendonça, PGR Gonet, PF DG Andrei Rodrigues; questions include PF compliance with LOMAN art. 33 §2",
+      "classification": "PRIMARY DOCUMENT",
+      "source": "caso_master_docs/fachin_despacho_pet16704_3set2026.pdf",
+      "date": "2026-09-03"
+    },
+    {
+      "fact": "STF session on the case POSTPONED to second half of September 2026",
+      "classification": "CONFIRMED FACT",
+      "source": "https://www.poder360.com.br/poder-justica/fachin-adia-sessao-sobre-moraes-para-a-2a-quinzena-de-setembro/",
+      "date": "2026-09-05"
+    },
+    {
+      "fact": "PF hedged its identification of 'Andrei' and 'Paulo' (in Vorcaro messages) as Andrei Rodrigues and Paulo Gonet — PF's own inference, not certainty",
+      "classification": "PRIMARY DOCUMENT",
+      "source": "caso_master_docs/pf_relatorio_218p.pdf",
+      "date": "2026-08-27"
+    },
+    {
+      "fact": "Diário Oficial da União contains NO entry for the case (searched by CHILD A — negative finding)",
+      "classification": "PRIMARY DOCUMENT",
+      "source": "https://www.in.gov.br/",
+      "date": "2026-09-06"
+    },
+    {
+      "fact": "15 Nov 2025 Vorcaro message (2 days before arrest): 'Acha que segunda já tenho que estar fora?' and asked Moraes to intervene with PGR Gonet and PF DG Rodrigues",
+      "classification": "CONFIRMED FACT",
+      "source": "https://oglobo.globo.com/politica/noticia/2026/09/01/vorcaro-perguntou-a-moraes-em-mensagem-a-dois-dias-de-ser-preso-se-tinha-que-deixar-o-pais-diz-jornal.ghtml",
+      "date": "2026-09-01"
+    },
+    {
+      "fact": "Moraes's 6 Mar 2026 note addressed the CPMI do INSS dataset — NOT the PF extraction; his office has not repeated the denial since unsealing",
+      "classification": "CONFIRMED FACT",
+      "source": "(CHILD C session 20260906_025308_ea1787)",
+      "date": "2026-09-06"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Alexandre de Moraes",
+      "role": "STF Justice (ex-relator fake news inquiry)",
+      "entity_ref": "investigations/brazil#E-001"
+    },
+    {
+      "name": "André Mendonça",
+      "role": "STF Justice (relator Banco Master case)",
+      "entity_ref": "investigations/brazil#E-002"
+    },
+    {
+      "name": "Edson Fachin",
+      "role": "STF Chief Justice (President)",
+      "entity_ref": "investigations/brazil#E-003"
+    },
+    {
+      "name": "Daniel Vorcaro",
+      "role": "Banker (Banco Master owner), arrested Nov 2025",
+      "entity_ref": "investigations/brazil#E-004"
+    },
+    {
+      "name": "Viviane Barci",
+      "role": "Moraes's wife; owner of law/consulting firm",
+      "entity_ref": "investigations/brazil#E-005"
+    },
+    {
+      "name": "Polícia Federal",
+      "role": "Federal Police — forensic investigation",
+      "entity_ref": "investigations/brazil#E-006"
+    },
+    {
+      "name": "Jair Bolsonaro",
+      "role": "Former President, under house arrest (27-year sentence)",
+      "entity_ref": "investigations/brazil#E-007"
+    },
+    {
+      "name": "PGR (Paulo Gonet)",
+      "role": "Prosecutor-General",
+      "entity_ref": "investigations/brazil#E-008"
+    },
+    {
+      "name": "US Treasury / OFAC",
+      "role": "Foreign sanctions authority",
+      "entity_ref": "investigations/brazil#E-009"
+    },
+    {
+      "name": "Banco Central do Brasil",
+      "role": "Banking regulator",
+      "entity_ref": "investigations/brazil#E-010"
+    },
+    {
+      "name": "Fábio Faria",
+      "role": "Former Communications Minister; brokered Moraes-Vorcaro contact",
+      "entity_ref": "investigations/brazil#E-011"
+    },
+    {
+      "name": "Nikolas Ferreira",
+      "role": "Federal Deputy; dossiê presenter",
+      "entity_ref": "investigations/brazil#E-012"
+    },
+    {
+      "name": "Andrei Rodrigues",
+      "role": "PF Director-General",
+      "entity_ref": "investigations/brazil#E-013"
+    },
+    {
+      "name": "Guilherme de Toledo Benazzi",
+      "role": "Signatory for Banco Master in Barci contract",
+      "entity_ref": "investigations/brazil#E-014"
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2023-late",
+      "event": "Lunch at Vorcaro's Campos do Jordão hotel attended by Moraes family; Moraes-Vorcaro partnership said to begin",
+      "source": "Foro de Teresina (Piauí)",
+      "classification": "C"
+    },
+    {
+      "date": "2024-01",
+      "event": "Contract signed between Viviane Barci's firm and Vorcaro (reported R$40M+)",
+      "source": "Foro de Teresina + press",
+      "classification": "C"
+    },
+    {
+      "date": "2024-11",
+      "event": "US OFAC sanctions on Moraes (Bolsonaro-trial context) — later lifted",
+      "source": "Al Jazeera recap",
+      "classification": "B"
+    },
+    {
+      "date": "2025-10-30",
+      "event": "Vorcaro message (per PF extraction reporting): 'reinforce with Andrei and Paulo not to let anyone below them pull dirty tricks...'",
+      "source": "Foro de Teresina quoting extraction",
+      "classification": "C"
+    },
+    {
+      "date": "2025-11-15/16",
+      "event": "Vorcaro asks (per extraction reporting) 'do you think it needs to be out by Monday?' — days before arrest",
+      "source": "Foro de Teresina + PF extraction reporting",
+      "classification": "C"
+    },
+    {
+      "date": "2025-11-17",
+      "event": "Daniel Vorcaro arrested (first arrest; later released on appeal per Phase 1 cron report)",
+      "source": "Multiple outlets",
+      "classification": "B"
+    },
+    {
+      "date": "2026-09-02",
+      "event": "Mendonça unseals PF forensic report on Vorcaro phone; messages to 'Alexandre de Moraes BRASÍLIA' revealed",
+      "source": "Reuters/AP/Al Jazeera",
+      "classification": "B"
+    },
+    {
+      "date": "2026-09-03",
+      "event": "Moraes requests investigation of Mendonça via fake-news inquiry: abuse of authority, custody-chain compromise, plea-deal steering, prior indication of precautionary measures",
+      "source": "Jornal Nacional transcript/Poder360",
+      "classification": "B"
+    },
+    {
+      "date": "2026-09-04",
+      "event": "Fachin sets 5-day deadline: PGR + PF + Moraes + Mendonça manifestações on the report handling",
+      "source": "Al Jazeera/Reuters",
+      "classification": "B"
+    },
+    {
+      "date": "2026-09-05",
+      "event": "Nikolas Ferreira presents 218-page PF extraction dossier in plenary (cards R$300k×2 claim, jets, helicopters)",
+      "source": "Plenary video",
+      "classification": "D"
+    },
+    {
+      "date": "2026-09-06",
+      "event": "Monitoring status: STF to decide next week whether to investigate Moraes; PGR deadline ~2026-09-09",
+      "source": "Al Jazeera",
+      "classification": "B"
+    },
+    {
+      "date": "2026-09-05",
+      "event": "Fachin postpones STF session on the Moraes/Mendonça case to second half of September",
+      "source": "Poder360 (CHILD A)",
+      "classification": "B"
+    },
+    {
+      "date": "2026-09-07 (expected)",
+      "event": "Planned protests; Fachin-scheduled public plenary on the PF report; plenary vote on opening inquiry into Moraes; two PGR opinions due on the two 5-day clocks",
+      "source": "CHILD B consolidated (multiple outlets)",
+      "classification": "B"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "Justice Mendonça's unsealing of the PF report violated custody chain / procedural rules — per Moraes's formal accusation",
+      "classification": "Allegation by interested party; pending ",
+      "source": "https://youtube.com/watch?v=E_nDEcK-hAA",
+      "status": "UNPROVEN"
+    },
+    {
+      "claim": "Two Banco Master cards for Moraes's children with R$300k limits each (R$600k total) discussed in Vorcaro phone materials",
+      "classification": "Political speech citing documents not in",
+      "source": "https://youtu.be/fp7i84KFTR4",
+      "status": "UNPROVEN"
+    }
+  ],
+  "primary_sources": [
+    {
+      "title": "PF IPJ-A 3298613/2026 forensic report (218pp)",
+      "issuer": "Polícia Federal",
+      "date": "2026-08-27",
+      "url_or_path": "~/caso_master_docs/pf_relatorio_218p.pdf"
+    },
+    {
+      "title": "Contrato Barci de Moraes ↔ Banco Master S.A.",
+      "issuer": "Public case file (PET 16662)",
+      "date": "2024",
+      "url_or_path": "~/caso_master_docs/contrato_barci_master.pdf"
+    },
+    {
+      "title": "Fachin despacho PET 16704 (auth 0CB6-92DB-256B-89FB)",
+      "issuer": "STF Presidência",
+      "date": "2026-09-03",
+      "url_or_path": "~/caso_master_docs/fachin_despacho_pet16704_3set2026.pdf"
+    },
+    {
+      "title": "Fachin comunicado",
+      "issuer": "STF Presidência",
+      "date": "2026-09-04",
+      "url_or_path": "~/caso_master_docs/fachin_comunicado_4set2026.pdf"
+    },
+    {
+      "title": "PGR/ASSCRIM manifestação (Pet 16662)",
+      "issuer": "Procuradoria-Geral da República",
+      "date": "2026-09",
+      "url_or_path": "~/caso_master_docs/pgr_manifestacao_gonet.pdf"
+    }
+  ],
+  "independent_sources": [
+    {
+      "outlet": "Reuters",
+      "date": "2026-09-04",
+      "url": "https://www.reuters.com/legal/litigation/brazils-supreme-court-faces-rare-test-justices-turn-against-each-other-2026-09-04/"
+    },
+    {
+      "outlet": "Al Jazeera",
+      "date": "2026-09-04",
+      "url": "https://www.aljazeera.com/news/2026/9/4/brazilian-supreme-court-roiled-by-dispute-between-justices"
+    }
+  ],
+  "contradictions": [
+    {
+      "a": "Vorcaro sent WhatsApp messages directly to Moraes (contact 'Alexandre de Moraes ",
+      "b": "Moraes side: no direct receipt / messages are 'lying inference'; metadata vs con",
+      "assessment": "REFINED (CHILD C): Moraes's 6 Mar 2026 note denied the CPMI-INSS dataset, not the PF extraction — so 'he lied' and 'the denial stands' BOTH outrun the record. 52 one-way Vorcaro messages are A-level; ",
+      "confidence": "HIGH"
+    },
+    {
+      "a": "Press/aggregate figure R$131M (Foro de Teresina, plenary speeches, Phase 1 cron ",
+      "b": "PF report itself documents: R$3M/month contract, R$3,422,268.14, R$22,815,120.95",
+      "assessment": "RESOLVED IN PF'S FAVOR: R$131M is press aggregation, NOT in the primary document. All future reports must cite PF's actual figures.",
+      "confidence": "HIGH"
+    },
+    {
+      "a": "Moraes: Mendonça's unsealing broke custody chain and steered plea deals (abuse o",
+      "b": "Mendonça side: unsealing was legitimate case conduct; Moraes's request is retali",
+      "assessment": "Procedural legitimacy dispute; institutional stakes highest here — await PGR/STF determinations",
+      "confidence": "MEDIUM"
+    },
+    {
+      "a": "Banco Master cards for Moraes's children with R$300k limits each",
+      "b": "No independent confirmation of the card issuances or their beneficiary mapping",
+      "assessment": "UNVERIFIED — treat as D-level lead only",
+      "confidence": "LOW"
+    }
+  ],
+  "financial_relationships": [
+    {
+      "id": "F-001",
+      "date": "2024-01",
+      "amount": "R$3,000,000/month + R$3,422,268.14 + R$22,815,120.95 (PF-documented) + non-monetized dação of aircraft",
+      "currency": "BRL",
+      "from": "E-004 Daniel Vorcaro / Banco Master orbit",
+      "to": "E-005 Viviane Barci's firm",
+      "channel": "consulting/law contract",
+      "evidence": "Foro de Teresina reporting on signed contract; Moraes allegedly edited before final form",
+      "evidence_level": "A",
+      "verified": true,
+      "note": "PF report figures (CHILD A, primary). Original R$40M press figure NOT in primary docs."
+    },
+    {
+      "id": "F-002",
+      "date": "2025-10/11",
+      "amount": "R$600,000 (2×R$300,000 limits)",
+      "currency": "BRL",
+      "from": "Banco Master",
+      "to": "Two children of Moraes (per claim)",
+      "channel": "credit cards",
+      "evidence": "Nikolas Ferreira plenary citing PF extraction",
+      "evidence_level": "D",
+      "verified": false,
+      "note": "UNVERIFIED — political speech; no independent confirmation yet"
+    },
+    {
+      "id": "F-003",
+      "date": "2024-2025",
+      "amount": "R$131,000,000 (total flows cited)",
+      "currency": "BRL",
+      "from": "E-004 Daniel Vorcaro orbit",
+      "to": "Barci firm orbit (alleged aggregate)",
+      "channel": "mixed (contracts+flows)",
+      "evidence": "PF report figures as relayed in press/plenary",
+      "evidence_level": "D",
+      "verified": false,
+      "note": "PRESS AGGREGATION — REFUTED as primary figure; see contradictions X-002. Do not cite."
+    }
+  ],
+  "open_questions": [
+    "Did Moraes actually receive/reply to Vorcaro's messages? (reply content never recovered; O Globo claims reply timing+emoji only)",
+    "How did press arrive at R$131M? (not in PF report)",
+    "Will PGR request nullity of Mendonça's unsealing?",
+    "Will plenary open an inquiry into Moraes?"
+  ],
+  "updates": [
+    {
+      "ts": "2026-09-06T07:00:00Z",
+      "what_changed": "Dossier seeded from Phase 1-2 intelligence DBs (15 claims, 14 entities, 13 timeline events, 4 contradictions, 3 financial flows, 5 primary docs inherited)",
+      "edition_or_alert": "construction"
+    }
+  ],
+  "corrections": [],
+  "related": []
+}

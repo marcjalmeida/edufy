@@ -1,0 +1,27 @@
+{
+  "_meta": {
+    "updated": "2026-09-06T11:53:45.958470Z",
+    "states": [
+      "DISCOVERED",
+      "ASSIGNED",
+      "RESEARCHING",
+      "VERIFYING",
+      "READY",
+      "PUBLISHED",
+      "MONITORING",
+      "UPDATED",
+      "CORRECTED",
+      "ARCHIVED"
+    ]
+  },
+  "stories": [
+    {
+      "id": "BRAZIL-BANCO-MASTER",
+      "state": "MONITORING",
+      "desk": "brazil-public-integrity",
+      "priority": "P2",
+      "note": "Inherited from Phase 1-2 intelligence work; next window: plenary vote + PGR opinions (72h)",
+      "updated": "2026-09-06T11:53:45.958470Z"
+    }
+  ]
+}

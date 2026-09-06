@@ -1,0 +1,114 @@
+---
+// Global desk data loaded from Hermes-generated JSON (the newsroom engine's output)
+import dossier from '../data/dossier-banco-master.json';
+const sampleStory = {
+  id: 'BRAZIL-BANCO-MASTER',
+  headline: 'PF report documents 52 Vorcaro messages to "Alexandre de Moraes BRASÍLIA" — misconduct question heads to STF plenary',
+  deck: 'Forensic report confirms one-way messages and a family-firm contract, but no reply content was recovered; both justices\' fates now sit with Fachin\'s plenary calendar.',
+  desk: 'BRAZIL PUBLIC INTEGRITY',
+  status: 'SAMPLE',
+  updated: '2026-09-06',
+};
+const desks = [
+  { slug: 'us-immigration', name: 'US Immigration', accent: '#b91c1c' },
+  { slug: 'united-states', name: 'United States', accent: '#1e3a8a' },
+  { slug: 'brazil', name: 'Brazil', accent: '#166534' },
+  { slug: 'brazil-public-integrity', name: 'Brazil Public Integrity', accent: '#7c2d12' },
+  { slug: 'world', name: 'World', accent: '#374151' },
+  { slug: 'breaking', name: 'Breaking', accent: '#dc2626' },
+];
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TOTO GLOBAL DESK — International News • Intelligence • Investigations</title>
+    <meta name="description" content="Personal international newsroom: US immigration, Brazil public integrity, world conflicts. Evidence-graded reporting." />
+    <style>
+      :root { --ink: #111; --paper: #fafaf7; --rule: #d4d4c8; --accent: #8b0000; }
+      * { box-sizing: border-box; margin: 0; }
+      body { font-family: Georgia, 'Times New Roman', serif; background: var(--paper); color: var(--ink); line-height: 1.55; }
+      .sans { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+      header { border-bottom: 3px double var(--ink); padding: 2rem 1rem 1rem; text-align: center; }
+      header h1 { font-size: clamp(1.8rem, 5vw, 3.2rem); letter-spacing: 0.04em; font-weight: 900; }
+      header p { font-family: -apple-system, Arial, sans-serif; font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: #555; margin-top: 0.35rem; }
+      nav { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--rule); justify-content: center; }
+      nav a { font-family: -apple-system, Arial, sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.6rem 1rem; color: var(--ink); text-decoration: none; border-bottom: 3px solid transparent; }
+      nav a:hover { border-bottom-color: var(--accent); }
+      main { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem; }
+      .strip { background: var(--accent); color: #fff; font-family: -apple-system, Arial, sans-serif; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.45rem 1rem; text-align: center; display: none; }
+      .top { display: grid; gap: 1.25rem; padding: 1.25rem 0; border-bottom: 1px solid var(--rule); }
+      @media (min-width: 760px) { .top { grid-template-columns: 2fr 1fr; } }
+      .chip { display: inline-block; font-family: -apple-system, Arial, sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; padding: 0.18rem 0.5rem; border: 1px solid currentColor; border-radius: 2px; text-transform: uppercase; }
+      .chip.status { color: #92400e; background: #fef3c7; border-color: #f59e0b; }
+      .top h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1.15; margin: 0.5rem 0; }
+      .deck { font-size: 1.05rem; color: #444; font-style: italic; }
+      .meta { font-family: -apple-system, Arial, sans-serif; font-size: 0.72rem; color: #666; margin-top: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em; }
+      .side { border-left: 1px solid var(--rule); padding-left: 1.25rem; }
+      @media (max-width: 759px) { .side { border-left: none; padding-left: 0; } }
+      .side h3 { font-family: -apple-system, Arial, sans-serif; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 0.6rem; }
+      .side ul { list-style: none; padding: 0; }
+      .side li { padding: 0.45rem 0; border-bottom: 1px dotted var(--rule); font-size: 0.92rem; }
+      .timeline { font-size: 0.85rem; font-family: -apple-system, Arial, sans-serif; }
+      .timeline dt { font-weight: 700; color: var(--accent); }
+      .timeline dd { margin: 0 0 0.55rem; color: #333; }
+      .grid { display: grid; gap: 1px; background: var(--rule); border-top: 1px solid var(--rule); margin-top: 1.25rem; }
+      @media (min-width: 760px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+      .cell { background: var(--paper); padding: 1rem; font-size: 0.9rem; }
+      .cell h4 { font-family: -apple-system, Arial, sans-serif; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; }
+      footer { border-top: 3px double var(--ink); margin-top: 2rem; padding: 1rem; text-align: center; font-family: -apple-system, Arial, sans-serif; font-size: 0.72rem; color: #666; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>TOTO GLOBAL DESK</h1>
+      <p>International News • Intelligence • Investigations</p>
+    </header>
+    <nav>
+      {desks.map((d) => <a href={`#desk-${d.slug}`}>{d.name}</a>)}
+      <a href="#documents">Documents</a>
+    </nav>
+    <main>
+      <div class="strip" id="breaking">No active breaking alert</div>
+      <section class="top">
+        <article>
+          <span class="chip">{sampleStory.desk}</span>
+          <span class="chip status">{sampleStory.status}</span>
+          <h2>{sampleStory.headline}</h2>
+          <p class="deck">{sampleStory.deck}</p>
+          <p class="meta">Published {sampleStory.updated} · Updated {sampleStory.updated} · <strong>What changed: {dossier.updates?.length ?? 0} logged updates</strong></p>
+          <p class="meta" style="margin-top:0.8rem">Confirmed: {dossier.primary_sources?.length ?? 0} primary documents on file · {dossier.known_facts?.length ?? 0} graded facts · {dossier.open_questions?.length ?? 0} open questions</p>
+        </article>
+        <aside class="side">
+          <h3>Latest developments</h3>
+          <ul>
+            {dossier.timeline?.slice(-4).reverse().map((t) => (
+              <li><strong>{t.date}</strong> — {t.event?.slice(0, 110)}{t.event?.length > 110 ? '…' : ''}</li>
+            ))}
+          </ul>
+        </aside>
+      </section>
+      <section class="grid">
+        <div class="cell">
+          <h4>Editorial standard</h4>
+          <p class="sans" style="font-size:0.85rem">Every material claim is graded: confirmed fact, primary document, official statement, charge, allegation, media report, or unverified. Headlines never outrun evidence.</p>
+        </div>
+        <div class="cell">
+          <h4>Dossier: Banco Master</h4>
+          <dl class="timeline">
+            <dt>{dossier.timeline?.length ?? 0} events</dt><dd>from Nov 2025 arrest to the postponed plenary</dd>
+            <dt>{dossier.entities?.length ?? 0} entities mapped</dt><dd>justices, banker, agencies, intermediaries</dd>
+            <dt>{dossier.contradictions?.length ?? 0} contradictions tracked</dt><dd>with calibrated assessments</dd>
+          </dl>
+        </div>
+        <div class="cell">
+          <h4>Editions (Central Time)</h4>
+          <p class="sans" style="font-size:0.85rem"><strong>07:00</strong> Morning · <strong>13:00</strong> Midday · <strong>19:00</strong> Evening — plus breaking alerts when material. Delivered to Telegram and this portal.</p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      TOTO GLOBAL DESK · Personal international newsroom powered by Hermes · Evidence-graded journalism · <span id="year">2026</span>
+    </footer>
+  </body>
+</html>
