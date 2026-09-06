@@ -31,6 +31,7 @@ const desks = [
   { slug: 'brazil-public-integrity', name: 'Brazil Public Integrity', accent: '#7c2d12', blurb: 'Investigations \u00b7 Public money \u00b7 Evidence-first', live: true },
   { slug: 'world', name: 'World', accent: '#374151', blurb: 'Diplomacy \u00b7 Geopolitics \u00b7 Developments', live: false },
   { slug: 'war-security', name: 'War & Security', accent: '#57534e', blurb: 'Conflicts \u00b7 Security \u00b7 Sanctions', live: false },
+  { slug: 'investigations', name: 'Special Investigations', accent: '#8b0000', blurb: 'Dossiers with documents, timelines and evidence grading', live: true, href: '/dossier/banco-master' },
 ];
 const documents = [
   { title: 'PF forensic report (IPJ-A)', meta: 'Pol\u00edcia Federal \u00b7 Aug 27, 2026', slug: 'pf-report', label: 'PRIMARY DOCUMENT' },
@@ -218,11 +219,12 @@ const documents = [
   .sp-stats b { color: var(--paper); font-size: 0.95rem; margin-right: 0.25rem; }
   .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
   .doc-card { position: relative; border: 1px solid rgba(250,250,246,0.18); border-radius: 3px; overflow: hidden; text-decoration: none; background: rgba(0,0,0,0.3); }
+  .doc-card::after { content:''; position:absolute; inset:auto 0 0 0; height:55%; background:linear-gradient(transparent, rgba(0,0,0,0.85)); pointer-events:none; }
   .doc-card img { width: 100%; height: 180px; object-fit: cover; object-position: top; display: block; opacity: 0.9; transition: opacity .2s; }
   .doc-card:hover img { opacity: 1; }
   .doc-label { position: absolute; top: 0.4rem; left: 0.4rem; font-family: var(--sans); font-size: 0.52rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 0.12rem 0.4rem; }
-  .doc-title { position: absolute; bottom: 1.55rem; left: 0.5rem; right: 0.5rem; font-size: 0.8rem; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.9); }
-  .doc-meta { position: absolute; bottom: 0.45rem; left: 0.5rem; font-size: 0.58rem; color: rgba(255,255,255,0.7); }
+  .doc-title { position: absolute; bottom: 1.55rem; z-index: 2; left: 0.5rem; right: 0.5rem; font-size: 0.8rem; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.9); }
+  .doc-meta { position: absolute; bottom: 0.45rem; z-index: 2; left: 0.5rem; font-size: 0.58rem; color: rgba(255,255,255,0.7); }
 
   /* MOSAIC */
   .mosaic { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
