@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "note": "Rendered by portal/src/pages/editions.astro — update via toto-edition-pipeline"
+  },
+  "id": "2026-09-06-evening",
+  "type": "evening",
+  "published": "2026-09-06T23:17:03.404388Z",
+  "status": "LAUNCH SAMPLE",
+  "top_story": {
+    "headline": "The banker, the justice, and 52 messages",
+    "desk": "brazil-public-integrity",
+    "href": "/story/banco-master"
+  },
+  "items": [
+    {
+      "desk": "brazil-public-integrity",
+      "text": "STF plenary on the Moraes/Mendonça case postponed to late September; PGR opinions due on the 5-day clock",
+      "grade": "B"
+    },
+    {
+      "desk": "brazil-public-integrity",
+      "text": "PF report documents R$3M/month + specific payments — the R$131M figure remains press aggregation, not in the file",
+      "grade": "A"
+    },
+    {
+      "desk": "world",
+      "text": "No material overnight developments on watchlist conflicts — monitoring continues",
+      "grade": "N/A"
+    }
+  ],
+  "editors_note": "Launch sample edition. Regular editions begin with the Phase 4 publishing crons."
+}

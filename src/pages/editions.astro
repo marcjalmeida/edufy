@@ -1,45 +1,61 @@
 ---
-// Editions — schedule page on Base layout
+// Editions page V2 — renders the latest edition as a product (from edition-latest.json)
 import Base from '../layouts/Base.astro';
+import edition from '../data/edition-latest.json';
 const slots = [
-  { time: '07:00', name: 'Morning Edition', focus: 'What happened overnight · What matters today · What to watch', icon: '🌅' },
-  { time: '13:00', name: 'Midday Edition', focus: 'Changes since morning · Live developments · Corrections & new evidence', icon: '☀️' },
-  { time: '19:00', name: 'Evening Edition', focus: 'The day in full · What matters most · Unresolved · Overnight watch', icon: '🌙' },
+  { time: '07:00', name: 'Morning Brief', focus: 'Top 5 developments', icon: '🌅' },
+  { time: '13:00', name: 'Midday Update', focus: 'Latest changes', icon: '☀️' },
+  { time: '19:00', name: 'Evening Edition', focus: 'Full-day intelligence brief', icon: '🌙' },
 ];
+const gradeColor: Record<string,string> = { A:'#1d4ed8', B:'#166534', C:'#6b7280', 'N/A':'#6b7280' };
 ---
-<Base title="Editions | TOTO GLOBAL DESK" desc="Three guaranteed daily editions plus condition-driven breaking alerts. Central Time.">
+<Base title="Editions | TOTO GLOBAL DESK" desc="Three guaranteed daily editions plus condition-driven breaking alerts.">
   <style>
-    .notice { background:var(--paper-2); border:1px solid var(--rule); border-left:4px solid var(--accent-2); border-radius:3px; padding:.85rem 1.1rem; font-family:var(--sans); font-size:.85rem; margin-bottom:1.3rem; }
-    .slot { display:grid; grid-template-columns:5.2rem 1fr; gap:1rem; background:var(--paper); border:1px solid var(--rule); border-radius:3px; padding:1rem 1.1rem; margin:.7rem 0; }
-    .slot .time { font-size:1.7rem; font-weight:800; color:var(--accent); font-family:var(--sans); line-height:1; }
-    .slot .time small { display:block; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); margin-top:.25rem; }
-    .slot h3 { font-family:var(--sans); font-size:.9rem; text-transform:uppercase; letter-spacing:.12em; }
-    .slot .focus { font-size:.92rem; color:var(--ink-soft); font-style:italic; margin-top:.25rem; }
-    .slot .state { display:inline-block; font-family:var(--sans); font-size:.6rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:.14rem .45rem; border:1px solid var(--accent-2); color:var(--accent-2); border-radius:2px; margin-top:.45rem; }
-    .special { border-left:4px solid var(--rule); }
-    h2.sec { font-family:var(--sans); font-size:.95rem; text-transform:uppercase; letter-spacing:.11em; border-bottom:2px solid var(--ink); padding-bottom:.3rem; margin:1.9rem 0 .8rem; }
+    .current { background: var(--ink); color: var(--paper); padding: 1.6rem 1.4rem; border-radius: 4px; }
+    .current .kicker { font-family:var(--sans); font-size:.66rem; font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#e0a44a; }
+    .current h2 { font-size: clamp(1.5rem,3.5vw,2.2rem); margin:.4rem 0 .8rem; }
+    .item { display:flex; gap:.7rem; padding:.55rem 0; border-bottom:1px solid rgba(250,250,246,.12); font-size:.95rem; }
+    .grade { font-family:var(--sans); font-size:.6rem; font-weight:700; padding:.1rem .4rem; border:1px solid currentColor; border-radius:2px; height:fit-content; white-space:nowrap; }
+    .item small { display:block; font-family:var(--sans); font-size:.62rem; color:rgba(250,250,246,.55); text-transform:uppercase; letter-spacing:.08em; margin-top:.15rem; }
+    .cta-row { display:flex; gap:.6rem; margin-top:1.1rem; flex-wrap:wrap; }
+    .cta { font-family:var(--sans); font-size:.74rem; font-weight:800; letter-spacing:.09em; text-decoration:none; padding:.55rem 1rem; border-radius:2px; }
+    .cta.solid { background:var(--accent); color:#fff; } .cta.ghost { border:1px solid rgba(250,250,246,.4); color:var(--paper); }
+    .slots { display:grid; gap:.8rem; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); margin-top:1rem; }
+    .slot { background:var(--paper); border:1px solid var(--rule); border-radius:3px; padding:1rem 1.1rem; }
+    .slot .time { font-size:1.5rem; font-weight:800; color:var(--accent); font-family:var(--sans); }
+    .slot h3 { font-family:var(--sans); font-size:.85rem; text-transform:uppercase; letter-spacing:.12em; }
+    .slot p { font-size:.85rem; color:var(--ink-soft); font-style:italic; margin-top:.2rem; }
+    .slot .next { display:inline-block; font-family:var(--sans); font-size:.6rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#16a34a; border:1px solid #16a34a; border-radius:2px; padding:.12rem .45rem; margin-top:.5rem; }
+    h2.sec { font-family:var(--sans); font-size:.95rem; text-transform:uppercase; letter-spacing:.11em; border-bottom:2px solid var(--ink); padding-bottom:.3rem; margin:2rem 0 .9rem; }
+    .note { font-family:var(--sans); font-size:.8rem; color:var(--ink-soft); }
   </style>
-  <div class="section-h">Daily editions <span class="sub">guaranteed · Central Time</span></div>
-  <div class="notice">📰 <strong>Editions begin with Phase 3.</strong> The editorial pipeline is built (scout → verify → red-team → editor). Breaking alerts never wait for editions.</div>
-  {slots.map((s) => (
-    <div class="slot">
-      <div class="time">{s.time}<small>CT</small></div>
-      <div>
-        <h3>{s.icon} {s.name}</h3>
-        <div class="focus">{s.focus}</div>
-        <span class="state">Starting Phase 3</span>
+  <div class="section-h">Latest edition <span class="sub">{edition.id} · {edition.status}</span></div>
+  <section class="current">
+    <span class="kicker">{edition.type} edition</span>
+    <h2>Top story: {edition.top_story.headline}</h2>
+    {edition.items.map((it) => (
+      <div class="item">
+        <span class="grade" style={`color:${gradeColor[it.grade] || '#6b7280'}`}>{it.grade}</span>
+        <div>{it.text}<small>{it.desk}</small></div>
       </div>
+    ))}
+    <div class="cta-row">
+      <a class="cta solid" href={edition.top_story.href}>READ THE STORY</a>
+      <a class="cta ghost" href="/dossier/banco-master">EVIDENCE DOSSIER</a>
     </div>
-  ))}
-  <h2 class="sec">Also published</h2>
-  <div class="slot special">
-    <div class="time" style="color:#dc2626">⚡</div>
-    <div><h3>Breaking alerts</h3>
-      <div class="focus">Condition-driven only: major rulings, decisions, enforcement actions, emergencies. Deduplicated against story memory — no material change, no alert.</div></div>
+    <p class="note" style="color:rgba(250,250,246,.55);margin-top:1rem">✎ {edition.editors_note}</p>
+  </section>
+
+  <h2 class="sec">The daily schedule — Central Time</h2>
+  <div class="slots">
+    {slots.map((s) => (
+      <div class="slot">
+        <div class="time">{s.time}</div>
+        <h3>{s.icon} {s.name}</h3>
+        <p>{s.focus}</p>
+        <span class="next">NEXT EDITION · ACTIVE</span>
+      </div>
+    ))}
   </div>
-  <div class="slot special">
-    <div class="time" style="color:#a16207">✎</div>
-    <div><h3>Corrections</h3>
-      <div class="focus">Visible, logged, never silent. What was wrong, what changed, why, with sources.</div></div>
-  </div>
+  <p class="note" style="margin-top:1.2rem">⚡ Breaking alerts publish between editions whenever a material, verified development occurs — deduplicated against story memory.</p>
 </Base>
