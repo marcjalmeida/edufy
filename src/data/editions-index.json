@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "note": "Edition index for /editions/ archive + detail routes. Reader-facing labels derive from date+type; internal IDs stay in metadata.",
+    "statusVocab": ["PUBLISHED", "CURRENT EDITION", "NEXT EDITION", "UPCOMING", "DELAYED", "ARCHIVED"],
+    "updated": "2026-09-06T19:00:00Z"
+  },
+  "editions": [
+    {
+      "id": "2026-09-06-evening",
+      "type": "evening",
+      "date": "2026-09-06",
+      "publishTime": "19:00",
+      "publishedAt": "2026-09-06T19:00:00-05:00",
+      "updatedAt": "2026-09-06T19:00:00-05:00",
+      "status": "PUBLISHED",
+      "cover": "/media/hero-banco-master.jpg",
+      "coverAlt": "Editorial composite: Brasília map, evidence pin, PF report and Banco Master contract",
+      "leadHeadline": "The banker, the justice, and 52 messages",
+      "secondaryHeadlines": [
+        "Fachin postpones plenary — the STF buys itself a week",
+        "The R$131M figure that isn't in the report"
+      ],
+      "editorsBrief": "Today the Banco Master case stopped moving fast and started moving seriously. The plenary slipped to late September, but the five-day clocks keep running: the PGR owes two opinions, the plenary owes a decision on whether Moraes himself faces an inquiry, and the dossier gained its most important correction — the R$131M figure everyone repeated is not in the police report.",
+      "storyCount": 8,
+      "readingMin": 9,
+      "audio": null,
+      "documentCount": 5,
+      "leadStory": {
+        "headline": "The banker, the justice, and 52 messages: inside the case testing Brazil's Supreme Court",
+        "deck": "A 218-page police forensic report, a family law firm's contract, and a fight over who broke the rules first — what the Banco Master file actually proves, and what it doesn't.",
+        "href": "/story/banco-master",
+        "desk": "brazil-public-integrity",
+        "readingMin": 6
+      },
+      "stories": [
+        {"headline": "Fachin postpones plenary — the STF buys itself a week", "grade": "B", "label": "CONFIRMED", "desk": "brazil", "text": "The public session on the PF report moves to the second half of September, but the five-day manifestation clocks keep running for Moraes, Mendonça, the PGR and the PF director-general.", "source": "Poder360 · Al Jazeera"},
+        {"headline": "The R$131M figure that isn't in the report", "grade": "A", "label": "PRIMARY DOCUMENT", "desk": "brazil-public-integrity", "text": "The 218-page PF analysis documents R$3M/month, R$3,422,268.14, R$22,815,120.95 and an aircraft donation. The R$131M total repeated in Congress exists only as press aggregation.", "source": "PF IPJ-A 3298613/2026"},
+        {"headline": "Denial watch: what Moraes's March note did — and didn't — say", "grade": "B", "label": "CORROBORATED", "desk": "brazil", "text": "The 6 March denial addressed the CPMI-INSS dataset, not this extraction. His office has not repeated it since unsealing. Both 'he lied' and 'the denial stands' outrun the record.", "source": "Official STF note · press record"},
+        {"headline": "PGR manifestação lands on the case file", "grade": "A", "label": "PRIMARY DOCUMENT", "desk": "brazil-public-integrity", "text": "The Attorney-General's office filed its position on Pet 16662 — the document is public and in our evidence library.", "source": "PGR/ASSCRIM 1428987/2026"},
+        {"headline": "No material overnight developments on watchlist conflicts", "grade": null, "label": "MONITORING", "desk": "world", "text": "World and security desks monitored through the cycle; no confirmed developments crossed the breaking threshold.", "source": "Desk monitoring"}
+      ],
+      "whatChanged": [
+        {"time": "16:20", "kind": "NEW DOCUMENT", "label": "PRIMARY DOCUMENT", "text": "PGR manifestation added to the evidence library (ASSCRIM 1428987/2026)"},
+        {"time": "12:10", "kind": "CORRECTION", "label": "CONFIRMED", "text": "R$131M aggregate refuted — PF report figures replace it in the dossier"},
+        {"time": "09:45", "kind": "TIMELINE", "label": "CONFIRMED", "text": "Plenary postponement to late September confirmed and logged"}
+      ],
+      "desks": {
+        "brazil": [
+          {"headline": "Fachin postpones plenary; five-day clocks continue", "grade": "B", "label": "CONFIRMED"},
+          {"headline": "Nikolas Ferreira presents 218-page dossier in plenary", "grade": "D", "label": "ALLEGATION"}
+        ],
+        "brazil-public-integrity": [
+          {"headline": "PF figures vs press aggregates — the money, precisely", "grade": "A", "label": "PRIMARY DOCUMENT"},
+          {"headline": "Contract metadata: 'Ministro Alexandre de Moraes' as last editor", "grade": "A", "label": "PRIMARY DOCUMENT"}
+        ],
+        "world": [
+          {"headline": "No material developments crossing the breaking threshold", "grade": null, "label": "MONITORING"}
+        ]
+      },
+      "documentsAdded": [
+        {"title": "PGR/ASSCRIM manifestação (Pet 16662)", "issuer": "Procuradoria-Geral da República", "date": "Sep 2026", "slug": "pgr-brief", "label": "PRIMARY DOCUMENT"},
+        {"title": "Fachin despacho (PET 16704)", "issuer": "STF Presidency", "date": "Sep 3, 2026", "slug": "fachin-order", "label": "COURT DOCUMENT"}
+      ],
+      "watchingNext": [
+        "STF plenary vote on opening an inquiry into Moraes (late September)",
+        "Two PGR opinions due on the five-day clocks",
+        "Any independent forensic audit of the extraction methodology"
+      ],
+      "sources": [
+        "PF IPJ-A 3298613/2026 — 218-page forensic report, 27 Aug 2026",
+        "Contrato Barci de Moraes ↔ Banco Master S.A. (PET 16662)",
+        "STF despacho PET 16704, 3 Sep 2026, auth 0CB6-92DB-256B-89FB",
+        "PGR/ASSCRIM manifestação, Pet 16662",
+        "Reuters 4 Sep · Al Jazeera 4 Sep · O Globo 1 Sep · Poder360 5 Sep"
+      ],
+      "breakingSincePrevious": []
+    }
+  ]
+}

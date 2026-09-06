@@ -1,61 +1,243 @@
 ---
-// Editions page V2 — renders the latest edition as a product (from edition-latest.json)
+// THE DAILY DESK — /editions/ rebuilt as the issue center
 import Base from '../layouts/Base.astro';
-import edition from '../data/edition-latest.json';
-const slots = [
-  { time: '07:00', name: 'Morning Brief', focus: 'Top 5 developments', icon: '🌅' },
-  { time: '13:00', name: 'Midday Update', focus: 'Latest changes', icon: '☀️' },
-  { time: '19:00', name: 'Evening Edition', focus: 'Full-day intelligence brief', icon: '🌙' },
-];
-const gradeColor: Record<string,string> = { A:'#1d4ed8', B:'#166534', C:'#6b7280', 'N/A':'#6b7280' };
----
-<Base title="Editions | TOTO GLOBAL DESK" desc="Three guaranteed daily editions plus condition-driven breaking alerts.">
-  <style>
-    .current { background: var(--ink); color: var(--paper); padding: 1.6rem 1.4rem; border-radius: 4px; }
-    .current .kicker { font-family:var(--sans); font-size:.66rem; font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#e0a44a; }
-    .current h2 { font-size: clamp(1.5rem,3.5vw,2.2rem); margin:.4rem 0 .8rem; }
-    .item { display:flex; gap:.7rem; padding:.55rem 0; border-bottom:1px solid rgba(250,250,246,.12); font-size:.95rem; }
-    .grade { font-family:var(--sans); font-size:.6rem; font-weight:700; padding:.1rem .4rem; border:1px solid currentColor; border-radius:2px; height:fit-content; white-space:nowrap; }
-    .item small { display:block; font-family:var(--sans); font-size:.62rem; color:rgba(250,250,246,.55); text-transform:uppercase; letter-spacing:.08em; margin-top:.15rem; }
-    .cta-row { display:flex; gap:.6rem; margin-top:1.1rem; flex-wrap:wrap; }
-    .cta { font-family:var(--sans); font-size:.74rem; font-weight:800; letter-spacing:.09em; text-decoration:none; padding:.55rem 1rem; border-radius:2px; }
-    .cta.solid { background:var(--accent); color:#fff; } .cta.ghost { border:1px solid rgba(250,250,246,.4); color:var(--paper); }
-    .slots { display:grid; gap:.8rem; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); margin-top:1rem; }
-    .slot { background:var(--paper); border:1px solid var(--rule); border-radius:3px; padding:1rem 1.1rem; }
-    .slot .time { font-size:1.5rem; font-weight:800; color:var(--accent); font-family:var(--sans); }
-    .slot h3 { font-family:var(--sans); font-size:.85rem; text-transform:uppercase; letter-spacing:.12em; }
-    .slot p { font-size:.85rem; color:var(--ink-soft); font-style:italic; margin-top:.2rem; }
-    .slot .next { display:inline-block; font-family:var(--sans); font-size:.6rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#16a34a; border:1px solid #16a34a; border-radius:2px; padding:.12rem .45rem; margin-top:.5rem; }
-    h2.sec { font-family:var(--sans); font-size:.95rem; text-transform:uppercase; letter-spacing:.11em; border-bottom:2px solid var(--ink); padding-bottom:.3rem; margin:2rem 0 .9rem; }
-    .note { font-family:var(--sans); font-size:.8rem; color:var(--ink-soft); }
-  </style>
-  <div class="section-h">Latest edition <span class="sub">{edition.id} · {edition.status}</span></div>
-  <section class="current">
-    <span class="kicker">{edition.type} edition</span>
-    <h2>Top story: {edition.top_story.headline}</h2>
-    {edition.items.map((it) => (
-      <div class="item">
-        <span class="grade" style={`color:${gradeColor[it.grade] || '#6b7280'}`}>{it.grade}</span>
-        <div>{it.text}<small>{it.desk}</small></div>
-      </div>
-    ))}
-    <div class="cta-row">
-      <a class="cta solid" href={edition.top_story.href}>READ THE STORY</a>
-      <a class="cta ghost" href="/dossier/banco-master">EVIDENCE DOSSIER</a>
-    </div>
-    <p class="note" style="color:rgba(250,250,246,.55);margin-top:1rem">✎ {edition.editors_note}</p>
-  </section>
+import EditionHero from '../components/EditionHero.astro';
+import EditionCard from '../components/EditionCard.astro';
+import EvidenceLabel from '../components/EvidenceLabel.astro';
+import editionsIndex from '../data/editions-index.json';
 
-  <h2 class="sec">The daily schedule — Central Time</h2>
-  <div class="slots">
-    {slots.map((s) => (
-      <div class="slot">
-        <div class="time">{s.time}</div>
-        <h3>{s.icon} {s.name}</h3>
-        <p>{s.focus}</p>
-        <span class="next">NEXT EDITION · ACTIVE</span>
+const current = editionsIndex.editions[0];
+const typeLabel = current.type === 'morning' ? 'MORNING BRIEF' : current.type === 'midday' ? 'MIDDAY UPDATE' : 'EVENING EDITION';
+const trunc = (s: string, n: number) => s.length <= n ? s : s.slice(0, s.lastIndexOf(' ', n)) + '…';
+const dateLong = new Date(current.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).replace(/,/g, ' ·');
+
+// Status logic: derive Morning/Midday/Evening states from current time vs publish times.
+// Only one CURRENT EDITION (most recently published), only one NEXT EDITION.
+const nowCT = new Date(Date.now() - 6 * 3600e3); // approx CT offset (CST/CDT) — server-local, acceptable for status display
+const ctHour = nowCT.getUTCHours() + 6; // UTC->CT approx
+const slots = [
+  { type: 'morning', time: '07:00', hour: 7,  cover: '/media/hero-banco-master-9x16.jpg', headline: current.leadHeadline, storyCount: current.storyCount, readingMin: current.readingMin, updatedTime: current.updatedAt.slice(11,16), href: '/story/banco-master' },
+  { type: 'midday',  time: '13:00', hour: 13, cover: '/media/thumbs/pgr-brief.png', headline: 'PGR manifestação lands on the case file', updateCount: current.whatChanged.length, updatedTime: current.updatedAt.slice(11,16), href: '/editions' },
+  { type: 'evening', time: '19:00', hour: 19, cover: current.cover, headline: current.leadHeadline, storyCount: current.storyCount, readingMin: current.readingMin, updatedTime: current.updatedAt.slice(11,16), href: '/story/banco-master' },
+];
+const dayPublished = slots.filter(s => ctHour >= s.hour);
+const dayUpcoming = slots.filter(s => ctHour < s.hour);
+// most recent published slot = CURRENT EDITION; next upcoming = NEXT EDITION
+const currentSlot = dayPublished.length ? dayPublished[dayPublished.length - 1] : null;
+const nextSlot = dayUpcoming.length ? dayUpcoming[0] : null;
+
+const lead = current.leadStory;
+const deskNames: Record<string, string> = {
+  'us-immigration': 'US IMMIGRATION', 'united-states': 'UNITED STATES', 'brazil': 'BRAZIL',
+  'brazil-public-integrity': 'BRAZIL PUBLIC INTEGRITY', 'world': 'WORLD', 'war-security': 'WAR & SECURITY',
+};
+---
+<Base title="The Daily Desk | TOTO GLOBAL DESK" desc="Three curated intelligence briefings every day, plus verified breaking updates when the story changes.">
+  <!-- PAGE HEADER -->
+  <div class="pagehead">
+    <h1>EDITIONS</h1>
+    <p class="ph-sub">Three curated intelligence briefings every day, plus verified breaking updates when the story changes.</p>
+    <div class="ph-today">
+      <span class="ph-today-label">TODAY</span>
+      {dateLong} <span class="ph-tz">· CENTRAL TIME</span>
+    </div>
+  </div>
+
+  <!-- CURRENT EDITION HERO -->
+  <EditionHero
+    type={current.type}
+    dateLong={dateLong}
+    time={current.publishTime + ' CT'}
+    status="CURRENT EDITION"
+    cover={current.cover}
+    coverAlt={current.coverAlt}
+    headlineLines={current.leadHeadline.toUpperCase().split(': ').pop()!.toUpperCase().split(' — ')}
+    subhead={lead.deck}
+    deck={current.editorsBrief}
+    updatedAt={current.updatedAt.slice(11,16) + ' CT'}
+    storyCount={current.storyCount}
+    docCount={current.documentCount}
+    readingMin={current.readingMin}
+    leadHref={lead.href}
+    dossierHref="/dossier/banco-master"
+    whatChanged={current.whatChanged}
+  />
+
+  <!-- TOP STORIES inside the current edition -->
+  <div class="section-h">Top stories in this edition <span class="sub">{typeLabel} · graded</span></div>
+  <section class="top5">
+    {current.stories.slice(0, 1).map((s) => (
+      <article class="lead-story">
+        <div class="ls-head">
+          <EvidenceLabel grade={s.grade} label={s.label} />
+          <span class="ls-desk">{deskNames[s.desk] || s.desk}</span>
+        </div>
+        <h3>{s.headline}</h3>
+        <p>{s.text}</p>
+        <span class="ls-src">{s.source}</span>
+      </article>
+    ))}
+    <div class="sec-stack">
+      {current.stories.slice(1, 4).map((s) => (
+        <article class="sec-story">
+          <EvidenceLabel grade={s.grade} label={s.label} />
+          <h4>{s.headline}</h4>
+          <p>{trunc(s.text, 140)}</p>
+          <span class="ls-src">{s.source}</span>
+        </article>
+      ))}
+    </div>
+  </section>
+  <div class="briefs">
+    <div class="briefs-h">News briefs</div>
+    {current.stories.slice(4).map((s) => (
+      <div class="brief">
+        <EvidenceLabel grade={s.grade} label={s.label} />
+        <span>{s.headline} — {s.text}</span>
       </div>
     ))}
   </div>
-  <p class="note" style="margin-top:1.2rem">⚡ Breaking alerts publish between editions whenever a material, verified development occurs — deduplicated against story memory.</p>
+
+  <!-- BY DESK (only desks with material) -->
+  <div class="section-h">By desk <span class="sub">only desks with material in this edition</span></div>
+  <section class="bydesk">
+    {Object.entries(current.desks).map(([desk, stories]: any) => (
+      <div class="byd">
+        <h3>{deskNames[desk] || desk}</h3>
+        {stories.map((s: any) => (
+          <div class="byd-item">
+            <EvidenceLabel grade={s.grade} label={s.label} />
+            <span>{s.headline}</span>
+          </div>
+        ))}
+      </div>
+    ))}
+  </section>
+
+  <!-- TODAY'S THREE EDITIONS -->
+  <div class="section-h">Today's editions <span class="sub">three products · one desk</span></div>
+  <section class="today3">
+    {slots.map((s) => (
+      <EditionCard
+        type={s.type as any}
+        time={s.time}
+        status={s === currentSlot ? 'CURRENT EDITION' : s === nextSlot ? 'NEXT EDITION' : 'PUBLISHED'}
+        cover={s.cover || undefined}
+        headline={s.headline || undefined}
+        storyCount={s.storyCount}
+        readingMin={s.readingMin}
+        updateCount={s.updateCount}
+        updatedTime={s.updatedTime}
+        href={s.href}
+      />
+    ))}
+  </section>
+
+  <!-- BETWEEN EDITIONS — verified stream -->
+  <div class="section-h">Between editions <span class="sub">verified developments after the last formal edition</span></div>
+  <section class="between">
+    {current.breakingSincePrevious.length === 0 ? (
+      <p class="between-empty">No breaking developments since the {typeLabel.toLowerCase()} — the next check runs with the next edition.</p>
+    ) : (
+      current.breakingSincePrevious.map((b: any) => (
+        <div class="btw"><span class="btw-time">● {b.time}</span><EvidenceLabel grade={b.grade} label={b.label} /><span>{b.text}</span></div>
+      ))
+    )}
+  </section>
+
+  <!-- DOCUMENTS ADDED -->
+  <div class="section-h">Documents added <span class="sub">into the evidence library today</span></div>
+  <section class="docsadd">
+    {current.documentsAdded.map((doc) => (
+      <a class="docadd" href={`/documents/${doc.slug}.pdf`} target="_blank" rel="noopener">
+        <img src={`/media/thumbs/${doc.slug}.png`} alt={`Preview: ${doc.title}`} loading="lazy" />
+        <span class="chip" style="color:#1d4ed8">{doc.label}</span>
+        <b>{doc.title}</b>
+        <span class="docmeta">{doc.issuer} · {doc.date} · Open document →</span>
+      </a>
+    ))}
+  </section>
+
+  <!-- WATCHING NEXT -->
+  <div class="section-h">What we are watching next</div>
+  <section class="watching">
+    {current.watchingNext.map((w) => <div class="watch-item">🎯 {w}</div>)}
+  </section>
+
+  <!-- AUDIO (honest: none yet) -->
+  <div class="section-h">Audio edition</div>
+  <p class="audio-note">Audio editions begin with Phase 5. When published, each briefing will appear here with play, duration, transcript and download.</p>
+
+  <!-- SOURCE INDEX -->
+  <div class="section-h">Full source index <span class="sub">this edition</span></div>
+  <section class="srcidx">
+    <ol>{current.sources.map((s) => <li>{s}</li>)}</ol>
+  </section>
+
+  <!-- ARCHIVE -->
+  <div class="section-h">Previous editions</div>
+  <section class="archive">
+    <div class="arch-empty">
+      <b>TOTO GLOBAL DESK IS BUILDING ITS FIRST DAILY ARCHIVE</b>
+      <span>The {typeLabel.toLowerCase()} above is the first issue. This archive fills automatically as each edition publishes — covers, headlines and evidence counts for every issue.</span>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .pagehead { text-align: center; padding: 0.6rem 0 1.2rem; border-bottom: 1px solid var(--rule); margin-bottom: 1.4rem; }
+  .pagehead h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; letter-spacing: 0.06em; }
+  .ph-sub { font-family: var(--sans); font-size: 0.84rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .ph-today { font-family: var(--sans); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.7rem; }
+  .ph-today-label { background: var(--ink); color: var(--paper); padding: 0.15rem 0.55rem; margin-right: 0.5rem; }
+  .ph-tz { color: var(--ink-soft); font-weight: 400; }
+
+  .top5 { display: grid; gap: 1.2rem; }
+  @media (min-width: 860px) { .top5 { grid-template-columns: 1.35fr 1fr; } }
+  .lead-story { border-right: 1px solid var(--rule); padding-right: 1.3rem; }
+  @media (max-width: 859px) { .lead-story { border-right: none; padding-right: 0; } }
+  .ls-head { display: flex; gap: 0.5rem; align-items: center; }
+  .ls-desk { font-family: var(--sans); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
+  .lead-story h3 { font-size: 1.45rem; line-height: 1.2; margin: 0.5rem 0; }
+  .lead-story p { font-size: 0.98rem; }
+  .sec-stack { display: flex; flex-direction: column; }
+  .sec-story { padding: 0.6rem 0; border-bottom: 1px dotted var(--rule); }
+  .sec-story h4 { font-size: 0.98rem; margin: 0.3rem 0; }
+  .sec-story p { font-size: 0.85rem; color: var(--ink-soft); }
+  .ls-src { font-family: var(--sans); font-size: 0.62rem; color: var(--ink-soft); }
+
+  .briefs { margin-top: 1rem; }
+  .briefs-h { font-family: var(--sans); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  .brief { display: flex; gap: 0.5rem; align-items: baseline; padding: 0.4rem 0; border-bottom: 1px dotted var(--rule); font-size: 0.87rem; }
+
+  .bydesk { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .byd h3 { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; border-bottom: 2px solid var(--desk-accent, var(--ink)); padding-bottom: 0.25rem; margin-bottom: 0.5rem; }
+  .byd-item { display: flex; gap: 0.45rem; align-items: baseline; padding: 0.3rem 0; font-size: 0.86rem; }
+
+  .today3 { display: grid; gap: 0.9rem; }
+  @media (min-width: 820px) { .today3 { grid-template-columns: repeat(3, 1fr); } }
+
+  .between { border: 1px solid var(--rule); background: var(--paper-2); padding: 0.9rem 1.1rem; }
+  .between-empty { font-size: 0.88rem; color: var(--ink-soft); font-style: italic; }
+  .btw { display: flex; gap: 0.5rem; align-items: baseline; padding: 0.35rem 0; font-size: 0.88rem; }
+  .btw-time { font-family: var(--sans); font-size: 0.68rem; font-weight: 800; color: var(--accent); white-space: nowrap; }
+
+  .docsadd { display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .docadd { border: 1px solid var(--rule); background: var(--paper); text-decoration: none; overflow: hidden; display: flex; flex-direction: column; }
+  .docadd img { width: 100%; height: 140px; object-fit: cover; object-position: top; border-bottom: 1px solid var(--rule); }
+  .docadd .chip { margin: 0.45rem 0.6rem 0.15rem; align-self: flex-start; }
+  .docadd b { font-size: 0.84rem; padding: 0 0.6rem; }
+  .docmeta { font-family: var(--sans); font-size: 0.62rem; color: var(--ink-soft); padding: 0.15rem 0.6rem 0.6rem; }
+
+  .watching { display: flex; flex-direction: column; gap: 0.35rem; }
+  .watch-item { font-size: 0.92rem; padding: 0.4rem 0; border-bottom: 1px dotted var(--rule); }
+
+  .audio-note { font-size: 0.88rem; color: var(--ink-soft); font-style: italic; }
+
+  .srcidx { font-family: var(--sans); font-size: 0.78rem; background: var(--paper-2); border: 1px solid var(--rule); padding: 1rem 1.2rem; }
+  .srcidx ol { padding-left: 1.3rem; } .srcidx li { margin: 0.3rem 0; }
+
+  .archive { border: 1px dashed var(--rule); background: var(--paper-2); padding: 1.6rem 1.4rem; text-align: center; }
+  .arch-empty b { display: block; font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .arch-empty span { font-size: 0.88rem; color: var(--ink-soft); }
+</style>

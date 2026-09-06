@@ -1,0 +1,70 @@
+---
+// EditionCard — issue card for the three daily products + archive
+import EditionCover from './EditionCover.astro';
+import EvidenceLabel from './EvidenceLabel.astro';
+interface Props {
+  type: 'morning' | 'midday' | 'evening';
+  time: string;
+  status: string;                 // PUBLISHED | CURRENT EDITION | NEXT EDITION | UPCOMING
+  dateLong?: string;
+  cover?: string; coverAlt?: string;
+  headline?: string;
+  storyCount?: number; audio?: string | null; readingMin?: number;
+  updateCount?: number;
+  updatedTime?: string;
+  href?: string;
+}
+const { type, time, status, dateLong, cover, coverAlt = 'Edition cover', headline, storyCount, audio, readingMin, updateCount, updatedTime, href } = Astro.props;
+const meta: Record<string, {label: string; treatment: string}> = {
+  morning: { label: 'MORNING BRIEF', treatment: 'Overnight + what to watch today' },
+  midday:  { label: 'MIDDAY UPDATE', treatment: 'What changed since morning' },
+  evening: { label: 'EVENING EDITION', treatment: 'What mattered today + overnight watch' },
+};
+const stateColor: Record<string, string> = {
+  'CURRENT EDITION': '#b45309', 'PUBLISHED': '#166534', 'NEXT EDITION': '#1e40af', 'UPCOMING': '#6b7280',
+};
+const isNext = status === 'NEXT EDITION' || status === 'UPCOMING';
+const published = status === 'PUBLISHED' || status === 'CURRENT EDITION';
+---
+<article class={`ecard ${type} ${status === 'CURRENT EDITION' ? 'current' : ''}`}>
+  <div class="ec-top">
+    <span class="ec-time">{time} CT</span>
+    <span class="ec-status" style={`color:${stateColor[status] || '#6b7280'}`}>{status}</span>
+  </div>
+  <h3 class="ec-name">{meta[type].label}</h3>
+  <p class="ec-treatment">{meta[type].treatment}</p>
+  {published && cover ? (
+    <EditionCover type={type} cover={cover} coverAlt={coverAlt} compact />
+  ) : (
+    <div class={`ec-placeholder ${type}`}>{isNext ? 'IN PRODUCTION' : 'ARCHIVE'}</div>
+  )}
+  {published && headline ? <p class="ec-headline">{headline}</p> : null}
+  <div class="ec-meta">
+    {published && storyCount != null && <span>{storyCount} stories</span>}
+    {published && updateCount != null && <span>{updateCount} updates</span>}
+    {published && readingMin != null && <span>{readingMin} min</span>}
+    {published && audio && <span>▶ {audio}</span>}
+    {published && updatedTime && <span>upd. {updatedTime}</span>}
+    {isNext && <span>Composes automatically at {time} CT</span>}
+  </div>
+  {published && href && <a class="ec-read" href={href}>Read issue →</a>}
+</article>
+<style>
+  .ecard { border: 1px solid var(--rule); background: var(--paper); display: flex; flex-direction: column; gap: 0.3rem; padding: 0.9rem 1rem 1rem; position: relative; }
+  .ecard.current { border-color: var(--ink); box-shadow: 0 2px 0 var(--ink); }
+  .ecard.morning { border-top: 3px solid #b45309; }
+  .ecard.midday { border-top: 3px solid #1e40af; }
+  .ecard.evening { border-top: 3px solid #4c1d95; }
+  .ec-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .ec-time { font-family: var(--sans); font-size: 1.05rem; font-weight: 800; color: var(--ink); }
+  .ec-status { font-family: var(--sans); font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+  .ec-name { font-family: var(--sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; }
+  .ec-treatment { font-size: 0.78rem; color: var(--ink-soft); font-style: italic; }
+  .ec-placeholder { height: 74px; display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); background: var(--paper-2); border: 1px dashed var(--rule); }
+  .ec-placeholder.morning { background: linear-gradient(120deg, #fdf3e3, #f7e8cf); }
+  .ec-placeholder.midday { background: linear-gradient(120deg, #eef3fb, #e2ebf7); }
+  .ec-placeholder.evening { background: linear-gradient(120deg, #1c1530, #241b3a); color: rgba(250,250,246,0.6); border-color: #3a2f55; }
+  .ec-headline { font-size: 0.92rem; font-weight: 700; line-height: 1.35; margin-top: 0.4rem; }
+  .ec-meta { display: flex; flex-wrap: wrap; gap: 0.25rem 0.7rem; font-family: var(--sans); font-size: 0.62rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: auto; padding-top: 0.45rem; }
+  .ec-read { font-family: var(--sans); font-size: 0.7rem; font-weight: 800; color: var(--accent); text-decoration: none; letter-spacing: 0.06em; }
+</style>

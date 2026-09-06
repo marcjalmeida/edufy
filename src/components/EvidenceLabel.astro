@@ -1,0 +1,19 @@
+---
+// EvidenceLabel — human-readable evidence grading (never raw A/B codes)
+interface Props { grade: string | null; label?: string; }
+const { grade, label } = Astro.props;
+const MAP: Record<string, {text: string; color: string}> = {
+  'A': { text: 'PRIMARY DOCUMENT', color: '#1d4ed8' },
+  'B': { text: 'CONFIRMED', color: '#166534' },
+  'C': { text: 'MEDIA REPORT', color: '#6b7280' },
+  'D': { text: 'ALLEGATION', color: '#b45309' },
+};
+const shown = label || (grade && MAP[grade]?.text) || 'MONITORING';
+const color = (grade && MAP[grade]?.color) || '#6b7280';
+---
+<span class="evlabel" style={`color:${color}`} title={`Evidence grade: ${grade ?? 'monitoring'}`}>
+  {shown}
+</span>
+<style>
+  .evlabel { font-family: var(--sans); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.13rem 0.45rem; border: 1px solid currentColor; border-radius: 2px; white-space: nowrap; }
+</style>

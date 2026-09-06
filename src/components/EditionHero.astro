@@ -1,0 +1,78 @@
+---
+// EditionHero — dominant current-edition block (65/35 visual/editorial)
+import EvidenceLabel from './EvidenceLabel.astro';
+import WhatChanged from './WhatChanged.astro';
+interface Props {
+  type: string;            // evening | midday | morning
+  dateLong: string;        // "Sunday · September 6, 2026"
+  time: string;            // "19:00 CT"
+  status: string;          // CURRENT EDITION | PUBLISHED | ...
+  cover: string; coverAlt: string;
+  headlineLines: string[];
+  subhead: string;
+  deck: string;
+  updatedAt: string;
+  storyCount: number; docCount: number; readingMin: number;
+  leadHref: string; dossierHref: string;
+  whatChanged: {time:string;kind:string;label:string;text:string}[];
+}
+const { type, dateLong, time, status, cover, coverAlt, headlineLines, subhead, deck, updatedAt, storyCount, docCount, readingMin, leadHref, dossierHref, whatChanged } = Astro.props;
+const typeLabel = type === 'morning' ? 'MORNING BRIEF' : type === 'midday' ? 'MIDDAY UPDATE' : 'EVENING EDITION';
+---
+<section class="ehero">
+  <div class="hero-visual">
+    <img src={cover} alt={coverAlt} loading="eager" fetchpriority="high" />
+    <div class="hero-badge">
+      <span class="hb-type">{typeLabel}</span>
+      <span class="hb-time">{time}</span>
+      <span class="hb-status">{status}</span>
+    </div>
+    <span class="hero-credit">Cover: Toto Global Desk · source documents in evidence library</span>
+  </div>
+  <div class="hero-side">
+    <div class="hero-copy">
+      <div class="hero-date">{dateLong} <span>· Central Time</span></div>
+      {headlineLines.map((line) => <span class="hl">{line}</span>)}
+      <p class="subhead">{subhead}</p>
+      <p class="deck">{deck}</p>
+      <div class="meta-row">
+        <span>Updated {updatedAt}</span>
+        <span>{storyCount} stories</span>
+        <span>{docCount} primary documents</span>
+        <span>{readingMin} min read</span>
+      </div>
+      <div class="ctas">
+        <a class="cta solid" href={leadHref}>READ EDITION</a>
+        <a class="cta line" href={dossierHref}>EXPLORE SOURCES</a>
+      </div>
+    </div>
+    <div class="rail">
+      <WhatChanged items={whatChanged} />
+    </div>
+  </div>
+</section>
+<style>
+  .ehero { display: grid; border: 1px solid var(--rule); background: var(--paper); }
+  @media (min-width: 920px) { .ehero { grid-template-columns: 65fr 35fr; } }
+  .hero-visual { position: relative; min-height: 340px; }
+  .hero-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-badge { position: absolute; top: 0; left: 0; display: flex; gap: 0; }
+  .hb-type { font-family: var(--sans); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.16em; background: var(--accent); color: #fff; padding: 0.4rem 0.7rem; }
+  .hb-time { font-family: var(--sans); font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; background: rgba(0,0,0,0.72); color: #fff; padding: 0.4rem 0.7rem; }
+  .hb-status { font-family: var(--sans); font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; background: #16130e; color: #fafaf6; padding: 0.4rem 0.7rem; }
+  .hero-credit { position: absolute; bottom: 0.45rem; right: 0.6rem; font-family: var(--sans); font-size: 0.56rem; color: rgba(255,255,255,0.5); }
+  .hero-side { display: flex; flex-direction: column; }
+  .hero-copy { padding: 1.4rem 1.4rem 1rem; flex: 1; }
+  .hero-date { font-family: var(--sans); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
+  .hero-date span { font-weight: 400; text-transform: none; letter-spacing: 0.02em; }
+  .hl { display: block; font-size: clamp(1.5rem, 2.8vw, 2.1rem); line-height: 1.08; font-weight: 900; letter-spacing: -0.01em; margin-top: 0.35rem; }
+  .subhead { font-family: var(--sans); font-size: 0.9rem; font-weight: 600; color: var(--accent-2); margin-top: 0.5rem; }
+  .deck { font-size: 0.92rem; color: var(--ink-soft); margin-top: 0.5rem; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-family: var(--sans); font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-soft); margin: 0.8rem 0; padding-top: 0.6rem; border-top: 1px solid var(--rule-soft); }
+  .ctas { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .cta { font-family: var(--sans); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.09em; text-decoration: none; padding: 0.55rem 0.95rem; border-radius: 2px; }
+  .cta.solid { background: var(--accent); color: #fff; } .cta.solid:hover { filter: brightness(1.12); }
+  .cta.line { border: 1px solid var(--ink); color: var(--ink); } .cta.line:hover { border-color: var(--accent); color: var(--accent); }
+  .rail { padding: 0 1.1rem 1.1rem; }
+  @media (min-width: 920px) { .rail { border-left: 1px solid var(--rule); padding-top: 1rem; } }
+</style>

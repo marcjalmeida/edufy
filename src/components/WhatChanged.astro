@@ -1,0 +1,31 @@
+---
+// WhatChanged — verified updates since the previous edition
+interface Props { items: {time: string; kind: string; label: string; text: string}[]; }
+const { items } = Astro.props;
+const kindColor: Record<string, string> = {
+  'NEW DOCUMENT': '#1d4ed8', 'CORRECTION': '#b45309', 'TIMELINE': '#166534',
+  'CONFIRMED UPDATE': '#166534', 'DEVELOPING': '#dc2626', 'MONITORING': '#6b7280',
+};
+---
+<div class="wch">
+  <div class="wch-h">What changed <span>since the previous edition</span></div>
+  {items.map((it) => (
+    <div class="wch-item">
+      <span class="wch-time">{it.time} CT</span>
+      <span class="wch-kind" style={`color:${kindColor[it.kind] || '#6b7280'}`}>{it.kind}</span>
+      <span class="wch-grade">{it.label}</span>
+      <p>{it.text}</p>
+    </div>
+  ))}
+</div>
+<style>
+  .wch { background: var(--paper-2); border: 1px solid var(--rule); border-radius: 3px; padding: 1rem 1.1rem; }
+  .wch-h { font-family: var(--sans); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 0.6rem; }
+  .wch-h span { font-weight: 400; text-transform: none; letter-spacing: 0.03em; color: var(--ink-soft); font-size: 0.72rem; }
+  .wch-item { padding: 0.55rem 0; border-bottom: 1px dotted var(--rule); }
+  .wch-item:last-child { border-bottom: none; }
+  .wch-time { font-family: var(--sans); font-size: 0.68rem; font-weight: 800; color: var(--accent); margin-right: 0.45rem; }
+  .wch-kind { font-family: var(--sans); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em; margin-right: 0.45rem; }
+  .wch-grade { font-family: var(--sans); font-size: 0.58rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em; }
+  .wch-item p { font-size: 0.86rem; margin-top: 0.2rem; }
+</style>
