@@ -1,0 +1,56 @@
+---
+// Editions archive + edition schema preview. Phase 3 fills real editions; page renders structure now.
+import { esc } from '../lib/newsroom.js';
+const slots = [
+  { id: 'morning', time: '07:00 CT', focus: 'What happened overnight · What matters today · What to watch' },
+  { id: 'midday', time: '13:00 CT', focus: 'Changes since morning · Live developments · Corrections & new evidence' },
+  { id: 'evening', time: '19:00 CT', focus: 'Day\'s changes · What matters most · Unresolved · Overnight watch' },
+];
+const upcoming = true;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editions | TOTO GLOBAL DESK</title>
+    <style>
+      :root { --ink:#111; --paper:#fafaf7; --rule:#d4d4c8; --accent:#8b0000; }
+      * { box-sizing:border-box; margin:0; }
+      body { font-family:Georgia,serif; background:var(--paper); color:var(--ink); line-height:1.55; }
+      header { border-bottom:3px double var(--ink); padding:1.5rem 1rem 1rem; text-align:center; }
+      header a { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; letter-spacing:.28em; text-transform:uppercase; color:#555; text-decoration:none; }
+      header h1 { font-size:1.4rem; margin-top:.4rem; }
+      main { max-width:820px; margin:0 auto; padding:1.5rem 1rem; }
+      .notice { background:#eef2ff; border:1px solid #93c5fd; border-radius:4px; padding:.8rem 1rem; font-family:-apple-system,Arial,sans-serif; font-size:.85rem; margin-bottom:1.2rem; }
+      h2 { font-size:1.05rem; font-family:-apple-system,Arial,sans-serif; text-transform:uppercase; letter-spacing:.12em; border-bottom:2px solid var(--ink); padding-bottom:.3rem; margin:1.6rem 0 .8rem; }
+      .slot { background:#fff; border:1px solid var(--rule); border-radius:4px; padding:1rem 1.1rem; margin:.7rem 0; }
+      .slot .time { font-size:1.5rem; font-weight:700; color:var(--accent); }
+      .slot .name { font-family:-apple-system,Arial,sans-serif; font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; margin-left:.5rem; }
+      .slot .focus { font-size:.9rem; color:#444; margin-top:.3rem; font-style:italic; }
+      .slot .state { display:inline-block; font-family:-apple-system,Arial,sans-serif; font-size:.62rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:.15rem .5rem; border:1px solid #9ca3af; color:#6b7280; border-radius:2px; margin-top:.5rem; }
+      footer { border-top:3px double var(--ink); margin-top:2rem; padding:1rem; text-align:center; font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/">← TOTO GLOBAL DESK</a>
+      <h1>Daily Editions</h1>
+    </header>
+    <main>
+      <div class="notice">📰 <strong>Editions begin with Phase 3.</strong> The editorial pipeline (scout → verify → red-team → editor) is built; the first editions publish once the publishing crons go live. Breaking alerts do not wait for editions.</div>
+      <h2>Guaranteed daily schedule — Central Time</h2>
+      {slots.map((s) => (
+        <div class="slot">
+          <span class="time">{s.time}</span><span class="name">{s.id} edition</span>
+          <div class="focus">{s.focus}</div>
+          <span class="state">{upcoming ? 'STARTING PHASE 3' : 'ARCHIVE'}</span>
+        </div>
+      ))}
+      <h2>Also published</h2>
+      <div class="slot"><span class="time" style="color:#dc2626">⚡</span><span class="name">Breaking alerts</span>
+        <div class="focus">Condition-driven only: major rulings, decisions, enforcement actions, emergencies. Deduplicated against story memory — no material change, no alert.</div></div>
+      <div class="slot"><span class="time" style="color:#92400e">✎</span><span class="name">Corrections</span>
+        <div class="focus">Visible, logged, never silent. What was wrong, what changed, why, with sources.</div></div>
+    </main>
+    <footer>TOTO GLOBAL DESK · Editions archive · Telegram + portal delivery</footer>
+  </body>
+</html>

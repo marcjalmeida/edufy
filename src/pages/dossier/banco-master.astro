@@ -1,0 +1,110 @@
+---
+// Dossier page — renders a full investigation dossier from src/data/*.json
+import { fmtDate, esc } from '../../lib/newsroom.js';
+import dossier from '../../data/dossier-banco-master.json';
+const clsColor = {
+  'PRIMARY DOCUMENT':'#1d4ed8','CONFIRMED FACT':'#166534','OFFICIAL POSITION':'#1e40af',
+  'CORROBORATED':'#166534','MEDIA REPORT':'#6b7280','ALLEGATION':'#dc2626',
+  'PRIMARY_DOC_CONFIRMED':'#1d4ed8','OFFICIAL_POSITION':'#1e40af','NEGATIVE_FINDING':'#6b7280',
+};
+const colorFor = (c) => clsColor[c] || '#6b7280';
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{dossier.id} — Dossier | TOTO GLOBAL DESK</title>
+    <style>
+      :root { --ink:#111; --paper:#fafaf7; --rule:#d4d4c8; --accent:#8b0000; }
+      * { box-sizing:border-box; margin:0; }
+      body { font-family:Georgia,serif; background:var(--paper); color:var(--ink); line-height:1.55; }
+      header { border-bottom:3px double var(--ink); padding:1.5rem 1rem 1rem; text-align:center; }
+      header h1 { font-size:1.4rem; letter-spacing:.04em; }
+      header a { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; letter-spacing:.28em; text-transform:uppercase; color:#555; text-decoration:none; }
+      main { max-width:900px; margin:0 auto; padding:1.5rem 1rem; }
+      h2 { font-size:1.05rem; font-family:-apple-system,Arial,sans-serif; text-transform:uppercase; letter-spacing:.12em; border-bottom:2px solid var(--ink); padding-bottom:.3rem; margin:2rem 0 .8rem; }
+      .overview { font-size:1.08rem; }
+      .chip { display:inline-block; font-family:-apple-system,Arial,sans-serif; font-size:.62rem; font-weight:700; letter-spacing:.1em; padding:.15rem .5rem; border:1px solid currentColor; border-radius:2px; text-transform:uppercase; margin-right:.35rem; }
+      .fact { padding:.7rem 0; border-bottom:1px dotted var(--rule); }
+      .fact .label { font-family:-apple-system,Arial,sans-serif; font-size:.66rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+      .fact p { margin:.25rem 0; }
+      .fact .src { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
+      ol.timeline { list-style:none; padding:0; }
+      ol.timeline li { padding:.5rem 0 .5rem 6.5rem; position:relative; border-bottom:1px dotted var(--rule); font-size:.95rem; }
+      ol.timeline li::before { content:attr(data-date); position:absolute; left:0; font-family:-apple-system,Arial,sans-serif; font-weight:700; font-size:.75rem; color:var(--accent); top:.6rem; }
+      .contradiction { background:#fffbeb; border:1px solid #f59e0b; border-radius:4px; padding:.8rem 1rem; margin:.6rem 0; font-size:.92rem; }
+      .contradiction .tag { font-family:-apple-system,Arial,sans-serif; font-size:.64rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#92400e; }
+      .entity-grid { display:grid; gap:.5rem; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+      .entity { background:#fff; border:1px solid var(--rule); border-radius:4px; padding:.6rem .7rem; font-size:.85rem; }
+      .entity b { display:block; }
+      .entity span { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
+      .docs li { margin:.4rem 0; font-size:.92rem; }
+      .openq li { margin:.4rem 0; font-size:.95rem; }
+      footer { border-top:3px double var(--ink); margin-top:2rem; padding:1rem; text-align:center; font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
+      .meta { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/">← TOTO GLOBAL DESK</a>
+      <h1>Dossier: {dossier.title}</h1>
+      <p class="meta">ID {dossier.id} · Desk {esc(dossier.desk)} · Status {esc(dossier.status)} · Priority {esc(dossier.priority)} · Last updated {fmtDate(dossier.last_updated)}</p>
+    </header>
+    <main>
+      <h2>Overview</h2>
+      <p class="overview">{dossier.overview}</p>
+
+      <h2>Known facts ({dossier.known_facts.length})</h2>
+      {dossier.known_facts.map((f) => (
+        <div class="fact">
+          <span class="label chip" style={`color:${colorFor(f.classification)}`}>{f.classification}</span>
+          <p>{f.fact}</p>
+          <span class="src">{f.date && `— ${f.date}`} {f.source && `· ${f.source}`}</span>
+        </div>
+      ))}
+
+      <h2>Timeline ({dossier.timeline.length} events)</h2>
+      <ol class="timeline">
+        {dossier.timeline.map((t) => <li data-date={t.date}>{t.event}</li>)}
+      </ol>
+
+      <h2>Entities ({dossier.entities.length})</h2>
+      <div class="entity-grid">
+        {dossier.entities.map((e) => (
+          <div class="entity"><b>{e.name}</b><span>{e.role}</span></div>
+        ))}
+      </div>
+
+      <h2>Contradictions ({dossier.contradictions.length})</h2>
+      {dossier.contradictions.map((x) => (
+        <div class="contradiction">
+          <div class="tag">Contradiction · confidence {x.confidence}</div>
+          <p><strong>A:</strong> {x.claim_a ?? x.a}</p>
+          <p><strong>B:</strong> {x.claim_b ?? x.b}</p>
+          <p><strong>Assessment:</strong> {x.assessment}</p>
+        </div>
+      ))}
+
+      <h2>Primary documents ({dossier.primary_sources.length})</h2>
+      <ul class="docs">
+        {dossier.primary_sources.map((s) => (
+          <li>📄 <strong>{s.title}</strong> — {s.issuer}, {s.date} <span class="meta">({s.url_or_path})</span></li>
+        ))}
+      </ul>
+
+      <h2>Open questions ({dossier.open_questions.length})</h2>
+      <ul class="openq">
+        {dossier.open_questions.map((q) => <li>❓ {q}</li>)}
+      </ul>
+
+      <h2>What-changed log</h2>
+      {dossier.updates.map((u) => (
+        <div class="fact">
+          <span class="label chip" style="color:#1d4ed8">UPDATE</span>
+          <p>{u.what_changed}</p>
+          <span class="src">{u.ts}</span>
+        </div>
+      ))}
+    </main>
+    <footer>TOTO GLOBAL DESK · Investigation dossier · Evidence-graded journalism</footer>
+  </body>
+</html>
