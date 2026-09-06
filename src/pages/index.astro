@@ -1,113 +1,259 @@
 ---
-// Homepage — true newspaper front page on the shared Base layout
+// HOMEPAGE V3 — visual-first front page
 import Base from '../layouts/Base.astro';
 import dossier from '../data/dossier-banco-master.json';
 
+// Real developments from the dossier timeline (chronological, newest first) for the live strip
+const developments = [...dossier.timeline].reverse().slice(0, 5).map((t) => ({
+  date: t.date, text: t.event, kind: t.classification === 'A' ? 'PRIMARY DOCUMENT' : t.classification === 'B' ? 'VERIFIED UPDATE' : 'TIMELINE',
+}));
+
 const topStory = {
-  headline: 'The banker, the justice, and 52 messages: inside the case testing Brazil\u2019s Supreme Court',
-  deck: 'A 218-page police forensic report, a family law firm\u2019s contract, and a fight over who broke the rules first \u2014 what the Banco Master file actually proves, and what it doesn\u2019t.',
   desk: 'BRAZIL PUBLIC INTEGRITY',
-  status: 'SAMPLE',
+  kicker: 'SPECIAL INVESTIGATION',
+  headline: ['THE BANKER,', 'THE JUSTICE,', 'AND 52 MESSAGES'],
+  subhead: 'Inside the case testing Brazil\u2019s Supreme Court',
+  deck: 'A 218-page police forensic report, a family law firm\u2019s contract, and a fight over who broke the rules first \u2014 what the Banco Master file actually proves, and what it doesn\u2019t.',
   href: '/story/banco-master',
+  dossierHref: '/dossier/banco-master',
   readingMin: 6,
+  docs: dossier.primary_sources.length,
+  facts: dossier.known_facts.length,
+  updated: 'Sep 6, 2026 \u00b7 11:31 CT',
+  hero: '/media/hero-banco-master.jpg',
+  heroAlt: 'Editorial composite: stylized Bras\u00edlia map with a red location pin, intercepted-message motifs, and the PF forensic report and Banco Master contract documents',
+  heroCredit: 'Graphic: Toto Global Desk \u00b7 Source documents: PF IPJ-A 3298613/2026 (public case file)',
 };
-const breaking = null;
 const desks = [
-  { slug: 'us-immigration', name: 'US Immigration', blurb: 'ICE, USCIS, DHS, DOJ, EOIR and the federal courts \u2014 policy and enforcement, tracked daily.' },
-  { slug: 'united-states', name: 'United States', blurb: 'Federal policy, White House actions, major national developments.' },
-  { slug: 'brazil', name: 'Brazil', blurb: 'Government, Congress, courts and the major political-legal developments of the day.' },
-  { slug: 'brazil-public-integrity', name: 'Brazil Public Integrity', blurb: 'Investigations, public money, documented financial relationships \u2014 evidence-first.' },
-  { slug: 'world', name: 'World', blurb: 'Diplomacy, geopolitics and major international developments.' },
-  { slug: 'war-security', name: 'War & Security', blurb: 'Armed conflicts, security crises, sanctions \u2014 confirmed developments over rumor.' },
+  { slug: 'us-immigration', name: 'US Immigration', accent: '#b91c1c', blurb: 'ICE \u00b7 USCIS \u00b7 DHS \u00b7 Courts \u00b7 Policy', live: false },
+  { slug: 'united-states', name: 'United States', accent: '#1e3a8a', blurb: 'Federal policy \u00b7 White House \u00b7 National', live: false },
+  { slug: 'brazil', name: 'Brazil', accent: '#166534', blurb: 'Government \u00b7 Congress \u00b7 Courts', live: false },
+  { slug: 'brazil-public-integrity', name: 'Brazil Public Integrity', accent: '#7c2d12', blurb: 'Investigations \u00b7 Public money \u00b7 Evidence-first', live: true },
+  { slug: 'world', name: 'World', accent: '#374151', blurb: 'Diplomacy \u00b7 Geopolitics \u00b7 Developments', live: false },
+  { slug: 'war-security', name: 'War & Security', accent: '#57534e', blurb: 'Conflicts \u00b7 Security \u00b7 Sanctions', live: false },
+];
+const documents = [
+  { title: 'PF forensic report (IPJ-A)', meta: 'Pol\u00edcia Federal \u00b7 Aug 27, 2026', slug: 'pf-report', label: 'PRIMARY DOCUMENT' },
+  { title: 'Barci de Moraes \u2194 Banco Master contract', meta: 'Case file PET 16662 \u00b7 Jan 2024', slug: 'barci-contract', label: 'PRIMARY DOCUMENT' },
+  { title: 'Fachin order ( despacho )', meta: 'STF Presidency \u00b7 Sep 3, 2026', slug: 'fachin-order', label: 'COURT DOCUMENT' },
+  { title: 'PGR manifestation', meta: 'Attorney-General\u2019s Office \u00b7 Sep 2026', slug: 'pgr-brief', label: 'OFFICIAL FILING' },
 ];
 ---
 <Base>
-  {breaking
-    ? <div class="breaking">⚡ BREAKING — {breaking.headline}</div>
-    : <div class="breaking idle">No active breaking alert — breaking publishes only on material, verified developments</div>}
-
-  <!-- TOP STORY -->
-  <section class="topstory">
-    <div class="ts-main">
-      <div class="chips">
-        <span class="chip" style="color:#7c2d12">{topStory.desk}</span>
-        <span class="chip" style="color:#92400e;background:#fef3c780">{topStory.status}</span>
-      </div>
-      <h1><a href={topStory.href}>{topStory.headline}</a></h1>
-      <p class="deck">{topStory.deck}</p>
-      <p class="stamp">Published Sep 6, 2026 · Updated Sep 6, 2026 · {topStory.readingMin} min read · <strong>{dossier.updates?.length ?? 0} logged updates</strong></p>
-      <p class="stamp" style="margin-top:.4rem">On file: {dossier.primary_sources?.length ?? 0} primary documents · {dossier.known_facts?.length ?? 0} graded facts · {dossier.open_questions?.length ?? 0} open questions</p>
-      <p style="margin-top:.9rem"><a class="cta" href={topStory.href}>Read the investigation →</a> <a class="cta ghost" href="/dossier/banco-master">Dossier →</a></p>
+  <!-- LIVE NEWS STRIP — real stored developments -->
+  <div class="livestrip" aria-label="Latest verified updates">
+    <span class="live-badge">● LIVE</span>
+    <div class="strip-scroll">
+      {developments.map((d) => (
+        <span class="strip-item">
+          <b>{d.date}</b> — <span class="strip-kind">{d.kind}</span> {d.text.slice(0, 90)}{d.text.length > 90 ? '…' : ''}
+        </span>
+      ))}
     </div>
-    <aside class="rail">
-      <div class="section-h" style="margin-top:0">Latest developments <span class="sub">dossier feed</span></div>
-      <ul class="rail-list">
-        {dossier.timeline?.slice(-5).reverse().map((t) => (
-          <li><span class="rail-date">{t.date}</span>{t.event?.slice(0, 105)}{t.event?.length > 105 ? '…' : ''}</li>
+  </div>
+
+  <!-- CINEMATIC HERO — 65% visual / 35% editorial -->
+  <section class="hero">
+    <div class="hero-visual">
+      <picture>
+        <source media="(max-width: 640px)" srcset="/media/hero-banco-master-9x16.jpg" />
+        <source media="(max-width: 1024px)" srcset="/media/hero-banco-master-1200x630.jpg" />
+        <img src={topStory.hero} alt={topStory.heroAlt} loading="eager" fetchpriority="high" />
+      </picture>
+      <span class="hero-credit">{topStory.heroCredit}</span>
+    </div>
+    <div class="hero-copy">
+      <div class="kicker">{topStory.desk} <span class="kdot">·</span> {topStory.kicker}</div>
+      <h1>
+        {topStory.headline.map((line, i) => (
+          <span class="hl-line" style={`animation-delay:${0.12 * i}s`}>{line}</span>
         ))}
-      </ul>
-      <a class="cta ghost" href="/dossier/banco-master" style="display:inline-block;margin-top:.6rem">Full dossier →</a>
-    </aside>
+      </h1>
+      <p class="subhead">{topStory.subhead}</p>
+      <p class="deck">{topStory.deck}</p>
+      <div class="meta-row sans">
+        <span>{topStory.readingMin} min read</span>
+        <span>Updated {topStory.updated}</span>
+        <span>{topStory.docs} primary documents</span>
+        <span>{topStory.facts} verified facts</span>
+      </div>
+      <div class="cta-row">
+        <a class="cta solid" href={topStory.href}>READ INVESTIGATION</a>
+        <a class="cta line" href={topStory.dossierHref}>EXPLORE EVIDENCE</a>
+        <a class="cta line disabled" href="/editions" aria-disabled="true" title="Audio editions start with Phase 5">LISTEN <small>soon</small></a>
+      </div>
+    </div>
   </section>
 
-  <!-- DESK GRID -->
+  <!-- HERO SIDE RAIL is integrated in hero grid on desktop; standalone below on mobile -->
+  <aside class="liverail">
+    <div class="rail-h">LATEST <span class="sans">verified</span></div>
+    {developments.slice(0, 4).map((d) => (
+      <div class="rail-item">
+        <span class="rail-time">{d.date}</span>
+        <span class="rail-kind">{d.kind}</span>
+        <p>{d.text.slice(0, 110)}{d.text.length > 110 ? '…' : ''}</p>
+      </div>
+    ))}
+    <a class="rail-more" href="/dossier/banco-master">Full dossier →</a>
+  </aside>
+
+  <!-- INVESTIGATION SPOTLIGHT (dark contrast section — evidence metrics belong HERE) -->
+  <section class="spotlight">
+    <div class="sp-copy">
+      <span class="kicker" style="color:#e0a44a">Special investigation</span>
+      <h2>BANCO MASTER</h2>
+      <p>The Vorcaro messages, the family-firm contract, and the Supreme Court testing whether it can police itself.</p>
+      <div class="sp-stats sans">
+        <span><b>{dossier.known_facts.length}</b> verified facts</span>
+        <span><b>{dossier.primary_sources.length}</b> primary documents</span>
+        <span><b>{dossier.timeline.length}</b> timeline events</span>
+        <span><b>{dossier.contradictions.length}</b> contradictions</span>
+      </div>
+      <a class="cta solid" href="/dossier/banco-master">EXPLORE DOSSIER</a>
+    </div>
+    <div class="sp-visual">
+      <div class="doc-grid">
+        {documents.slice(0, 2).map((doc) => (
+          <a class="doc-card" href={`/documents/${doc.slug}.pdf`} target="_blank" rel="noopener">
+            <img src={`/media/thumbs/${doc.slug}.png`} alt={`Preview: ${doc.title}`} loading="lazy" />
+            <span class="doc-label">{doc.label}</span>
+            <span class="doc-title">{doc.title}</span>
+            <span class="doc-meta sans">{doc.meta} · Open document →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- DESKS — editorial mosaic, live desk differentiated -->
   <div class="section-h">The desks <span class="sub">coverage areas · per watchlist</span></div>
-  <section class="deskgrid">
-    {desks.map((d) => (
-      <a class="deskcard" href={`/topics#${d.slug}`} style={`--desk-accent:${d.accent}`}>
+  <section class="mosaic">
+    {desks.map((d, i) => (
+      <a class={`desk ${d.live ? 'live' : 'monitoring'} ${i === 0 ? 'lead' : ''}`} href={`/topics#${d.slug}`} style={`--desk-accent:${d.accent}`}>
+        {d.live && <span class="liveflag">● ACTIVE DESK</span>}
         <span class="desk-name">{d.name}</span>
         <span class="desk-blurb">{d.blurb}</span>
-        <span class="desk-cta">Coverage beginning with first editions →</span>
+        {d.live
+          ? <span class="desk-state live-state">{dossier.known_facts.length} verified facts · {dossier.timeline.length} events on file</span>
+          : <span class="desk-state">● MONITORING — sources active, first stories with editions</span>}
       </a>
     ))}
   </section>
 
-  <!-- STANDARDS + EDITIONS -->
-  <section class="duo">
-    <div>
-      <div class="section-h" style="margin-top:0">How we report</div>
-      <p style="font-size:.95rem">Every material claim is graded — confirmed fact, primary document, official statement, charge, allegation, media report, or unverified. Headlines never outrun evidence. Sources are published with every story. <a href="/about" style="color:var(--accent)">Our standards →</a></p>
-    </div>
-    <div>
-      <div class="section-h" style="margin-top:0">Editions <span class="sub">Central Time</span></div>
-      <dl class="editions">
-        <dt>07:00</dt><dd>Morning — overnight, what matters today, what to watch</dd>
-        <dt>13:00</dt><dd>Midday — changes since morning, live developments</dd>
-        <dt>19:00</dt><dd>Evening — the day in full, unresolved, overnight watch</dd>
-      </dl>
-      <a class="cta ghost" href="/editions" style="display:inline-block;margin-top:.4rem">Schedule →</a>
+  <!-- THE DOCUMENTS -->
+  <div class="section-h">The documents <span class="sub">authentic primary sources · open freely</span></div>
+  <section class="docsrow">
+    {documents.map((doc) => (
+      <a class="doccard" href={`/documents/${doc.slug}.pdf`} target="_blank" rel="noopener">
+        <img src={`/media/thumbs/${doc.slug}.png`} alt={`Preview: ${doc.title}`} loading="lazy" />
+        <span class="chip">{doc.label}</span>
+        <span class="dc-title">{doc.title}</span>
+        <span class="dc-meta sans">{doc.meta}</span>
+        <span class="dc-open sans">Open document →</span>
+      </a>
+    ))}
+  </section>
+
+  <!-- TOTO EXPLAINS -->
+  <section class="explains">
+    <div class="section-h" style="margin-top:0">Toto explains <span class="sub">visual formats · coming with editions</span></div>
+    <div class="ex-grid">
+      <div class="ex-card"><span class="ex-icon">🗺</span><b>Where the case stands</b><span class="sans">The STF conflict mapped: who accuses whom, and what happens next</span></div>
+      <div class="ex-card"><span class="ex-icon">📊</span><b>Following the money</b><span class="sans">The documented payments behind the Banco Master case — at a glance</span></div>
+      <div class="ex-card"><span class="ex-icon">🏛</span><b>How the STF polices itself</b><span class="sans">The procedure that decides whether a justice faces an inquiry</span></div>
     </div>
   </section>
 </Base>
 
 <style>
-  .breaking { background: var(--accent); color: #fff; font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; text-align: center; }
-  .breaking.idle { background: var(--paper-2); color: var(--ink-soft); font-weight: 400; }
-  .topstory { display: grid; gap: 1.5rem; padding: 1.5rem 0 1.7rem; border-bottom: 1px solid var(--rule); }
-  @media (min-width: 820px) { .topstory { grid-template-columns: 1.9fr 1fr; } }
-  .topstory h1 { font-size: clamp(1.7rem, 3.8vw, 2.55rem); line-height: 1.14; margin: 0.55rem 0 0.5rem; letter-spacing: -0.01em; }
-  .topstory h1 a { text-decoration: none; }
-  .topstory h1 a:hover { color: var(--accent); }
-  .deck { font-size: 1.1rem; color: var(--ink-soft); font-style: italic; }
-  .chips { display: flex; gap: 0.4rem; }
-  .cta { display: inline-block; font-family: var(--sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; text-decoration: none; padding: 0.5rem 0.9rem; background: var(--ink); color: var(--paper); border-radius: 2px; }
-  .cta:hover { background: var(--accent); }
-  .cta.ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
-  .cta.ghost:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
-  .rail { border-left: 1px solid var(--rule); padding-left: 1.3rem; }
-  @media (max-width: 819px) { .rail { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 1rem; } }
-  .rail-list { list-style: none; padding: 0; }
-  .rail-list li { padding: 0.5rem 0; border-bottom: 1px dotted var(--rule); font-size: 0.88rem; }
-  .rail-date { display: block; font-family: var(--sans); font-weight: 700; font-size: 0.68rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; }
-  .deskgrid { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-  @media (min-width: 760px) { .deskgrid { grid-template-columns: repeat(3, 1fr); } }
-  .deskcard { background: var(--paper); padding: 1rem 1rem 1.1rem; text-decoration: none; display: flex; flex-direction: column; gap: 0.35rem; border-top: 3px solid var(--desk-accent); }
-  .deskcard:hover { background: var(--paper-2); }
-  .desk-name { font-family: var(--sans); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--desk-accent); }
-  .desk-blurb { font-size: 0.87rem; color: var(--ink-soft); }
-  .desk-cta { font-family: var(--sans); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-top: auto; padding-top: 0.5rem; }
-  .duo { display: grid; gap: 1.5rem; margin-top: 2rem; }
-  @media (min-width: 760px) { .duo { grid-template-columns: 1fr 1fr; } }
-  .editions dt { font-family: var(--sans); font-weight: 800; font-size: 0.8rem; color: var(--accent); float: left; width: 3.4rem; }
-  .editions dd { font-size: 0.88rem; margin: 0 0 0.55rem 3.4rem; }
+  .livestrip { display: flex; align-items: center; gap: 0.8rem; background: var(--paper-2); border-bottom: 1px solid var(--rule); padding: 0.4rem 1rem; overflow: hidden; }
+  .live-badge { font-family: var(--sans); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em; color: #dc2626; white-space: nowrap; }
+  .strip-scroll { display: flex; gap: 2rem; overflow-x: auto; scrollbar-width: none; font-family: var(--sans); font-size: 0.74rem; color: var(--ink-soft); }
+  .strip-scroll::-webkit-scrollbar { display: none; }
+  .strip-item { white-space: nowrap; } .strip-item b { color: var(--ink); }
+  .strip-kind { color: var(--accent); font-weight: 700; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* HERO */
+  .hero { display: grid; gap: 0; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 900px) { .hero { grid-template-columns: 65fr 35fr; } }
+  .hero-visual { position: relative; min-height: 320px; }
+  .hero-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-credit { position: absolute; bottom: 0.5rem; right: 0.7rem; font-family: var(--sans); font-size: 0.58rem; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
+  .hero-copy { padding: 1.6rem 1.4rem; display: flex; flex-direction: column; justify-content: center; }
+  .kicker { font-family: var(--sans); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .kdot { opacity: 0.5; padding: 0 0.2rem; }
+  .hero-copy h1 { display: flex; flex-direction: column; margin: 0.7rem 0 0.4rem; }
+  .hl-line { font-size: clamp(1.7rem, 3.4vw, 2.7rem); line-height: 1.04; font-weight: 900; letter-spacing: -0.01em; animation: rise 0.6s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .subhead { font-family: var(--sans); font-size: 0.95rem; font-weight: 600; color: var(--accent-2); margin-top: 0.55rem; }
+  .deck { font-size: 0.95rem; color: var(--ink-soft); margin-top: 0.55rem; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-soft); margin-top: 0.8rem; }
+  .meta-row span { position: relative; }
+  .cta-row { display: flex; gap: 0.55rem; flex-wrap: wrap; margin-top: 1rem; }
+  .cta { font-family: var(--sans); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.09em; text-decoration: none; padding: 0.6rem 1rem; border-radius: 2px; }
+  .cta.solid { background: var(--accent); color: #fff; }
+  .cta.solid:hover { filter: brightness(1.15); }
+  .cta.line { border: 1px solid var(--ink); color: var(--ink); }
+  .cta.line:hover { border-color: var(--accent); color: var(--accent); }
+  .cta.disabled { opacity: 0.45; }
+
+  /* LIVE RAIL */
+  .liverail { padding: 1rem 1.4rem 1.3rem; border-bottom: 1px solid var(--rule); background: var(--paper-2); }
+  @media (min-width: 900px) { .liverail { grid-column: 2; grid-row: 2; border-bottom: none; } .hero { grid-template-rows: auto auto; } }
+  .rail-h { font-family: var(--sans); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .rail-h span { color: var(--ink-soft); font-weight: 400; text-transform: none; letter-spacing: 0.04em; }
+  .rail-item { padding: 0.5rem 0; border-bottom: 1px dotted var(--rule); }
+  .rail-time { font-family: var(--sans); font-size: 0.68rem; font-weight: 700; color: var(--accent); }
+  .rail-kind { font-family: var(--sans); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-left: 0.4rem; }
+  .rail-item p { font-size: 0.85rem; margin-top: 0.15rem; }
+  .rail-more { font-family: var(--sans); font-size: 0.72rem; font-weight: 700; color: var(--accent); text-decoration: none; display: inline-block; margin-top: 0.5rem; }
+
+  /* SPOTLIGHT */
+  .spotlight { display: grid; gap: 1.4rem; background: var(--ink); color: var(--paper); padding: 1.8rem 1.4rem; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 900px) { .spotlight { grid-template-columns: 1fr 1fr; align-items: center; } }
+  .spotlight h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; letter-spacing: 0.02em; margin: 0.4rem 0; }
+  .spotlight p { color: rgba(250,250,246,0.75); font-size: 0.95rem; }
+  .spotlight .kicker { color: #e0a44a; }
+  .sp-stats { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: 0.9rem 0 1.1rem; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(250,250,246,0.65); }
+  .sp-stats b { color: var(--paper); font-size: 0.95rem; margin-right: 0.25rem; }
+  .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .doc-card { position: relative; border: 1px solid rgba(250,250,246,0.18); border-radius: 3px; overflow: hidden; text-decoration: none; background: rgba(0,0,0,0.3); }
+  .doc-card img { width: 100%; height: 180px; object-fit: cover; object-position: top; display: block; opacity: 0.9; transition: opacity .2s; }
+  .doc-card:hover img { opacity: 1; }
+  .doc-label { position: absolute; top: 0.4rem; left: 0.4rem; font-family: var(--sans); font-size: 0.52rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; background: #1d4ed8; color: #fff; padding: 0.12rem 0.4rem; }
+  .doc-title { position: absolute; bottom: 1.55rem; left: 0.5rem; right: 0.5rem; font-size: 0.8rem; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.9); }
+  .doc-meta { position: absolute; bottom: 0.45rem; left: 0.5rem; font-size: 0.58rem; color: rgba(255,255,255,0.7); }
+
+  /* MOSAIC */
+  .mosaic { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  @media (min-width: 820px) { .mosaic { grid-template-columns: repeat(3, 1fr); } .desk.lead { grid-column: span 3; grid-row: span 1; flex-direction: row; align-items: center; gap: 1.2rem; } }
+  .desk { background: var(--paper); padding: 1.05rem 1.1rem; text-decoration: none; display: flex; flex-direction: column; gap: 0.4rem; border-top: 3px solid var(--desk-accent); position: relative; }
+  .desk:hover { background: var(--paper-2); }
+  .desk.lead { border-top-width: 4px; padding: 1.4rem 1.2rem; }
+  .desk.lead .desk-name { font-size: 1.05rem; }
+  .liveflag { font-family: var(--sans); font-size: 0.56rem; font-weight: 800; letter-spacing: 0.14em; color: #16a34a; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+  .desk-name { font-family: var(--sans); font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--desk-accent); }
+  .desk-blurb { font-size: 0.86rem; color: var(--ink-soft); }
+  .desk-state { font-family: var(--sans); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-soft); margin-top: auto; padding-top: 0.5rem; }
+  .live-state { color: #16a34a; font-weight: 700; }
+
+  /* DOCUMENTS ROW */
+  .docsrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 0.8rem; }
+  .doccard { border: 1px solid var(--rule); background: var(--paper); text-decoration: none; overflow: hidden; display: flex; flex-direction: column; }
+  .doccard:hover { border-color: var(--ink-soft); }
+  .doccard img { width: 100%; height: 150px; object-fit: cover; object-position: top; display: block; border-bottom: 1px solid var(--rule); }
+  .doccard .chip { margin: 0.5rem 0.6rem 0.2rem; align-self: flex-start; color: #1d4ed8; }
+  .dc-title { font-size: 0.84rem; font-weight: 700; padding: 0 0.6rem; }
+  .dc-meta { font-size: 0.62rem; color: var(--ink-soft); padding: 0 0.6rem; margin-top: 0.15rem; }
+  .dc-open { font-size: 0.66rem; font-weight: 700; color: var(--accent); padding: 0.45rem 0.6rem 0.6rem; margin-top: auto; }
+
+  /* EXPLAINS */
+  .explains { margin-top: 2rem; }
+  .ex-grid { display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .ex-card { border: 1px solid var(--rule); background: var(--paper-2); padding: 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
+  .ex-icon { font-size: 1.4rem; }
+  .ex-card b { font-size: 0.95rem; }
+  .ex-card .sans { font-size: 0.78rem; color: var(--ink-soft); }
 </style>
