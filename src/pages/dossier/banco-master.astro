@@ -1,82 +1,90 @@
 ---
-// Dossier page — renders a full investigation dossier from src/data/*.json
-import { fmtDate, esc } from '../../lib/newsroom.js';
+// Dossier page — investigation dossier on Base layout with stat cards
+import Base from '../../layouts/Base.astro';
 import dossier from '../../data/dossier-banco-master.json';
-const clsColor = {
+const clsColor: Record<string,string> = {
   'PRIMARY DOCUMENT':'#1d4ed8','CONFIRMED FACT':'#166534','OFFICIAL POSITION':'#1e40af',
-  'CORROBORATED':'#166534','MEDIA REPORT':'#6b7280','ALLEGATION':'#dc2626',
+  'CORROBORATED':'#166534','MEDIA REPORT':'#6b7280','ALLEGATION':'#b45309',
   'PRIMARY_DOC_CONFIRMED':'#1d4ed8','OFFICIAL_POSITION':'#1e40af','NEGATIVE_FINDING':'#6b7280',
 };
-const colorFor = (c) => clsColor[c] || '#6b7280';
+const colorFor = (c: string) => clsColor[c] || '#6b7280';
+const stats = [
+  { n: dossier.known_facts.length, label: 'Graded facts' },
+  { n: dossier.timeline.length, label: 'Timeline events' },
+  { n: dossier.entities.length, label: 'Entities mapped' },
+  { n: dossier.primary_sources.length, label: 'Primary documents' },
+  { n: dossier.contradictions.length, label: 'Contradictions' },
+  { n: dossier.open_questions.length, label: 'Open questions' },
+];
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{dossier.id} — Dossier | TOTO GLOBAL DESK</title>
-    <style>
-      :root { --ink:#111; --paper:#fafaf7; --rule:#d4d4c8; --accent:#8b0000; }
-      * { box-sizing:border-box; margin:0; }
-      body { font-family:Georgia,serif; background:var(--paper); color:var(--ink); line-height:1.55; }
-      header { border-bottom:3px double var(--ink); padding:1.5rem 1rem 1rem; text-align:center; }
-      header h1 { font-size:1.4rem; letter-spacing:.04em; }
-      header a { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; letter-spacing:.28em; text-transform:uppercase; color:#555; text-decoration:none; }
-      main { max-width:900px; margin:0 auto; padding:1.5rem 1rem; }
-      h2 { font-size:1.05rem; font-family:-apple-system,Arial,sans-serif; text-transform:uppercase; letter-spacing:.12em; border-bottom:2px solid var(--ink); padding-bottom:.3rem; margin:2rem 0 .8rem; }
-      .overview { font-size:1.08rem; }
-      .chip { display:inline-block; font-family:-apple-system,Arial,sans-serif; font-size:.62rem; font-weight:700; letter-spacing:.1em; padding:.15rem .5rem; border:1px solid currentColor; border-radius:2px; text-transform:uppercase; margin-right:.35rem; }
-      .fact { padding:.7rem 0; border-bottom:1px dotted var(--rule); }
-      .fact .label { font-family:-apple-system,Arial,sans-serif; font-size:.66rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
-      .fact p { margin:.25rem 0; }
-      .fact .src { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
-      ol.timeline { list-style:none; padding:0; }
-      ol.timeline li { padding:.5rem 0 .5rem 6.5rem; position:relative; border-bottom:1px dotted var(--rule); font-size:.95rem; }
-      ol.timeline li::before { content:attr(data-date); position:absolute; left:0; font-family:-apple-system,Arial,sans-serif; font-weight:700; font-size:.75rem; color:var(--accent); top:.6rem; }
-      .contradiction { background:#fffbeb; border:1px solid #f59e0b; border-radius:4px; padding:.8rem 1rem; margin:.6rem 0; font-size:.92rem; }
-      .contradiction .tag { font-family:-apple-system,Arial,sans-serif; font-size:.64rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#92400e; }
-      .entity-grid { display:grid; gap:.5rem; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
-      .entity { background:#fff; border:1px solid var(--rule); border-radius:4px; padding:.6rem .7rem; font-size:.85rem; }
-      .entity b { display:block; }
-      .entity span { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
-      .docs li { margin:.4rem 0; font-size:.92rem; }
-      .openq li { margin:.4rem 0; font-size:.95rem; }
-      footer { border-top:3px double var(--ink); margin-top:2rem; padding:1rem; text-align:center; font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
-      .meta { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
-    </style>
-  </head>
-  <body>
-    <header>
-      <a href="/">← TOTO GLOBAL DESK</a>
-      <h1>Dossier: {dossier.title}</h1>
-      <p class="meta">ID {dossier.id} · Desk {esc(dossier.desk)} · Status {esc(dossier.status)} · Priority {esc(dossier.priority)} · Last updated {fmtDate(dossier.last_updated)}</p>
-    </header>
-    <main>
-      <h2>Overview</h2>
+<Base title={`${dossier.id} — Dossier | TOTO GLOBAL DESK`} desc={dossier.overview.slice(0,150)}>
+  <style>
+    .head { max-width: var(--measure); margin: 0 auto; }
+    .kicker-line { display:flex; gap:.4rem; align-items:center; }
+    h1.dosstitle { font-size: clamp(1.5rem, 3.5vw, 2.2rem); line-height:1.16; margin:.55rem 0 .5rem; }
+    .stamp-row { display:flex; gap:1.1rem; flex-wrap:wrap; padding:.55rem 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+    .statrow { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule); margin:1.2rem 0; }
+    @media (min-width:640px){ .statrow { grid-template-columns:repeat(6,1fr); } }
+    .stat { background:var(--paper); padding:.7rem .5rem; text-align:center; }
+    .stat b { display:block; font-size:1.45rem; color:var(--accent); font-family:var(--sans); }
+    .stat span { font-family:var(--sans); font-size:.6rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); }
+    .wrap { max-width: var(--measure); margin: 0 auto; }
+    h2.sec { font-family:var(--sans); font-size:.95rem; text-transform:uppercase; letter-spacing:.11em; margin:2rem 0 .6rem; border-bottom:2px solid var(--ink); padding-bottom:.3rem; }
+    h2.sec span { float:right; font-weight:400; font-size:.72rem; color:var(--ink-soft); }
+    .overview { font-size:1.06rem; }
+    .fact { padding:.65rem 0; border-bottom:1px dotted var(--rule); }
+    .fact p { margin:.3rem 0; font-size:.99rem; }
+    .grade { font-family:var(--sans); font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; padding:.1rem .42rem; border:1px solid currentColor; border-radius:2px; }
+    .src { font-family:var(--sans); font-size:.72rem; color:var(--ink-soft); }
+    ol.tl { list-style:none; padding:0; }
+    ol.tl li { padding:.5rem 0 .5rem 7.2rem; position:relative; border-bottom:1px dotted var(--rule); font-size:.93rem; }
+    ol.tl li::before { content:attr(data-date); position:absolute; left:0; font-family:var(--sans); font-weight:700; font-size:.72rem; color:var(--accent); top:.58rem; }
+    .con { background:var(--paper-2); border:1px solid var(--gold,#a16207); border-left:4px solid #a16207; border-radius:3px; padding:.75rem 1rem; margin:.6rem 0; font-size:.9rem; }
+    .con .tag { font-family:var(--sans); font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#a16207; }
+    .egrid { display:grid; gap:.5rem; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); }
+    .ent { background:var(--paper-2); border:1px solid var(--rule-soft); border-radius:3px; padding:.55rem .7rem; font-size:.85rem; }
+    .ent b { display:block; } .ent span { font-family:var(--sans); font-size:.7rem; color:var(--ink-soft); }
+    .docs li { margin:.4rem 0; font-size:.92rem; }
+    .next { font-family:var(--sans); font-size:.82rem; margin-top:2rem; }
+    .next a { color:var(--accent); font-weight:700; text-decoration:none; }
+  </style>
+  <article>
+    <div class="head">
+      <div class="kicker-line"><span class="kicker">Dossier · Brazil Public Integrity</span></div>
+      <h1 class="dosstitle">{dossier.title}</h1>
+      <div class="stamp-row">
+        <span class="stamp">ID {dossier.id}</span><span class="stamp">Status {dossier.status}</span>
+        <span class="stamp">Priority {dossier.priority}</span><span class="stamp">Updated {dossier.last_updated.slice(0,10)}</span>
+      </div>
+    </div>
+    <div class="statrow">
+      {stats.map((s) => <div class="stat"><b>{s.n}</b><span>{s.label}</span></div>)}
+    </div>
+    <div class="wrap">
       <p class="overview">{dossier.overview}</p>
 
-      <h2>Known facts ({dossier.known_facts.length})</h2>
+      <h2 class="sec">Known facts <span>each graded</span></h2>
       {dossier.known_facts.map((f) => (
         <div class="fact">
-          <span class="label chip" style={`color:${colorFor(f.classification)}`}>{f.classification}</span>
+          <span class="grade" style={`color:${colorFor(f.classification)}`}>{f.classification}</span>
           <p>{f.fact}</p>
           <span class="src">{f.date && `— ${f.date}`} {f.source && `· ${f.source}`}</span>
         </div>
       ))}
 
-      <h2>Timeline ({dossier.timeline.length} events)</h2>
-      <ol class="timeline">
+      <h2 class="sec">Timeline <span>{dossier.timeline.length} events</span></h2>
+      <ol class="tl">
         {dossier.timeline.map((t) => <li data-date={t.date}>{t.event}</li>)}
       </ol>
 
-      <h2>Entities ({dossier.entities.length})</h2>
-      <div class="entity-grid">
-        {dossier.entities.map((e) => (
-          <div class="entity"><b>{e.name}</b><span>{e.role}</span></div>
-        ))}
+      <h2 class="sec">Entities <span>{dossier.entities.length} mapped</span></h2>
+      <div class="egrid">
+        {dossier.entities.map((e) => <div class="ent"><b>{e.name}</b><span>{e.role}</span></div>)}
       </div>
 
-      <h2>Contradictions ({dossier.contradictions.length})</h2>
+      <h2 class="sec">Contradictions <span>{dossier.contradictions.length} tracked</span></h2>
       {dossier.contradictions.map((x) => (
-        <div class="contradiction">
+        <div class="con">
           <div class="tag">Contradiction · confidence {x.confidence}</div>
           <p><strong>A:</strong> {x.claim_a ?? x.a}</p>
           <p><strong>B:</strong> {x.claim_b ?? x.b}</p>
@@ -84,27 +92,28 @@ const colorFor = (c) => clsColor[c] || '#6b7280';
         </div>
       ))}
 
-      <h2>Primary documents ({dossier.primary_sources.length})</h2>
+      <h2 class="sec">Primary documents <span>{dossier.primary_sources.length} on file</span></h2>
       <ul class="docs">
         {dossier.primary_sources.map((s) => (
-          <li>📄 <strong>{s.title}</strong> — {s.issuer}, {s.date} <span class="meta">({s.url_or_path})</span></li>
+          <li>📄 <strong>{s.title}</strong> — {s.issuer}, {s.date} <span class="src">({s.url_or_path})</span></li>
         ))}
       </ul>
 
-      <h2>Open questions ({dossier.open_questions.length})</h2>
-      <ul class="openq">
+      <h2 class="sec">Open questions <span>{dossier.open_questions.length}</span></h2>
+      <ul class="docs">
         {dossier.open_questions.map((q) => <li>❓ {q}</li>)}
       </ul>
 
-      <h2>What-changed log</h2>
+      <h2 class="sec">What-changed log <span>{dossier.updates.length} entries</span></h2>
       {dossier.updates.map((u) => (
         <div class="fact">
-          <span class="label chip" style="color:#1d4ed8">UPDATE</span>
+          <span class="grade" style="color:#1d4ed8">Update</span>
           <p>{u.what_changed}</p>
           <span class="src">{u.ts}</span>
         </div>
       ))}
-    </main>
-    <footer>TOTO GLOBAL DESK · Investigation dossier · Evidence-graded journalism</footer>
-  </body>
-</html>
+
+      <p class="next"><a href="/story/banco-master">← Read the investigation</a> · <a href="/topics">All desks →</a></p>
+    </div>
+  </article>
+</Base>

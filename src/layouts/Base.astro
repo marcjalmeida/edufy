@@ -1,0 +1,106 @@
+---
+// Base layout — single source of truth for masthead, nav, footer, design tokens.
+// "International Desk" visual system: ink masthead, serif hierarchy, hairline rules.
+import { desks } from '../lib/newsroom.js';
+interface Props { title?: string; desc?: string; }
+const { title = 'TOTO GLOBAL DESK — International News • Intelligence • Investigations',
+        desc = 'Personal international newsroom: US immigration, Brazil public integrity, world conflicts. Evidence-graded reporting.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={desc} />
+  <style is:global>
+    :root {
+      --ink: #16130e;
+      --ink-soft: #3d382f;
+      --paper: #fbfaf6;
+      --paper-2: #f3f1e9;
+      --rule: #d8d4c6;
+      --rule-soft: #e7e4d8;
+      --accent: #8b0000;
+      --accent-2: #0f4c81;
+      --gold: #a16207;
+      --serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      --measure: 68ch;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #e8e4d8; --ink-soft: #b5afa0; --paper: #14120e; --paper-2: #1c1913;
+        --rule: #33301f; --rule-soft: #26231a; --accent: #e05252; --accent-2: #6ba3d6; --gold: #d4a017;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { font-family: var(--serif); background: var(--paper); color: var(--ink); line-height: 1.6; }
+    a { color: inherit; }
+    .sans { font-family: var(--sans); }
+
+    /* Masthead — ink bar */
+    .masthead { background: var(--ink); color: var(--paper); }
+    .masthead-inner { max-width: 1100px; margin: 0 auto; padding: 1.6rem 1rem 1.1rem; text-align: center; }
+    .masthead a.brand { font-size: clamp(1.7rem, 4.5vw, 2.9rem); font-weight: 900; letter-spacing: 0.045em; text-decoration: none; color: var(--paper); }
+    .masthead .tagline { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase; opacity: 0.75; margin-top: 0.4rem; }
+    .masthead .meta-line { display: flex; justify-content: space-between; max-width: 1100px; margin: 0.8rem auto 0; padding: 0.45rem 1rem 0; border-top: 1px solid rgba(255,255,255,0.18); font-family: var(--sans); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+
+    /* Desk nav */
+    nav.desks { position: sticky; top: 0; z-index: 50; background: var(--paper); border-bottom: 2px solid var(--ink); }
+    nav.desks .inner { display: flex; overflow-x: auto; scrollbar-width: none; max-width: 1100px; margin: 0 auto; }
+    nav.desks .inner::-webkit-scrollbar { display: none; }
+    nav.desks a { font-family: var(--sans); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; padding: 0.65rem 0.9rem; text-decoration: none; white-space: nowrap; border-bottom: 3px solid transparent; }
+    nav.desks a:hover, nav.desks a.active { border-bottom-color: var(--accent); color: var(--accent); }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 1.4rem 1rem 2.5rem; }
+
+    /* Footer */
+    footer { border-top: 3px double var(--ink); margin-top: 2.5rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 1.2rem 1rem 2rem; text-align: center; font-family: var(--sans); font-size: 0.7rem; color: var(--ink-soft); }
+    .footer-inner a { color: var(--ink-soft); }
+    .footer-links { display: flex; gap: 1.2rem; justify-content: center; margin-bottom: 0.5rem; flex-wrap: wrap; }
+
+    /* Shared atoms */
+    .chip { display: inline-block; font-family: var(--sans); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.11em; padding: 0.16rem 0.5rem; border: 1px solid currentColor; border-radius: 2px; text-transform: uppercase; vertical-align: middle; }
+    .kicker { font-family: var(--sans); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+    .stamp { font-family: var(--sans); font-size: 0.68rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.07em; }
+    .section-h { font-family: var(--sans); font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; border-bottom: 2px solid var(--ink); padding-bottom: 0.35rem; margin: 2rem 0 0.9rem; display: flex; align-items: baseline; justify-content: space-between; }
+    .section-h .sub { font-weight: 400; font-size: 0.68rem; color: var(--ink-soft); letter-spacing: 0.08em; }
+  </style>
+</head>
+<body>
+  <div class="masthead">
+    <div class="masthead-inner">
+      <a class="brand" href="/">TOTO GLOBAL DESK</a>
+      <div class="tagline">International News • Intelligence • Investigations</div>
+    </div>
+    <div class="meta-line">
+      <span>Evidence-graded journalism</span>
+      <span>Editions 07:00 · 13:00 · 19:00 CT</span>
+      <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
+    </div>
+  </div>
+  <nav class="desks">
+    <div class="inner">
+      {desks.filter(d => d.slug !== 'breaking').map((d) => <a href={`/topics#${d.slug}`}>{d.name}</a>)}
+      <a href="/editions">Editions</a>
+      <a href="/dossier/banco-master">Dossiers</a>
+      <a href="/about">Standards</a>
+    </div>
+  </nav>
+  <main>
+    <slot />
+  </main>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="/topics">Topics</a> <a href="/editions">Editions</a> <a href="/dossier/banco-master">Dossiers</a>
+        <a href="/story/banco-master">Investigations</a> <a href="/about">Standards</a>
+      </div>
+      <div>TOTO GLOBAL DESK · A personal international newsroom powered by Hermes · $0 infrastructure · Evidence-graded journalism</div>
+    </div>
+  </footer>
+</body>
+</html>

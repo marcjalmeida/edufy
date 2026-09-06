@@ -1,76 +1,60 @@
 ---
-// Editorial policy page (public-facing version)
+// About / Standards — public editorial policy on Base layout
+import Base from '../layouts/Base.astro';
+const labels = [
+  ['Confirmed fact', '#166534'], ['Primary document', '#1d4ed8'], ['Official statement', '#1e40af'],
+  ['Court ruling', '#4c1d95'], ['Charge', '#b45309'], ['Allegation', '#dc2626'],
+  ['Ongoing investigation', '#92400e'], ['Media report', '#6b7280'], ['Analysis', '#7c3aed'], ['Unverified claim', '#991b1b'],
+];
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Editorial Standards | TOTO GLOBAL DESK</title>
-    <style>
-      :root { --ink:#111; --paper:#fafaf7; --rule:#d4d4c8; --accent:#8b0000; }
-      * { box-sizing:border-box; margin:0; }
-      body { font-family:Georgia,serif; background:var(--paper); color:var(--ink); line-height:1.6; }
-      header { border-bottom:3px double var(--ink); padding:1.5rem 1rem 1rem; text-align:center; }
-      header a { font-family:-apple-system,Arial,sans-serif; font-size:.72rem; letter-spacing:.28em; text-transform:uppercase; color:#555; text-decoration:none; }
-      header h1 { font-size:1.4rem; margin-top:.4rem; }
-      main { max-width:760px; margin:0 auto; padding:1.5rem 1rem; }
-      h2 { font-size:1.02rem; font-family:-apple-system,Arial,sans-serif; text-transform:uppercase; letter-spacing:.12em; border-bottom:2px solid var(--ink); padding-bottom:.3rem; margin:1.8rem 0 .8rem; }
-      p { margin:.6rem 0; }
-      ol, ul { padding-left:1.4rem; }
-      li { margin:.35rem 0; }
-      .label { display:inline-block; font-family:-apple-system,Arial,sans-serif; font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:.12rem .45rem; border:1px solid currentColor; border-radius:2px; margin:.15rem .2rem .15rem 0; }
-      footer { border-top:3px double var(--ink); margin-top:2rem; padding:1rem; text-align:center; font-family:-apple-system,Arial,sans-serif; font-size:.72rem; color:#666; }
-    </style>
-  </head>
-  <body>
-    <header><a href="/">← TOTO GLOBAL DESK</a><h1>Editorial Standards</h1></header>
-    <main>
-      <h2>Prime directive</h2>
-      <p>Investigate aggressively. Publish with discipline. <strong>Credibility is the only asset that compounds.</strong></p>
+<Base title="Editorial Standards | TOTO GLOBAL DESK" desc="How TOTO GLOBAL DESK reports: claim classification, sourcing rules, corrections policy, independence.">
+  <style>
+    .policy { max-width: var(--measure); margin: 0 auto; }
+    h2.sec { font-family:var(--sans); font-size:.98rem; text-transform:uppercase; letter-spacing:.11em; border-bottom:2px solid var(--ink); padding-bottom:.32rem; margin:1.9rem 0 .7rem; }
+    p { margin:.65rem 0; font-size:1rem; }
+    ol, ul { padding-left:1.4rem; } li { margin:.35rem 0; font-size:.98rem; }
+    .lead { font-size:1.08rem; }
+    .labelrow { display:flex; flex-wrap:wrap; gap:.35rem; margin:.7rem 0; }
+    .label { font-family:var(--sans); font-size:.66rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:.14rem .5rem; border:1px solid currentColor; border-radius:2px; }
+  </style>
+  <div class="policy">
+    <div class="kicker">Our standards</div>
+    <h1 style="font-size:clamp(1.6rem,3.5vw,2.3rem);margin:.5rem 0 .8rem">How this desk reports</h1>
+    <p class="lead"><strong>Investigate aggressively. Publish with discipline.</strong> Credibility is the only asset that compounds.</p>
 
-      <h2>How we label claims</h2>
-      <p>Every material claim in our reporting carries one of these classifications:</p>
-      <p>
-        <span class="label" style="color:#166534">Confirmed fact</span>
-        <span class="label" style="color:#1d4ed8">Primary document</span>
-        <span class="label" style="color:#1e40af">Official statement</span>
-        <span class="label" style="color:#4c1d95">Court ruling</span>
-        <span class="label" style="color:#b45309">Charge</span>
-        <span class="label" style="color:#dc2626">Allegation</span>
-        <span class="label" style="color:#92400e">Ongoing investigation</span>
-        <span class="label" style="color:#6b7280">Media report</span>
-        <span class="label" style="color:#7c3aed">Analysis</span>
-        <span class="label" style="color:#991b1b">Unverified claim</span>
-      </p>
+    <h2 class="sec">How we label claims</h2>
+    <p>Every material claim carries one of these classifications — visible in the text, not buried:</p>
+    <div class="labelrow">
+      {labels.map(([l, c]) => <span class="label" style={`color:${c}`}>{l}</span>)}
+    </div>
 
-      <h2>Hard rules</h2>
-      <ol>
-        <li>Never convert an allegation into a finding through headline, placement, or repetition.</li>
-        <li>No implication of guilt without evidence meeting the classification standard.</li>
-        <li>Headlines may not be stronger than the story's evidence.</li>
-        <li>Contested matters show: <strong>what is known, what is claimed, what documents show, what remains unconfirmed, and what different sides say.</strong></li>
-        <li>No partisan framing in news copy; analysis lives in clearly labeled sections.</li>
-      </ol>
+    <h2 class="sec">Hard rules</h2>
+    <ol>
+      <li>Never convert an allegation into a finding through headline, placement, or repetition.</li>
+      <li>No implication of guilt without evidence meeting the classification standard.</li>
+      <li>Headlines may not be stronger than the story's evidence.</li>
+      <li>Contested matters show: <strong>what is known · what is claimed · what documents show · what remains unconfirmed · what different sides say.</strong></li>
+      <li>No partisan framing in news copy; analysis lives in clearly labeled sections.</li>
+    </ol>
 
-      <h2>Sourcing</h2>
-      <ul>
-        <li><strong>Primary first:</strong> we attempt to locate the underlying document before publishing any material claim.</li>
-        <li><strong>Two-source rule:</strong> significant claims require two independent sources, or one primary document plus one report.</li>
-        <li><strong>Anti-circular:</strong> ten outlets repeating one report is one source. We trace to origin.</li>
-        <li>Social media is treated as a lead — never as evidence.</li>
-      </ul>
+    <h2 class="sec">Sourcing</h2>
+    <ul>
+      <li><strong>Primary first:</strong> we attempt to locate the underlying document before publishing any material claim.</li>
+      <li><strong>Two-source rule:</strong> significant claims require two independent sources, or one primary document plus one report.</li>
+      <li><strong>Anti-circular:</strong> ten outlets repeating one report is one source. We trace to origin.</li>
+      <li>Social media is a lead — never evidence.</li>
+    </ul>
 
-      <h2>Corrections</h2>
-      <p>Errors are corrected visibly: what was wrong, what changed, when, why, and the supporting source. We never silently rewrite published errors. Corrections appear on the article and in a public log.</p>
+    <h2 class="sec">Corrections</h2>
+    <p>Errors are corrected <strong>visibly</strong>: what was wrong, what changed, when, why, and the supporting source. Never silent rewrites. Corrections appear on the article and in a public log.</p>
 
-      <h2>What-changed discipline</h2>
-      <p>Every update to a developing story opens with <strong>what changed</strong> since our previous report. No material change means no alert — even when a story is "in the news."</p>
+    <h2 class="sec">What-changed discipline</h2>
+    <p>Every update opens with <strong>what changed</strong> since our previous report. No material change means no alert — even when a story is "in the news."</p>
 
-      <h2>Breaking news</h2>
-      <p>We publish BREAKING only for material events: major rulings, major official decisions, major enforcement actions, confirmed investigation developments, policy changes, military/security events, resignations or deaths of major figures, significant emergencies. Never because a keyword trended.</p>
+    <h2 class="sec">Breaking news</h2>
+    <p>BREAKING only for material events: major rulings, official decisions, enforcement actions, confirmed investigation developments, policy changes, military/security events, resignations or deaths of major figures, significant emergencies. Never because a keyword trended.</p>
 
-      <h2>Independence</h2>
-      <p>This is a personal newsroom with a published watchlist. Coverage includes uncomfortable facts for every side. The desk serves the reader's curiosity — not a party line.</p>
-    </main>
-    <footer>TOTO GLOBAL DESK · International News • Intelligence • Investigations</footer>
-  </body>
-</html>
+    <h2 class="sec">Independence</h2>
+    <p>This is a personal newsroom with a published watchlist. Coverage includes uncomfortable facts for every side. The desk serves the reader's curiosity — not a party line.</p>
+  </div>
+</Base>

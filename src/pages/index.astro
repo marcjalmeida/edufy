@@ -1,130 +1,113 @@
 ---
-// Global desk data loaded from Hermes-generated JSON (the newsroom engine's output)
+// Homepage — true newspaper front page on the shared Base layout
+import Base from '../layouts/Base.astro';
 import dossier from '../data/dossier-banco-master.json';
-import queue from '../data/queue.json';
-const sampleStory = {
-  id: 'BRAZIL-BANCO-MASTER',
-  headline: 'PF report documents 52 Vorcaro messages to "Alexandre de Moraes BRASÍLIA" — misconduct question heads to STF plenary',
-  deck: 'Forensic report confirms one-way messages and a family-firm contract, but no reply content was recovered; both justices\' fates now sit with Fachin\'s plenary calendar.',
+
+const topStory = {
+  headline: 'The banker, the justice, and 52 messages: inside the case testing Brazil\u2019s Supreme Court',
+  deck: 'A 218-page police forensic report, a family law firm\u2019s contract, and a fight over who broke the rules first \u2014 what the Banco Master file actually proves, and what it doesn\u2019t.',
   desk: 'BRAZIL PUBLIC INTEGRITY',
   status: 'SAMPLE',
-  updated: '2026-09-06',
+  href: '/story/banco-master',
+  readingMin: 6,
 };
+const breaking = null;
 const desks = [
-  { slug: 'us-immigration', name: 'US Immigration', accent: '#b91c1c' },
-  { slug: 'united-states', name: 'United States', accent: '#1e3a8a' },
-  { slug: 'brazil', name: 'Brazil', accent: '#166534' },
-  { slug: 'brazil-public-integrity', name: 'Brazil Public Integrity', accent: '#7c2d12' },
-  { slug: 'world', name: 'World', accent: '#374151' },
-  { slug: 'war-security', name: 'War & Security', accent: '#57534e' },
+  { slug: 'us-immigration', name: 'US Immigration', blurb: 'ICE, USCIS, DHS, DOJ, EOIR and the federal courts \u2014 policy and enforcement, tracked daily.' },
+  { slug: 'united-states', name: 'United States', blurb: 'Federal policy, White House actions, major national developments.' },
+  { slug: 'brazil', name: 'Brazil', blurb: 'Government, Congress, courts and the major political-legal developments of the day.' },
+  { slug: 'brazil-public-integrity', name: 'Brazil Public Integrity', blurb: 'Investigations, public money, documented financial relationships \u2014 evidence-first.' },
+  { slug: 'world', name: 'World', blurb: 'Diplomacy, geopolitics and major international developments.' },
+  { slug: 'war-security', name: 'War & Security', blurb: 'Armed conflicts, security crises, sanctions \u2014 confirmed developments over rumor.' },
 ];
-const breaking = null; // Phase 4: condition-driven alert object {headline, updated}
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TOTO GLOBAL DESK — International News • Intelligence • Investigations</title>
-    <meta name="description" content="Personal international newsroom: US immigration, Brazil public integrity, world conflicts. Evidence-graded reporting." />
-    <style>
-      :root { --ink: #111; --paper: #fafaf7; --rule: #d4d4c8; --accent: #8b0000; }
-      * { box-sizing: border-box; margin: 0; }
-      body { font-family: Georgia, 'Times New Roman', serif; background: var(--paper); color: var(--ink); line-height: 1.55; }
-      .sans { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
-      header { border-bottom: 3px double var(--ink); padding: 2rem 1rem 1rem; text-align: center; }
-      header h1 { font-size: clamp(1.8rem, 5vw, 3.2rem); letter-spacing: 0.04em; font-weight: 900; }
-      header h1 a { color: inherit; text-decoration: none; }
-      header p { font-family: -apple-system, Arial, sans-serif; font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: #555; margin-top: 0.35rem; }
-      nav { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--rule); justify-content: center; }
-      nav a { font-family: -apple-system, Arial, sans-serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.6rem 1rem; color: var(--ink); text-decoration: none; border-bottom: 3px solid transparent; }
-      nav a:hover { border-bottom-color: var(--accent); }
-      main { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem; }
-      .strip { background: var(--accent); color: #fff; font-family: -apple-system, Arial, sans-serif; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.45rem 1rem; text-align: center; }
-      .strip.idle { background: #e5e1d8; color: #666; }
-      .top { display: grid; gap: 1.25rem; padding: 1.25rem 0; border-bottom: 1px solid var(--rule); }
-      @media (min-width: 760px) { .top { grid-template-columns: 2fr 1fr; } }
-      .chip { display: inline-block; font-family: -apple-system, Arial, sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; padding: 0.18rem 0.5rem; border: 1px solid currentColor; border-radius: 2px; text-transform: uppercase; }
-      .chip.status { color: #92400e; background: #fef3c7; border-color: #f59e0b; }
-      .top h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1.15; margin: 0.5rem 0; }
-      .top h2 a { color: inherit; text-decoration: none; }
-      .top h2 a:hover { color: var(--accent); }
-      .deck { font-size: 1.05rem; color: #444; font-style: italic; }
-      .meta { font-family: -apple-system, Arial, sans-serif; font-size: 0.72rem; color: #666; margin-top: 0.6rem; text-transform: uppercase; letter-spacing: 0.06em; }
-      .side { border-left: 1px solid var(--rule); padding-left: 1.25rem; }
-      @media (max-width: 759px) { .side { border-left: none; padding-left: 0; } }
-      .side h3 { font-family: -apple-system, Arial, sans-serif; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 0.6rem; }
-      .side ul { list-style: none; padding: 0; }
-      .side li { padding: 0.45rem 0; border-bottom: 1px dotted var(--rule); font-size: 0.92rem; }
-      .timeline { font-size: 0.85rem; font-family: -apple-system, Arial, sans-serif; }
-      .timeline dt { font-weight: 700; color: var(--accent); }
-      .timeline dd { margin: 0 0 0.55rem; color: #333; }
-      .grid { display: grid; gap: 1px; background: var(--rule); border-top: 1px solid var(--rule); margin-top: 1.25rem; }
-      @media (min-width: 760px) { .grid { grid-template-columns: repeat(3, 1fr); } }
-      .cell { background: var(--paper); padding: 1rem; font-size: 0.9rem; }
-      .cell h4 { font-family: -apple-system, Arial, sans-serif; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; }
-      .cell a.more { font-family: -apple-system, Arial, sans-serif; font-size: 0.75rem; color: var(--accent); text-decoration: none; font-weight: 700; }
-      footer { border-top: 3px double var(--ink); margin-top: 2rem; padding: 1rem; text-align: center; font-family: -apple-system, Arial, sans-serif; font-size: 0.72rem; color: #666; }
-      footer a { color: #666; }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1><a href="/">TOTO GLOBAL DESK</a></h1>
-      <p>International News • Intelligence • Investigations</p>
-    </header>
-    <nav>
-      {desks.map((d) => <a href={`/topics#${d.slug}`}>{d.name}</a>)}
-      <a href="/editions">Editions</a>
-      <a href="/story/banco-master">Investigation</a>
-      <a href="/dossier/banco-master">Dossiers</a>
-      <a href="/about">Standards</a>
-    </nav>
-    <main>
-      {breaking
-        ? <div class="strip">⚡ BREAKING — {breaking.headline}</div>
-        : <div class="strip idle">No active breaking alert — breaking publishes only on material, verified developments</div>}
-      <section class="top">
-        <article>
-          <span class="chip">{sampleStory.desk}</span>
-          <span class="chip status">{sampleStory.status}</span>
-          <h2><a href="/story/banco-master">{sampleStory.headline}</a></h2>
-          <p class="deck">{sampleStory.deck}</p>
-          <p class="meta">Published {sampleStory.updated} · Updated {sampleStory.updated} · <strong>What changed: {dossier.updates?.length ?? 0} logged updates</strong></p>
-          <p class="meta" style="margin-top:0.8rem">Confirmed: {dossier.primary_sources?.length ?? 0} primary documents on file · {dossier.known_facts?.length ?? 0} graded facts · {dossier.open_questions?.length ?? 0} open questions</p>
-        </article>
-        <aside class="side">
-          <h3>Latest developments</h3>
-          <ul>
-            {dossier.timeline?.slice(-4).reverse().map((t) => (
-              <li><strong>{t.date}</strong> — {t.event?.slice(0, 110)}{t.event?.length > 110 ? '…' : ''}</li>
-            ))}
-          </ul>
-        </aside>
-      </section>
-      <section class="grid">
-        <div class="cell">
-          <h4>Editorial standard</h4>
-          <p class="sans" style="font-size:0.85rem">Every material claim is graded: confirmed fact, primary document, official statement, charge, allegation, media report, or unverified. Headlines never outrun evidence.</p>
-          <p style="margin-top:.5rem"><a class="more" href="/about">Read our standards →</a></p>
-        </div>
-        <div class="cell">
-          <h4>Dossier: Banco Master</h4>
-          <dl class="timeline">
-            <dt>{dossier.timeline?.length ?? 0} events</dt><dd>from Nov 2025 arrest to the postponed plenary</dd>
-            <dt>{dossier.entities?.length ?? 0} entities mapped</dt><dd>justices, banker, agencies, intermediaries</dd>
-            <dt>{dossier.contradictions?.length ?? 0} contradictions tracked</dt><dd>with calibrated assessments</dd>
-          </dl>
-          <p style="margin-top:.5rem"><a class="more" href="/story/banco-master">Read the investigation →</a> · <a class="more" href="/dossier/banco-master">Dossier →</a></p>
-        </div>
-        <div class="cell">
-          <h4>Editions (Central Time)</h4>
-          <p class="sans" style="font-size:0.85rem"><strong>07:00</strong> Morning · <strong>13:00</strong> Midday · <strong>19:00</strong> Evening — plus breaking alerts when material. Delivered to Telegram and this portal.</p>
-          <p style="margin-top:.5rem"><a class="more" href="/editions">Edition schedule →</a></p>
-        </div>
-      </section>
-    </main>
-    <footer>
-      TOTO GLOBAL DESK · Personal international newsroom powered by Hermes · <a href="/about">Standards</a> · <a href="/topics">Topics</a> · <a href="/editions">Editions</a> · 2026
-    </footer>
-  </body>
-</html>
+<Base>
+  {breaking
+    ? <div class="breaking">⚡ BREAKING — {breaking.headline}</div>
+    : <div class="breaking idle">No active breaking alert — breaking publishes only on material, verified developments</div>}
+
+  <!-- TOP STORY -->
+  <section class="topstory">
+    <div class="ts-main">
+      <div class="chips">
+        <span class="chip" style="color:#7c2d12">{topStory.desk}</span>
+        <span class="chip" style="color:#92400e;background:#fef3c780">{topStory.status}</span>
+      </div>
+      <h1><a href={topStory.href}>{topStory.headline}</a></h1>
+      <p class="deck">{topStory.deck}</p>
+      <p class="stamp">Published Sep 6, 2026 · Updated Sep 6, 2026 · {topStory.readingMin} min read · <strong>{dossier.updates?.length ?? 0} logged updates</strong></p>
+      <p class="stamp" style="margin-top:.4rem">On file: {dossier.primary_sources?.length ?? 0} primary documents · {dossier.known_facts?.length ?? 0} graded facts · {dossier.open_questions?.length ?? 0} open questions</p>
+      <p style="margin-top:.9rem"><a class="cta" href={topStory.href}>Read the investigation →</a> <a class="cta ghost" href="/dossier/banco-master">Dossier →</a></p>
+    </div>
+    <aside class="rail">
+      <div class="section-h" style="margin-top:0">Latest developments <span class="sub">dossier feed</span></div>
+      <ul class="rail-list">
+        {dossier.timeline?.slice(-5).reverse().map((t) => (
+          <li><span class="rail-date">{t.date}</span>{t.event?.slice(0, 105)}{t.event?.length > 105 ? '…' : ''}</li>
+        ))}
+      </ul>
+      <a class="cta ghost" href="/dossier/banco-master" style="display:inline-block;margin-top:.6rem">Full dossier →</a>
+    </aside>
+  </section>
+
+  <!-- DESK GRID -->
+  <div class="section-h">The desks <span class="sub">coverage areas · per watchlist</span></div>
+  <section class="deskgrid">
+    {desks.map((d) => (
+      <a class="deskcard" href={`/topics#${d.slug}`} style={`--desk-accent:${d.accent}`}>
+        <span class="desk-name">{d.name}</span>
+        <span class="desk-blurb">{d.blurb}</span>
+        <span class="desk-cta">Coverage beginning with first editions →</span>
+      </a>
+    ))}
+  </section>
+
+  <!-- STANDARDS + EDITIONS -->
+  <section class="duo">
+    <div>
+      <div class="section-h" style="margin-top:0">How we report</div>
+      <p style="font-size:.95rem">Every material claim is graded — confirmed fact, primary document, official statement, charge, allegation, media report, or unverified. Headlines never outrun evidence. Sources are published with every story. <a href="/about" style="color:var(--accent)">Our standards →</a></p>
+    </div>
+    <div>
+      <div class="section-h" style="margin-top:0">Editions <span class="sub">Central Time</span></div>
+      <dl class="editions">
+        <dt>07:00</dt><dd>Morning — overnight, what matters today, what to watch</dd>
+        <dt>13:00</dt><dd>Midday — changes since morning, live developments</dd>
+        <dt>19:00</dt><dd>Evening — the day in full, unresolved, overnight watch</dd>
+      </dl>
+      <a class="cta ghost" href="/editions" style="display:inline-block;margin-top:.4rem">Schedule →</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .breaking { background: var(--accent); color: #fff; font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; text-align: center; }
+  .breaking.idle { background: var(--paper-2); color: var(--ink-soft); font-weight: 400; }
+  .topstory { display: grid; gap: 1.5rem; padding: 1.5rem 0 1.7rem; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 820px) { .topstory { grid-template-columns: 1.9fr 1fr; } }
+  .topstory h1 { font-size: clamp(1.7rem, 3.8vw, 2.55rem); line-height: 1.14; margin: 0.55rem 0 0.5rem; letter-spacing: -0.01em; }
+  .topstory h1 a { text-decoration: none; }
+  .topstory h1 a:hover { color: var(--accent); }
+  .deck { font-size: 1.1rem; color: var(--ink-soft); font-style: italic; }
+  .chips { display: flex; gap: 0.4rem; }
+  .cta { display: inline-block; font-family: var(--sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; text-decoration: none; padding: 0.5rem 0.9rem; background: var(--ink); color: var(--paper); border-radius: 2px; }
+  .cta:hover { background: var(--accent); }
+  .cta.ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
+  .cta.ghost:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+  .rail { border-left: 1px solid var(--rule); padding-left: 1.3rem; }
+  @media (max-width: 819px) { .rail { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 1rem; } }
+  .rail-list { list-style: none; padding: 0; }
+  .rail-list li { padding: 0.5rem 0; border-bottom: 1px dotted var(--rule); font-size: 0.88rem; }
+  .rail-date { display: block; font-family: var(--sans); font-weight: 700; font-size: 0.68rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; }
+  .deskgrid { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  @media (min-width: 760px) { .deskgrid { grid-template-columns: repeat(3, 1fr); } }
+  .deskcard { background: var(--paper); padding: 1rem 1rem 1.1rem; text-decoration: none; display: flex; flex-direction: column; gap: 0.35rem; border-top: 3px solid var(--desk-accent); }
+  .deskcard:hover { background: var(--paper-2); }
+  .desk-name { font-family: var(--sans); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--desk-accent); }
+  .desk-blurb { font-size: 0.87rem; color: var(--ink-soft); }
+  .desk-cta { font-family: var(--sans); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-top: auto; padding-top: 0.5rem; }
+  .duo { display: grid; gap: 1.5rem; margin-top: 2rem; }
+  @media (min-width: 760px) { .duo { grid-template-columns: 1fr 1fr; } }
+  .editions dt { font-family: var(--sans); font-weight: 800; font-size: 0.8rem; color: var(--accent); float: left; width: 3.4rem; }
+  .editions dd { font-size: 0.88rem; margin: 0 0 0.55rem 3.4rem; }
+</style>
