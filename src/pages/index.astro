@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import dossier from '../data/dossier-banco-master.json';
 
 // Real developments from the dossier timeline (chronological, newest first) for the live strip
-const developments = [...dossier.timeline].reverse().slice(0, 5).map((t) => ({
+const developments = [...dossier.timeline].sort((a,b) => (b.date||'').localeCompare(a.date||'')).slice(0, 5).map((t) => ({
   date: t.date, text: t.event, kind: t.classification === 'A' ? 'PRIMARY DOCUMENT' : t.classification === 'B' ? 'VERIFIED UPDATE' : 'TIMELINE',
 }));
 
@@ -80,7 +80,6 @@ const documents = [
       <div class="cta-row">
         <a class="cta solid" href={topStory.href}>READ INVESTIGATION</a>
         <a class="cta line" href={topStory.dossierHref}>EXPLORE EVIDENCE</a>
-        <a class="cta line disabled" href="/editions" aria-disabled="true" title="Audio editions start with Phase 5">LISTEN <small>soon</small></a>
       </div>
     </div>
   </section>
@@ -130,7 +129,7 @@ const documents = [
   <div class="section-h">The desks <span class="sub">coverage areas · per watchlist</span></div>
   <section class="mosaic">
     {desks.map((d, i) => (
-      <a class={`desk ${d.live ? 'live' : 'monitoring'} ${i === 0 ? 'lead' : ''}`} href={`/topics#${d.slug}`} style={`--desk-accent:${d.accent}`}>
+      <a class={`desk ${d.live ? 'live' : 'monitoring'} ${i === 0 ? 'lead' : ''}`} href={d.href || `/topics#${d.slug}`} style={`--desk-accent:${d.accent}`}>
         {d.live && <span class="liveflag">● ACTIVE DESK</span>}
         <span class="desk-name">{d.name}</span>
         <span class="desk-blurb">{d.blurb}</span>
@@ -213,7 +212,7 @@ const documents = [
   .spotlight { display: grid; gap: 1.4rem; background: var(--ink); color: var(--paper); padding: 1.8rem 1.4rem; border-bottom: 1px solid var(--rule); }
   @media (min-width: 900px) { .spotlight { grid-template-columns: 1fr 1fr; align-items: center; } }
   .spotlight h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; letter-spacing: 0.02em; margin: 0.4rem 0; }
-  .spotlight p { color: rgba(250,250,246,0.75); font-size: 0.95rem; }
+  .spotlight p { color: rgba(250,250,246,0.92); font-size: 0.95rem; }
   .spotlight .kicker { color: #e0a44a; }
   .sp-stats { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin: 0.9rem 0 1.1rem; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(250,250,246,0.65); }
   .sp-stats b { color: var(--paper); font-size: 0.95rem; margin-right: 0.25rem; }
