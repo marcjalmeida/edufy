@@ -1,6 +1,6 @@
 ---
 // THE DAILY DESK — /editions/ rebuilt as the issue center
-import Base from '../layouts/Base.astro';
+import TourBase from '../layouts/TourBase.astro';
 import EditionHero from '../components/EditionHero.astro';
 import EditionCard from '../components/EditionCard.astro';
 import EvidenceLabel from '../components/EvidenceLabel.astro';
@@ -34,7 +34,7 @@ const deskNames: Record<string, string> = {
   'brazil-public-integrity': 'BRAZIL PUBLIC INTEGRITY', 'world': 'WORLD', 'war-security': 'WAR & SECURITY',
 };
 ---
-<Base title="The Daily Desk | TOTO GLOBAL DESK" desc="Three curated intelligence briefings every day, plus verified breaking updates when the story changes.">
+<TourBase title="The Daily Desk | TOTO GLOBAL DESK" desc="Three curated intelligence briefings every day, plus verified breaking updates when the story changes.">
   <!-- PAGE HEADER -->
   <div class="pagehead">
     <h1>EDITIONS</h1>
@@ -188,7 +188,7 @@ const deskNames: Record<string, string> = {
   <!-- ARCHIVE -->
   <div class="section-h">Previous editions</div>
   <EditionArchive editions={editionsIndex.editions} excludeId={current.id} />
-</Base>
+</TourBase>
 
 <style>
   .pagehead { text-align: center; padding: 0.6rem 0 1.2rem; border-bottom: 1px solid var(--rule); margin-bottom: 1.4rem; }

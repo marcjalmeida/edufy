@@ -1,6 +1,6 @@
 ---
 // Dossier page — investigation dossier on Base layout with stat cards
-import Base from '../../layouts/Base.astro';
+import TourBase from '../../layouts/TourBase.astro';
 import dossier from '../../data/dossier-banco-master.json';
 const clsColor: Record<string,string> = {
   'PRIMARY DOCUMENT':'#1d4ed8','CONFIRMED FACT':'#166534','OFFICIAL POSITION':'#1e40af',
@@ -17,7 +17,7 @@ const stats = [
   { n: dossier.open_questions.length, label: 'Open questions' },
 ];
 ---
-<Base title={`${dossier.id} — Dossier | TOTO GLOBAL DESK`} desc={dossier.overview.slice(0,150)}>
+<TourBase title={`${dossier.id} — Dossier | TOTO GLOBAL DESK`} desc={dossier.overview.slice(0,150)}>
   <style>
     .head { max-width: var(--measure); margin: 0 auto; }
     .kicker-line { display:flex; gap:.4rem; align-items:center; }
@@ -116,4 +116,5 @@ const stats = [
       <p class="next"><a href="/story/banco-master">← Read the investigation</a> · <a href="/topics">All desks →</a></p>
     </div>
   </article>
-</Base>
+</TourBase>
+<!-- end dossier -->

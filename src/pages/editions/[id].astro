@@ -1,6 +1,6 @@
 ---
 // Per-edition detail page: /editions/<id> — full magazine-issue view
-import Base from '../../layouts/Base.astro';
+import TourBase from '../../layouts/TourBase.astro';
 import EvidenceLabel from '../../components/EvidenceLabel.astro';
 import editionsIndex from '../../data/editions-index.json';
 import EditionAudio from '../../components/EditionAudio.astro';
@@ -16,7 +16,7 @@ const deskNames: Record<string, string> = {
   'brazil-public-integrity': 'BRAZIL PUBLIC INTEGRITY', 'world': 'WORLD', 'war-security': 'WAR & SECURITY',
 };
 ---
-<Base title={`${typeLabel} — ${dateLong} | TOTO GLOBAL DESK`} desc={ed.editorsBrief.slice(0, 150)}>
+<TourBase title={`${typeLabel} — ${dateLong} | TOTO GLOBAL DESK`} desc={ed.editorsBrief.slice(0, 150)}>
   <style>
     .ehead { text-align: center; padding: .6rem 0 1.2rem; border-bottom: 1px solid var(--rule); }
     .ehead .type { font-family: var(--sans); font-size: .66rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
@@ -92,4 +92,5 @@ const deskNames: Record<string, string> = {
       <ol style="padding-left:1.2rem">{ed.sources.map((s) => <li style="margin:.25rem 0">{s}</li>)}</ol>
     </div>
   </article>
-</Base>
+</TourBase>
+<!-- end [id] -->

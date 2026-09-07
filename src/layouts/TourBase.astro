@@ -1,13 +1,20 @@
 ---
-// TourBase — T.O.U.R. News chrome: utility bar, centered emblem masthead, portal nav, breaking ticker, branded footer
+// TourBase v2 — THE single T.O.U.R. NEWS layout (unified: navy/gold/red newspaper, bulldog anchor).
+// Replaces both Base.astro and old TourBase.astro chrome. Keeps legacy token aliases so all
+// pages render consistently whether or not they reference the old names.
 import { desks } from '../lib/newsroom.js';
 interface Props { title?: string; desc?: string; activeNav?: string; }
 const { title = 'T.O.U.R. NEWS — The Official Unofficial Report',
-        desc = 'Brazil + USA news network: immigration, public integrity, world briefings. Evidence-graded journalism.',
+        desc = 'Brazil + USA news network: immigration, public integrity, world briefings. Evidence-graded journalism by the bulldog anchor.',
         activeNav = '' } = Astro.props;
 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-const slot = Astro.slots.render('ticker');
-const hasTicker = !!slot;
+const nav = [
+  ['Home', '/', 'home'], ['Latest', '/editions/', 'latest'],
+  ['Immigration', '/topics#us-immigration', ''], ['U.S.', '/topics#united-states', ''],
+  ['Brazil', '/topics#brazil', ''], ['Integrity', '/topics#brazil-public-integrity', ''],
+  ['World', '/topics#world', ''], ['War & Security', '/topics#war-security', ''],
+  ['Investigations', '/dossier/banco-master', ''], ['The Show', '/tour-news/', ''],
+] as const;
 ---
 <!doctype html>
 <html lang="en">
@@ -19,213 +26,183 @@ const hasTicker = !!slot;
   <link rel="icon" href="/media/brand/tour-favicon.png" />
   <style is:global>
     :root {
-      --navy-950: #000820; --navy-900: #001030; --navy-800: #001038; --navy-700: #002048;
-      --red-700: #880008; --red-600: #c80000; --red-live: #e10600;
-      --gold-400: #f8d888; --gold-300: #e0c8a0;
-      --cream: #f8f8f0; --page-bg: #f5f5f7;
-      --ink: #0a0a0a; --muted: #5a5a66;
-      --chip-us: #c41e3a; --chip-brazil: #009c3b; --chip-world: #1e4d8c; --chip-integrity: #6b2d5c;
-      --serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
-      --sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-      --measure: 68ch;
-      --navy-translucent: rgba(0, 16, 48, 0.93);
-      /* legacy aliases kept for existing components/token references */
-      --navy: #001030; --navy-2: #002048; --navy-3: #001038;
-      --paper: #f8f8f0; --paper-2: #efe9dc;
-      --ink-soft: #5a5a66; --ink-deep: #0a0a0a;
-      --red: #c80000; --red-deep: #880008;
-      --gold: #f8d888; --gold-soft: #e0c8a0;
-      --blue-link: #1e4d8c;
-      --rule: #d8d4c6; --rule-dark: rgba(255,255,255,0.16);
-      --accent: #c80000;
+      /* brand — navy/gold/red newspaper */
+      --navy-950:#000820; --navy-900:#001030; --navy-800:#001038; --navy-700:#002048;
+      --red-700:#880008; --red-600:#c80000; --red-live:#e10600;
+      --gold-400:#f8d888; --gold-300:#e0c8a0; --gold-600:#b8860b;
+      --paper:#f8f8f0; --paper-2:#efe9dc; --page-bg:#f5f5f7;
+      --ink:#0a0a0a; --ink-soft:#4d4d56; --ink-faint:#6e6558;
+      --rule:#d8d4c6; --rule-soft:#e7e4d8; --rule-dark:rgba(255,255,255,0.16);
+      /* legacy aliases (old Base + old TourBase refs) */
+      --accent:#c80000; --accent-2:#0f4c81; --gold:#f8d888; --gold-soft:#e0c8a0;
+      --paper-2:#efe9dc; --paper-3:#eceae4; --ink-soft:#4d4d56; --ink-deep:#0a0a0a;
+      --rule-2:#d8d4c6; --blue-link:#1e4d8c;
+      --morning:#b45309; --midday:#1e40af; --evening:#4c1d95;
+      --fact:#166534; --allegation:#92400e; --analysis:#1e40af; --opinion:#6b7280; --unverified:#991b1b;
+      --serif: Georgia,'Iowan Old Style','Times New Roman',serif;
+      --sans:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+      --measure:68ch; --container:1180px;
     }
     * { box-sizing: border-box; margin: 0; }
+    html { -webkit-text-size-adjust:100%; }
     body { font-family: var(--serif); background: var(--page-bg); color: var(--ink); line-height: 1.55; }
     a { color: inherit; }
+    img { max-width: 100%; height: auto; }
 
-    /* UTILITY BAR — ~36px, date left, one slogan, EN|PT-BR · search · LIVE */
+    /* UTILITY BAR */
     .utility { background: var(--navy-900); color: rgba(255,255,255,0.72); font-family: var(--sans); font-size: 0.66rem; letter-spacing: 0.06em; }
-    .utility .inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.34rem 1rem; min-height: 34px; }
-    .utility .left { display: flex; gap: 1rem; align-items: center; }
-    .utility .slogan { color: var(--gold-300); letter-spacing: 0.02em; font-style: italic; }
-    .utility .right { display: flex; gap: 1rem; align-items: center; }
-    .utility a { color: rgba(255,255,255,0.78); text-decoration: none; }
-    .utility a:hover, .utility a.active { color: var(--gold-400); }
-    .utility .live-dot { color: var(--red-live); font-weight: 800; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+    .utility .inner { max-width: var(--container); margin: 0 auto; display:flex; justify-content:space-between; align-items:center; padding:0.34rem 1rem; min-height:34px; }
+    .utility .left { display:flex; gap:1rem; align-items:center; }
+    .utility .slogan { color: var(--gold-300); font-style: italic; letter-spacing:0.02em; }
+    .utility .right { display:flex; gap:1rem; align-items:center; }
+    .utility a { color: rgba(255,255,255,0.78); text-decoration:none; }
+    .utility a:hover { color: var(--gold-400); }
+    .utility .live-dot { color: var(--red-live); font-weight:800; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
-    /* MASTHEAD — centered emblem lockup, no TGD */
-    .masthead { background: linear-gradient(180deg, var(--navy-700) 0%, var(--navy-900) 100%); color: #f6f3ea; position: relative; overflow: hidden; }
-    .masthead::before { content: ''; position: absolute; inset: 0; background:
-      radial-gradient(ellipse 70% 90% at 50% 10%, rgba(248,216,136,0.10), transparent),
-      radial-gradient(ellipse 50% 70% at 15% 110%, rgba(200,0,0,0.10), transparent),
-      radial-gradient(ellipse 50% 70% at 85% 110%, rgba(200,0,0,0.10), transparent); }
-    .masthead-inner { position: relative; max-width: 1200px; margin: 0 auto; padding: 1.6rem 1rem 1.1rem; text-align: center; }
-    .mast-lock { display: flex; align-items: center; justify-content: center; gap: 1.6rem; }
-    .mast-side { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-300); max-width: 200px; text-align: left; }
-    .mast-side.right { text-align: right; }
-    .mast-side b { display: block; color: var(--gold-400); font-size: 0.8rem; letter-spacing: 0.18em; margin-bottom: 0.25rem; }
-    .emblem { width: clamp(96px, 12vw, 150px); height: clamp(96px, 12vw, 150px); border-radius: 50%; border: 3px solid var(--gold-400); box-shadow: 0 0 0 1px rgba(248,216,136,0.35), 0 6px 24px rgba(0,0,0,0.5); object-fit: cover; flex-shrink: 0; }
-    .brand-sub { margin-top: 0.7rem; display: flex; align-items: center; justify-content: center; gap: 0.8rem; flex-wrap: wrap; }
-    .brand-sub .tag-plain { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.06em; font-style: italic; color: var(--gold-300); }
-    .brand-sub .sep::before { content: ''; display: inline-block; width: 40px; height: 1px; background: var(--gold-400); vertical-align: middle; margin: 0 0.6rem; }
-    .brand-sub .tag-gold { color: var(--gold-400); }
-    .rule-brasilusa { display: flex; align-items: center; justify-content: center; gap: 0.7rem; margin-top: 0.5rem; font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.24em; color: var(--gold-400); }
-    .rule-brasilusa::before, .rule-brasilusa::after { content: ''; height: 1px; width: 70px; background: var(--gold-400); opacity: 0.5; }
+    /* MASTHEAD — centered bulldog anchor + newspaper title */
+    .masthead { background: linear-gradient(180deg, var(--navy-700) 0%, var(--navy-900) 100%); color:#f6f3ea; position:relative; overflow:hidden; border-bottom:4px solid var(--gold-400); }
+    .masthead::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 70% 90% at 50% 10%, rgba(248,216,136,0.10), transparent), radial-gradient(ellipse 50% 70% at 15% 110%, rgba(200,0,0,0.08), transparent), radial-gradient(ellipse 50% 70% at 85% 110%, rgba(200,0,0,0.08), transparent); }
+    .masthead-inner { position:relative; max-width: var(--container); margin:0 auto; padding:1.5rem 1rem 1.05rem; text-align:center; }
+    .mast-lock { display:flex; align-items:center; justify-content:center; gap:1.5rem; }
+    .mast-side { font-family: var(--sans); font-size:0.66rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-300); max-width:210px; text-align:left; line-height:1.5; }
+    .mast-side.right { text-align:right; }
+    .mast-side b { display:block; color:var(--gold-400); font-size:0.78rem; letter-spacing:0.16em; margin-bottom:0.25rem; }
+    .emblem { width:clamp(92px, 11vw, 140px); height:clamp(92px, 11vw, 140px); border-radius:50%; border:3px solid var(--gold-400); box-shadow:0 0 0 1px rgba(248,216,136,0.35), 0 6px 24px rgba(0,0,0,0.5); object-fit:cover; flex-shrink:0; }
+    .mast-title { font-family: var(--sans); letter-spacing:0.04em; font-weight:900; }
+    .mast-title .brand { font-size:clamp(1.5rem,4vw,2.5rem); color:#fff; text-transform:uppercase; }
+    .mast-title .brand em { font-style:normal; color:var(--gold-400); }
+    .mast-title .brand .red { color:var(--red-live); }
+    .brand-sub { font-family: var(--sans); font-size:0.74rem; font-style:italic; color:var(--gold-300); letter-spacing:0.04em; margin-top:0.35rem; }
+    .rule-brasilusa { display:flex; align-items:center; justify-content:center; gap:0.7rem; margin-top:0.5rem; font-family:var(--sans); font-size:0.62rem; letter-spacing:0.22em; color:var(--gold-400); }
+    .rule-brasilusa::before, .rule-brasilusa::after { content:''; height:1px; width:70px; background:var(--gold-400); opacity:0.5; }
 
-    /* PORTAL NAV — sticky navy, gold hover / red underline */
-    nav.portal { background: var(--navy-translucent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule-dark); position: sticky; top: 0; z-index: 60; }
-    nav.portal .inner { max-width: 1200px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
-    nav.portal .inner::-webkit-scrollbar { display: none; }
-    nav.portal a { font-family: var(--sans); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.85); text-decoration: none; padding: 0.62rem 0.9rem; white-space: nowrap; border-bottom: 3px solid transparent; }
-    nav.portal a:hover nav.portal a:focus { color: var(--gold-400); }
-    nav.portal a.active { color: var(--gold-400); border-bottom-color: var(--red-600); }
+    /* PORTAL NAV */
+    nav.portal { background: rgba(0,16,48,0.95); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule-dark); position:sticky; top:0; z-index:60; }
+    nav.portal .inner { max-width:var(--container); margin:0 auto; display:flex; overflow-x:auto; scrollbar-width:none; }
+    nav.portal .inner::-webkit-scrollbar { display:none; }
+    nav.portal a { font-family:var(--sans); font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(255,255,255,0.85); text-decoration:none; padding:0.6rem 0.85rem; white-space:nowrap; border-bottom:3px solid transparent; }
+    nav.portal a:hover, nav.portal a:focus { color:var(--gold-400); }
+    nav.portal a.active { color:var(--gold-400); border-bottom-color:var(--red-600); }
 
-    main { max-width: 1200px; margin: 0 auto; padding: 1.1rem 1rem 2.5rem; min-width: 0; max-width: 100%; width: 100%; }
+    main { max-width:var(--container); margin:0 auto; padding:1.1rem 1rem 2.5rem; width:100%; }
 
-    /* BREAKING TICKER — red BREAKING pill + items */
-    .breaking-bar { display: flex; align-items: stretch; background: var(--page-bg); border: 1px solid var(--rule); margin-bottom: 1.2rem; overflow: hidden; }
-    .breaking-label { background: var(--red-700); color: #fff; font-family: var(--sans); font-size: 0.72rem; font-weight: 900; letter-spacing: 0.16em; padding: 0.5rem 1.05rem; display: flex; align-items: center; gap: 0.45rem; white-space: nowrap; }
-    .breaking-label .bl-dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: pulse 1.6s infinite; }
-    .breaking-items { display: flex; overflow-x: auto; scrollbar-width: none; align-items: center; gap: 2.4rem; padding: 0.1rem 1rem; flex: 1; }
-    .breaking-items::-webkit-scrollbar { display: none; }
-    .breaking-item { font-family: var(--sans); font-size: 0.82rem; white-space: normal; color: var(--ink); display: flex; gap: 0.5rem; align-items: baseline; }
-    .breaking-item b { color: var(--red-600); font-weight: 800; }
+    /* BREAKING TICKER */
+    .breaking-bar { display:flex; align-items:stretch; background:var(--paper); border:1px solid var(--rule); margin-bottom:1.2rem; overflow:hidden; }
+    .breaking-label { background:var(--red-700); color:#fff; font-family:var(--sans); font-size:0.72rem; font-weight:900; letter-spacing:0.16em; padding:0.5rem 1.05rem; display:flex; align-items:center; gap:0.45rem; white-space:nowrap; }
+    .breaking-label .bl-dot { width:8px; height:8px; border-radius:50%; background:#fff; animation:pulse 1.6s infinite; }
+    .breaking-items { display:flex; overflow-x:auto; scrollbar-width:none; align-items:center; gap:2.4rem; padding:0.1rem 1rem; flex:1; }
+    .breaking-items::-webkit-scrollbar { display:none; }
+    .breaking-item { font-family:var(--sans); font-size:0.82rem; white-space:normal; color:var(--ink); display:flex; gap:0.5rem; align-items:baseline; }
+    .breaking-item b { color:var(--red-600); font-weight:800; }
 
-    /* Atoms */
-    .chip { display: inline-block; font-family: var(--sans); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.11em; padding: 0.16rem 0.5rem; border: 1px solid currentColor; border-radius: 2px; text-transform: uppercase; }
-    .kicker { font-family: var(--sans); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red-600); }
-    .stamp { font-family: var(--sans); font-size: 0.66rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.07em; }
-    .section-h { display: flex; align-items: baseline; gap: 0.8rem; border-bottom: 3px solid var(--ink); padding-bottom: 0.35rem; margin: 2.2rem 0 1rem; }
-    .section-h h2 { font-family: var(--sans); font-size: 1.02rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.14em; }
-    .section-h h2 em { color: var(--red-600); font-style: normal; }
-    .section-h .sub { margin-left: auto; font-family: var(--sans); font-size: 0.66rem; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
-    .btn { display: inline-block; font-family: var(--sans); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.09em; text-decoration: none; padding: 0.55rem 1rem; border-radius: 2px; }
-    .btn.solid { background: var(--red-600); color: #fff; } .btn.solid:hover { background: var(--red-700); }
-    .btn.line { border: 1px solid rgba(255,255,255,0.7); color: #fff; } .btn.line:hover { border-color: var(--gold-400); color: var(--gold-400); }
-    .btn.gold { background: var(--gold-400); color: var(--navy-900); } .btn.gold:hover { filter: brightness(1.08); }
+    /* atoms */
+    .chip { display:inline-block; font-family:var(--sans); font-size:0.6rem; font-weight:800; letter-spacing:0.11em; padding:0.16rem 0.5rem; border:1px solid currentColor; border-radius:2px; text-transform:uppercase; }
+    .kicker { font-family:var(--sans); font-size:0.66rem; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:var(--red-600); }
+    .stamp { font-family:var(--sans); font-size:0.66rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.07em; }
+    .section-h { display:flex; align-items:baseline; gap:0.8rem; border-bottom:3px solid var(--ink); padding-bottom:0.35rem; margin:2.2rem 0 1rem; }
+    .section-h h2 { font-family:var(--sans); font-size:1.02rem; font-weight:900; text-transform:uppercase; letter-spacing:0.14em; margin:0; }
+    .section-h h2 em { color:var(--red-600); font-style:normal; }
+    .section-h .sub { margin-left:auto; font-family:var(--sans); font-size:0.66rem; color:var(--ink-soft); letter-spacing:0.05em; text-transform:uppercase; }
+    .btn { display:inline-block; font-family:var(--sans); font-size:0.72rem; font-weight:800; letter-spacing:0.09em; text-decoration:none; padding:0.55rem 1rem; border-radius:2px; }
+    .btn.solid { background:var(--red-600); color:#fff; } .btn.solid:hover { background:var(--red-700); }
+    .btn.line { border:1px solid rgba(255,255,255,0.7); color:#fff; } .btn.line:hover { border-color:var(--gold-400); color:var(--gold-400); }
+    .btn.inkline { border:1px solid var(--ink); color:var(--ink); } .btn.inkline:hover { border-color:var(--red-600); color:var(--red-600); }
+    .btn.gold { background:var(--gold-400); color:var(--navy-900); } .btn.gold:hover { filter:brightness(1.08); }
 
-    /* FOOTER — T.O.U.R. mark + Toto Global Desk parent credit */
-    footer.tour { background: var(--navy-900); color: rgba(255,255,255,0.8); margin-top: 3rem; }
-    .footer-grid { max-width: 1200px; margin: 0 auto; padding: 2.2rem 1rem 1.6rem; display: grid; gap: 1.8rem; grid-template-columns: 1fr; }
-    @media (min-width: 780px) { .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; } }
-    .f-brand { display: flex; gap: 0.9rem; align-items: flex-start; }
-    .f-brand img { width: 58px; height: 58px; border-radius: 50%; border: 2px solid var(--gold-400); object-fit: cover; }
-    .f-brand .name { font-family: var(--sans); font-weight: 900; font-size: 1rem; color: var(--cream); }
-    .f-brand .dots { color: var(--gold-400); }
-    .f-brand .line { font-size: 0.72rem; font-style: italic; color: rgba(255,255,255,0.55); margin-top: 0.25rem; }
-    footer.tour h4 { font-family: var(--sans); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; color: var(--gold-300); margin-bottom: 0.7rem; }
-    footer.tour ul { list-style: none; padding: 0; }
-    footer.tour li { margin: 0.35rem 0; }
-    footer.tour a { font-family: var(--sans); font-size: 0.78rem; color: rgba(255,255,255,0.75); text-decoration: none; }
-    footer.tour a:hover { color: var(--gold-400); }
-    .footer-bottom { border-top: 1px solid var(--rule-dark); }
-    .footer-bottom .inner { max-width: 1200px; margin: 0 auto; padding: 0.9rem 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; font-family: var(--sans); font-size: 0.64rem; color: rgba(255,255,255,0.45); }
-    .footer-bottom .parent { color: var(--gold-300); }
-    .socials { display: flex; gap: 0.8rem; }
-    .socials a { font-size: 0.9rem; }
+    /* FOOTER */
+    footer.tour { background:var(--navy-900); color:rgba(255,255,255,0.8); margin-top:3rem; }
+    .footer-grid { max-width:var(--container); margin:0 auto; padding:2.2rem 1rem 1.6rem; display:grid; gap:1.8rem; grid-template-columns:1fr; }
+    @media (min-width:780px){ .footer-grid{ grid-template-columns:1.4fr 1fr 1fr 1.2fr; } }
+    .f-brand { display:flex; gap:0.9rem; align-items:flex-start; }
+    .f-brand img { width:58px; height:58px; border-radius:50%; border:2px solid var(--gold-400); object-fit:cover; }
+    .f-brand .name { font-family:var(--sans); font-weight:900; font-size:1rem; color:var(--paper); }
+    .f-brand .dots { color:var(--gold-400); }
+    .f-brand .line { font-size:0.72rem; font-style:italic; color:rgba(255,255,255,0.55); margin-top:0.25rem; }
+    footer.tour h4 { font-family:var(--sans); font-size:0.68rem; font-weight:800; text-transform:uppercase; letter-spacing:0.16em; color:var(--gold-300); margin-bottom:0.7rem; }
+    footer.tour ul { list-style:none; padding:0; }
+    footer.tour li { margin:0.35rem 0; }
+    footer.tour a { font-family:var(--sans); font-size:0.78rem; color:rgba(255,255,255,0.75); text-decoration:none; }
+    footer.tour a:hover { color:var(--gold-400); }
+    .footer-bottom { border-top:1px solid var(--rule-dark); }
+    .footer-bottom .inner { max-width:var(--container); margin:0 auto; padding:0.9rem 1rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.6rem; font-family:var(--sans); font-size:0.64rem; color:rgba(255,255,255,0.45); }
+    .footer-bottom .parent { color:var(--gold-300); }
+
+    /* shared page atoms referenced by content pages */
+    .pagehead { text-align:center; padding:0.6rem 0 1.2rem; border-bottom:1px solid var(--rule); margin-bottom:1.4rem; }
+    .pagehead h1 { font-size:clamp(1.8rem,4vw,2.6rem); font-weight:900; letter-spacing:0.06em; margin:0; }
+    .ph-sub { font-family:var(--sans); font-size:0.84rem; color:var(--ink-soft); margin-top:0.3rem; }
+    .kicker-line { display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap; }
+    .sans { font-family:var(--sans); }
+    .measure { max-width:var(--measure); margin-inline:auto; }
+    .grade { font-family:var(--sans); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; padding:0.1rem 0.42rem; border:1px solid currentColor; border-radius:2px; white-space:nowrap; }
   </style>
 </head>
 <body>
-  <!-- 1. UTILITY BAR -->
   <div class="utility">
     <div class="inner">
-      <span class="left"><span>{today}</span><span class="slogan">Serious evidence. Sharp questions.</span></div>
-      <div class="right">
-        <span>EN | <a href="#" title="Português em breve">PT-BR</a></span>
-        <a href="/editions/">Search</a>
-        <span class="live-dot">● LIVE</span>
-      </div>
+      <span class="left"><span>{today}</span><span class="slogan">Facts · Ideas · Maybe</span></span>
+      <div class="right"><span>EN | <a href="#" title="Português em breve">PT-BR</a></span><a href="/editions/">Library</a><span class="live-dot">● THE DESK</span></div>
     </div>
   </div>
 
-  <!-- 2. MASTHEAD — centered T.O.U.R. emblem, no Toto Global Desk in masthead -->
   <header class="masthead">
     <div class="masthead-inner">
       <div class="mast-lock">
-        <div class="mast-side"><span>Facts</span>·<span>Ideas</span>·<span>Maybe</span></div>
-        <img class="emblem" src="/media/brand/tour-emblem.png" alt="T.O.U.R. News emblem — Brasil + USA tied anchor bulldog with PRESS mic" />
-        <div class="mast-side right"><span>The Official Unofficial Report</span></div>
+        <div class="mast-side"><b>The Anchor</b>The Official<br/>Unofficial Report</div>
+        <img class="emblem" src="/media/brand/tour-emblem.png" alt="T.O.U.R. News — the bulldog anchor, Brasil + USA" />
+        <div class="mast-side right"><b>Facts</b>· <span>Evidence over noise</span><br/>· <span>No boring news</span></div>
       </div>
-      <div class="brand-sub">
-        <span class="band-plain">Serious evidence. Sharp questions. No boring news.</span>
+      <div class="mast-title">
+        <span class="brand">T.O.U.R. NEWS</span>
       </div>
+      <div class="brand-sub">Reach bulldog on the desk. Serious evidence, sharp questions.</div>
       <div class="rule-brasilusa"><span>🇧🇷 BRASIL</span>★★★★★<span>USA 🇺🇸</span></div>
     </div>
   </header>
 
-  <!-- 3. PRIMARY NAV -->
   <nav class="portal">
     <div class="inner">
-      <a href="/" class={activeNav === 'home' ? 'active' : ''}>Home</a>
-      <a href="/editions/" class={activeNav === 'latest' ? 'active' : ''}>Latest</a>
-      <a href="/topics#us-immigration">Immigration</a>
-      <a href="/topics#united-states">U.S.</a>
-      <a href="/topics#brazil">Brazil</a>
-      <a href="/topics#brazil-public-integrity">Public Integrity</a>
-      <a href="/topics#world">World</a>
-      <a href="/topics#war-security">War &amp; Security</a>
-      <a href="/dossier/banco-master">Investigations</a>
-      <a href="/editions">Daily Desk</a>
-      <a href="/tour-news/">T.O.U.R. News</a>
+      {nav.map(([label, href, key]) => <a href={href} class={activeNav === key ? 'active' : ''}>{label}</a>)}
     </div>
   </nav>
 
-  <main>
-    <slot />
-  </main>
+  <main><slot name="ticker" /><slot /></main>
 
-  <!-- 15. FOOTER -->
   <footer class="tour">
     <div class="footer-grid">
       <div class="f-brand">
         <img src="/media/brand/tour-emblem.png" alt="T.O.U.R. News emblem" />
         <div>
           <div class="name">T<span class="dots">.</span>O<span class="dots">.</span>U<span class="dots">.</span>R<span class="dots">.</span> NEWS</div>
-          <div class="line">Serious evidence. Sharp questions. No boring news.</div>
+          <div class="line">Reach bulldog · The Anchor. Serious evidence, sharp questions.</div>
           <div class="line"><span class="parent">A Toto Global Desk production</span></div>
         </div>
       </div>
-      <div>
-        <h4>Sections</h4>
-        <ul>
-          <li><a href="/topics#us-immigration">US Immigration</a></li>
-          <li><a href="/topics#brazil">Brazil</a></li>
-          <li><a href="/topics#brazil-public-integrity">Public Integrity</a></li>
-          <li><a href="/topics#world">World</a></li>
-          <li><a href="/dossier/banco-master">Investigations</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Products</h4>
-        <ul>
-          <li><a href="/editions">The Daily Desk</a></li>
-          <li><a href="/tour-news/">T.O.U.R. News Show</a></li>
-          <li><a href="/editions">Audio Briefs</a></li>
-          <li><a href="/about">Standards</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>The fine print</h4>
-        <ul>
-          <li><a href="/about">Editorial Standards</a></li>
-          <li><a href="/about">Corrections Policy</a></li>
-          <li><a href="#">Contact the Desk</a></li>
-          <li><a href="#">Privacy</a></li>
-        </ul>
-      </div>
+      <div><h4>Sections</h4><ul>
+        <li><a href="/topics#us-immigration">US Immigration</a></li>
+        <li><a href="/topics#brazil">Brazil</a></li>
+        <li><a href="/topics#brazil-public-integrity">Public Integrity</a></li>
+        <li><a href="/topics#world">World</a></li>
+        <li><a href="/dossier/banco-master">Investigations</a></li>
+      </ul></div>
+      <div><h4>Products</h4><ul>
+        <li><a href="/editions">The Daily Desk</a></li>
+        <li><a href="/editions">Audio Briefs</a></li>
+        <li><a href="/tour-news/">T.O.U.R. News Show</a></li>
+        <li><a href="/about">Standards</a></li>
+      </ul></div>
+      <div><h4>The fine print</h4><ul>
+        <li><a href="/about">Editorial Standards</a></li>
+        <li><a href="/about">Corrections Policy</a></li>
+        <li><a href="#">Contact the Desk</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul></div>
     </div>
-    <div class="footer-bottom">
-      <div class="inner">
-        <span>© 2026 Toto Global Desk · T.O.U.R. News · The Official Unofficial Report</span>
-        <span class="socials">
-          <a href="#" aria-label="Telegram">✈</a>
-          <a href="#" aria-label="X">𝕏</a>
-          <a href="#" aria-label="YouTube">▶</a>
-          <a href="#" aria-label="RSS">◉</a>
-        </span>
-      </div>
-    </div>
+    <div class="footer-bottom"><div class="inner">
+      <span>© 2026 Toto Global Desk · T.O.U.R. News · The Official Unofficial Report</span>
+      <span>🇧🇷 BRASIL + USA 🇺🇸</span>
+    </div></div>
   </footer>
 </body>
 </html>

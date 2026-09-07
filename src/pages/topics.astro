@@ -1,6 +1,6 @@
 ---
 // Topics — desk cards with counts on Base layout
-import Base from '../layouts/Base.astro';
+import TourBase from '../layouts/TourBase.astro';
 import dossier from '../data/dossier-banco-master.json';
 const desks = [
   { slug: 'us-immigration', name: 'US Immigration', accent: '#b91c1c', blurb: 'ICE, USCIS, DHS, DOJ, EOIR and the federal courts — policy and enforcement, tracked daily.' },
@@ -18,12 +18,12 @@ const deskStories: Record<string, any[]> = {
   }],
 };
 ---
-<Base title="Topics & Desks | TOTO GLOBAL DESK">
+<TourBase title="Topics &amp; Desks | TOTO GLOBAL DESK">
   <style>
     .desksec { margin: 1.8rem 0 2.2rem; }
     .deskhead { display:flex; align-items:baseline; gap:.6rem; border-bottom:3px solid var(--desk-accent); padding-bottom:.35rem; margin-bottom:.7rem; }
     .deskhead .dot { width:.6rem; height:.6rem; background:var(--desk-accent); border-radius:50%; align-self:center; }
-    .deskhead h2 { font-family:var(--sans); font-size:.95rem; font-weight:800; text-transform:uppercase; letter-spacing:.12em; }
+    .deskhead h2 { font-family:var(--sans); font-size:.95rem; font-weight:800; text-transform:uppercase; letter-spacing:.12em; margin:0; }
     .deskhead .blurb { font-size:.8rem; color:var(--ink-soft); font-style:italic; margin-left:auto; text-align:right; }
     .story { padding:.75rem 0; border-bottom:1px dotted var(--rule); }
     .story h3 { font-size:1.15rem; margin:.35rem 0; } .story h3 a { text-decoration:none; } .story h3 a:hover { color:var(--accent); }
@@ -32,7 +32,7 @@ const deskStories: Record<string, any[]> = {
     .meta a { color:var(--accent); text-decoration:none; font-weight:700; }
     .empty { font-size:.9rem; color:var(--ink-soft); font-style:italic; padding:.55rem 0; border-bottom:1px dotted var(--rule); }
   </style>
-  <div class="section-h">Topics &amp; desks <span class="sub">per Marc's watchlist · extendable any time</span></div>
+  <div class="pagehead"><h1>Topics &amp; Desks</h1><p class="ph-sub">Per Marc's watchlist · extendable any time</p></div>
   {desks.map((d) => (
     <section class="desksec" id={d.slug}>
       <div class="deskhead" style={`--desk-accent:${d.accent}`}>
@@ -50,4 +50,4 @@ const deskStories: Record<string, any[]> = {
       {!(deskStories[d.slug] || []).length && <div class="empty">No stories on this desk yet — monitoring active. Coverage begins with the first edition cycle.</div>}
     </section>
   ))}
-</Base>
+</TourBase>
