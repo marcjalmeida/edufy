@@ -95,7 +95,14 @@ const stats = [
       <h2 class="sec">Primary documents <span>{dossier.primary_sources.length} on file</span></h2>
       <ul class="docs">
         {dossier.primary_sources.map((s) => (
-          <li>📄 <strong>{s.title}</strong> — {s.issuer}, {s.date} <span class="src">({s.url_or_path})</span></li>
+          <li style="margin-top:.3rem">
+            📄 <strong>{s.title}</strong> — {s.issuer}, {s.date}<br/>
+            {(s.public_url || s.url_or_path || '').startsWith('http') ? (
+              <a class="src" href={s.public_url || s.url_or_path} target="_blank" rel="noopener">Ver documento público (online) →</a>
+            ) : (
+              <span class="src">Documento primário no arquivo local</span>
+            )}
+          </li>
         ))}
       </ul>
 

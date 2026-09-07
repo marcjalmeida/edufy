@@ -14,7 +14,27 @@ const deskStories: Record<string, any[]> = {
   'brazil-public-integrity': [{
     id: dossier.id, title: dossier.title, href: '/dossier/banco-master', storyHref: '/story/banco-master',
     facts: dossier.known_facts.length, events: dossier.timeline.length, docs: dossier.primary_sources.length,
-    updated: dossier.last_updated.slice(0, 10),
+    updated: dossier.last_updated.slice(0, 10), chip: 'Active dossier', chipColor: '#7c2d12',
+  }],
+  'brazil': [{
+    title: 'Crise do STF: suspensões recíprocas entre ministros', href: '/story/banco-master', storyHref: '/story/banco-master',
+    facts: '7', events: '8', docs: '4', updated: '2026-09-07', chip: 'Active', chipColor: '#166534',
+  }],
+  'united-states': [{
+    title: 'Watchlist: four flashpoints entering a volatile month', href: '/topics#united-states', storyHref: '/topics#united-states',
+    facts: '—', events: '4', docs: '0', updated: '2026-09-06', chip: 'Monitoring', chipColor: '#1e3a8a',
+  }],
+  'world': [{
+    title: 'Diplomacy desk: trade, security and international flashpoints', href: '/topics#world', storyHref: '/topics#world',
+    facts: '—', events: '3', docs: '0', updated: '2026-09-06', chip: 'Monitoring', chipColor: '#374151',
+  }],
+  'war-security': [{
+    title: 'Sanctions and conflict log — confirmed developments only', href: '/topics#war-security', storyHref: '/topics#war-security',
+    facts: '—', events: '2', docs: '0', updated: '2026-09-06', chip: 'Monitoring', chipColor: '#57534e',
+  }],
+  'us-immigration': [{
+    title: 'Worksite raid playbook, annotated — every step public record', href: '/topics#us-immigration', storyHref: '/topics#us-immigration',
+    facts: '—', events: '5', docs: '0', updated: '2026-09-06', chip: 'Monitoring', chipColor: '#b91c1c',
   }],
 };
 ---
@@ -42,9 +62,9 @@ const deskStories: Record<string, any[]> = {
       {(deskStories[d.slug] || []).map((s) => (
         <div class="story">
           <span class="chip" style={`color:${d.accent}`}>{d.name}</span>
-          <span class="chip" style="color:#92400e;background:#fef3c740">Active dossier</span>
+          <span class="chip" style={`color:${s.chipColor || d.accent}`}>{s.chip || 'Monitoring'}</span>
           <h3><a href={s.storyHref}>{s.title}</a></h3>
-          <p class="meta">{s.facts} graded facts · {s.events} timeline events · {s.docs} primary documents · updated {s.updated} · <a href={s.href}>full dossier →</a></p>
+          <p class="meta">{s.facts} facts · {s.events} events · {s.docs} documents · updated {s.updated} · <a href={s.href}>open →</a></p>
         </div>
       ))}
       {!(deskStories[d.slug] || []).length && <div class="empty">No stories on this desk yet — monitoring active. Coverage begins with the first edition cycle.</div>}

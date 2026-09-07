@@ -282,31 +282,54 @@
       "title": "PF IPJ-A 3298613/2026 forensic report (218pp)",
       "issuer": "Polícia Federal",
       "date": "2026-08-27",
-      "url_or_path": "~/caso_master_docs/pf_relatorio_218p.pdf"
+      "url_or_path": "https://static.poder360.com.br/uploads/2026/09/pet16662_relatorio_pf_celular_vorcaro_moraes_gonet_andrei_barci.pdf",
+      "public_url": "https://static.poder360.com.br/uploads/2026/09/pet16662_relatorio_pf_celular_vorcaro_moraes_gonet_andrei_barci.pdf",
+      "local": "/documents/pf-report-218p.pdf"
     },
     {
-      "title": "Contrato Barci de Moraes ↔ Banco Master S.A.",
+      "title": "Contrato Barci de Moraes ↔ Banco Master S.A. (R$108M líquidos / R$131.3M brutos, jan 2024)",
       "issuer": "Public case file (PET 16662)",
       "date": "2024",
-      "url_or_path": "~/caso_master_docs/contrato_barci_master.pdf"
+      "url_or_path": "https://static.poder360.com.br/uploads/2026/09/pet16662-contrato-barci-moraes-banco-master-108milhoes-sigiloderrubado-1set2026.pdf",
+      "public_url": "https://static.poder360.com.br/uploads/2026/09/pet16662-contrato-barci-moraes-banco-master-108milhoes-sigiloderrubado-1set2026.pdf",
+      "local": "/documents/contrato-barci-banco-master-108M.pdf"
+    },
+    {
+      "title": "Termo de acordo e dação em pagamento Viking ↔ Barci de Moraes (R$50M; avião + helicóptero)",
+      "issuer": "Public case file (PET 16662)",
+      "date": "2025-05-19",
+      "url_or_path": "https://static.poder360.com.br/uploads/2026/09/pet16662-acordo-dacao-viking-barci-aviao-helicoptero-50milhoes-sigiloderrubado.pdf",
+      "public_url": "https://static.poder360.com.br/uploads/2026/09/pet16662-acordo-dacao-viking-barci-aviao-helicoptero-50milhoes-sigiloderrubado.pdf",
+      "local": "/documents/acordo-dacao-viking-50M.pdf"
+    },
+    {
+      "title": "Despacho Mendonça que derruba o sigilo e leva o caso ao plenario (1 set 2026)",
+      "issuer": "STF / André Mendonça (PET 16662)",
+      "date": "2026-09-01",
+      "url_or_path": "https://static.poder360.com.br/uploads/2026/09/pet16662-despacho-mendonca-derruba-sigilo-e-leva-caso-plenario-sigiloderrubado-1set2026.pdf",
+      "public_url": "https://static.poder360.com.br/uploads/2026/09/pet16662-despacho-mendonca-derruba-sigilo-e-leva-caso-plenario-sigiloderrubado-1set2026.pdf",
+      "local": "/documents/despacho-mendonca-sigilo.pdf"
     },
     {
       "title": "Fachin despacho PET 16704 (auth 0CB6-92DB-256B-89FB)",
       "issuer": "STF Presidência",
       "date": "2026-09-03",
-      "url_or_path": "~/caso_master_docs/fachin_despacho_pet16704_3set2026.pdf"
+      "url_or_path": "~/caso_master_docs/fachin_despacho_pet16704_3set2026.pdf",
+      "local": "/documents/fachin-order.pdf"
     },
     {
       "title": "Fachin comunicado",
       "issuer": "STF Presidência",
       "date": "2026-09-04",
-      "url_or_path": "~/caso_master_docs/fachin_comunicado_4set2026.pdf"
+      "url_or_path": "~/caso_master_docs/fachin_comunicado_4set2026.pdf",
+      "local": "/documents/fachin-order.pdf"
     },
     {
       "title": "PGR/ASSCRIM manifestação (Pet 16662)",
       "issuer": "Procuradoria-Geral da República",
       "date": "2026-09",
-      "url_or_path": "~/caso_master_docs/pgr_manifestacao_gonet.pdf"
+      "url_or_path": "~/caso_master_docs/pgr_manifestacao_gonet.pdf",
+      "local": "/documents/pgr-brief.pdf"
     }
   ],
   "independent_sources": [
