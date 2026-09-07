@@ -13,6 +13,128 @@
   },
   "editions": [
     {
+      "id": "2026-09-07-morning",
+      "type": "morning",
+      "date": "2026-09-07",
+      "publishTime": "06:00",
+      "publishedAt": "2026-09-07T06:00:00-05:00",
+      "updatedAt": "2026-09-07T06:00:00-05:00",
+      "status": "PUBLISHED",
+      "cover": "/media/hero-banco-master.jpg",
+      "coverAlt": "Editorial composite: Brasília map, evidence pin, PF report and Banco Master contract",
+      "leadHeadline": "Mendonça asks the full court to suspend Moraes over the Banco Master probe",
+      "secondaryHeadlines": [
+        "PF report flags five possible crimes by Mendonça",
+        "Probe touches Primeiro Comando Capital ties"
+      ],
+      "editorsBrief": "Morning edition — the STF crisis escalates onto a mutual-suspension track. Mendonça asks the full court to suspend Moraes while the plenary weighs a corruption inquiry tied to the Banco Master case; the Federal Police report flags up to five possible crimes by Mendonça as rapporteur; the probe now touches Primeiro Comando Capital; and a Sept 7 desagravo rally is expected with the Bolsonaro brothers.",
+      "storyCount": 4,
+      "readingMin": 5,
+      "audio": "1:30",
+      "documentCount": 5,
+      "leadStory": {
+        "headline": "Mendonça asks the full court to suspend Moraes — a mutual-suspension spiral and what the plenary can decide",
+        "deck": "The Federal Police report that names up to five possible crimes by Mendonça, the suspend-Moraes request now on Fachin's desk, and a candidate bench weighed down by Banco Master's PCC ties. What the plenary session is about to sit through.",
+        "href": "/story/banco-master",
+        "desk": "brazil-public-integrity",
+        "readingMin": 5
+      },
+      "stories": [
+        {
+          "headline": "Mendonça asks the full court to suspend Moraes",
+          "grade": "B",
+          "label": "CORROBORATED",
+          "desk": "brazil-public-integrity",
+          "text": "Mendonça asked the full court to suspend colleague Moraes while the plenary decides whether to open a corruption inquiry tied to the Banco Master case — on the same evidence (PF messages, R$131M contract) already headed to plenary analysis.",
+          "source": "Valor Econômico · Total News · 7 Sep"
+        },
+        {
+          "headline": "PF report flags five possible crimes by Mendonça",
+          "grade": "A",
+          "label": "PRIMARY DOCUMENT",
+          "desk": "brazil-public-integrity",
+          "text": "The Federal Police report mentions up to five possible crimes by Mendonça as Master rapporteur, including steering the plea deal toward chosen targets and handling police procedures ex officio.",
+          "source": "Federal Police report · Sep 2026"
+        },
+        {
+          "headline": "Probe touches Primeiro Comando Capital ties",
+          "grade": "B",
+          "label": "CORROBORATED",
+          "desk": "brazil",
+          "text": "The Banco Master investigation widens to suspected ties with the Primeiro Comando Capital, Brazil's largest organized-crime group (a US-designated terrorist org), broadening the stakes beyond the Court.",
+          "source": "Total News · KIRO7 · Sep 2026"
+        },
+        {
+          "headline": "Sept 7 becomes a stage",
+          "grade": "C",
+          "label": "SCHEDULED / REPORT",
+          "desk": "brazil",
+          "text": "A Sept 7 rally is set as a show of support ('desagravo') for Mendonça, with the Bolsonaro brothers expected — running the street and the bench on parallel clocks a month before October elections.",
+          "source": "Valor Econômico · 6–7 Sep"
+        }
+      ],
+      "whatChanged": [
+        {
+          "time": "06:00",
+          "kind": "NEW DEVELOPMENT",
+          "label": "CORROBORATED",
+          "text": "Mendonça asks the full court to suspend Moraes over the Banco Master probe"
+        },
+        {
+          "time": "05:30",
+          "kind": "DOCUMENT",
+          "label": "PRIMARY",
+          "text": "Federal Police report flags up to five possible crimes by Mendonça as rapporteur"
+        },
+        {
+          "time": "05:00",
+          "kind": "EVENT",
+          "label": "SCHEDULED",
+          "text": "Sept 7 desagravo rally for Mendonça expected with the Bolsonaro brothers"
+        }
+      ],
+      "desks": {
+        "brazil": [
+          {
+            "headline": "Probe touches Primeiro Comando Capital ties",
+            "grade": "B",
+            "label": "CORROBORATED"
+          },
+          {
+            "headline": "Sept 7 becomes a stage",
+            "grade": "C",
+            "label": "SCHEDULED / REPORT"
+          }
+        ],
+        "brazil-public-integrity": [
+          {
+            "headline": "Mendonça asks the full court to suspend Moraes",
+            "grade": "B",
+            "label": "CORROBORATED"
+          },
+          {
+            "headline": "PF report flags five possible crimes by Mendonça",
+            "grade": "A",
+            "label": "PRIMARY DOCUMENT"
+          }
+        ]
+      },
+      "documentsAdded": [],
+      "watchingNext": [
+        "Fachin sets a plenary date — public or closed deliberation",
+        "Plenary verdict on the suspend-Moraes request",
+        "PGR opinion on the five-day clock (due this week)",
+        "Sept 7 rally figures the crisis onto the campaign trail one month out"
+      ],
+      "sources": [
+        "Valor Econômico — STF crisis coverage, 6–7 Sep 2026",
+        "Federal Police report on Mendonça conduct (Master case), Sep 2026",
+        "Total News / KIRO7 — Banco Master–PCC widening & 'civil war' framing, Sep 2026",
+        "PGR manifestação (Pet 16662) — Procuroria-Geral, Sep 2026"
+      ],
+      "breakingSincePrevious": []
+    },
+    {
       "id": "2026-09-06-evening",
       "type": "evening",
       "date": "2026-09-06",

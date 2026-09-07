@@ -2,36 +2,36 @@
   "_meta": {
     "note": "Rendered latest edition feed — update via toto-edition-pipeline"
   },
-  "id": "2026-09-06-evening",
-  "type": "evening",
-  "published": "2026-09-06T19:00:00-05:00",
+  "id": "2026-09-07-morning",
+  "type": "morning",
+  "published": "2026-09-07T06:00:00-05:00",
   "status": "PUBLISHED",
   "top_story": {
-    "headline": "Mendonça sends the Moraes file to the full court",
+    "headline": "Mendonça asks the full court to suspend Moraes over the Banco Master probe",
     "desk": "brazil-public-integrity",
     "href": "/story/banco-master"
   },
   "items": [
     {
       "desk": "brazil-public-integrity",
-      "text": "Mendonça tonight released the PF forensic report to a full-court session — the case is now formally headed to the plenary; only Fachin sets the date, and he could choose a closed chamber.",
-      "grade": "B"
-    },
-    {
-      "desk": "brazil",
-      "text": "Fachin signals a firm plenary response and defends winding down the fake-news inquiry — the same inquiry Moraes used to target Mendonça.",
+      "text": "Mendonça asked the full court to suspend colleague Moraes while the plenary decides whether to open a corruption inquiry tied to the Banco Master case.",
       "grade": "B"
     },
     {
       "desk": "brazil-public-integrity",
-      "text": "PGR's Gonet has already argued in writing the PF report is null; his formal opinion under the five-day clock is due this week.",
+      "text": "The Federal Police report flags up to five possible crimes by Mendonça as Master rapporteur, including steering the plea deal toward chosen targets.",
       "grade": "A"
     },
     {
       "desk": "brazil",
-      "text": "Flávio Bolsonaro's Sept 7 event is planned as a show of support ('desagravo') for Mendonça.",
+      "text": "The probe now also touches suspected ties to the Primeiro Comando Capital, Brazil's largest organized-crime group.",
+      "grade": "B"
+    },
+    {
+      "desk": "brazil",
+      "text": "A Sept 7 rally is set as a show of support ('desagravo') for Mendonça, with the Bolsonaro brothers expected.",
       "grade": "C"
     }
   ],
-  "editors_note": "First live edition. Mendonça handed the full court the PF report; the plenary path is set and the fake-news inquiry itself is on the table."
+  "editors_note": "The STF crisis escalates: mutual suspensions on the table, a PF report listing five crimes, and a political rally on Sept 7."
 }
