@@ -1,0 +1,129 @@
+---
+// /tour-news/ — the show page: T.O.U.R. News as a branded product
+import TourBase from '../layouts/TourBase.astro';
+import EvidenceLabel from '../components/EvidenceLabel.astro';
+import editionsIndex from '../data/editions-index.json';
+const current = editionsIndex.editions[0];
+const segments = [
+  { icon: '🎬', name: 'The Opening Statement', desc: 'The one thing that matters today, in 90 seconds of evidence.', status: 'IN PRODUCTION' },
+  { icon: '🗺', name: 'Map Room', desc: 'Where the story is happening — borders, courts, conflict zones, drawn.', status: 'IN PRODUCTION' },
+  { icon: '📨', name: 'The Receipts', desc: 'Documents on camera: what the paper actually says, line by line.', status: 'LIVE — SEE DOSSIER' },
+  { icon: '🎤', name: 'The Counter-Brief', desc: 'Both sides get the strongest version of their argument. Then we grade it.', status: 'IN PRODUCTION' },
+];
+const episodes = [
+  { n: 'EP 001', title: 'The Banker, The Justice, and 52 Messages', dur: '9:12', date: 'Sep 6, 2026', href: '/story/banco-master', desc: 'The launch investigation: what the PF report proves, what it suggests, and why both accusations may fail.' },
+];
+---
+<TourBase title="T.O.U.R. NEWS — The Official Unofficial Report | TOTO GLOBAL DESK" desc="The show where the evidence does the talking. Watch, listen, and read the receipts.">
+  <!-- SHOW MASTHEAD -->
+  <section class="showhead">
+    <div class="sh-inner">
+      <img class="sh-frenchie" src="/media/brand/tour-emblem.png" alt="T.O.U.R. News emblem — Brasil + USA tied anchor bulldog with PRESS mic" />
+      <div>
+        <span class="sh-kicker">A production of Toto Global Desk</span>
+        <h1>T<span style="color:var(--gold)">.</span>O<span style="color:var(--gold)">.</span>U<span style="color:var(--gold)">.</span>R<span style="color:var(--gold)">.</span> NEWS</h1>
+        <p class="sh-meaning">The Official Unofficial Report</p>
+        <p class="sh-line">Smart. Ironic. Skeptical. Broadcast-ready. The show where the evidence does the talking — and the bulldog does the interrupting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EPISODES -->
+  <div class="section-h">Episodes <span class="sub">every edition becomes an episode</span></div>
+  <section class="ep-list">
+    {episodes.map((ep) => (
+      <article class="ep">
+        <div class="ep-cover">
+          <span class="ep-n">{ep.n}</span>
+          <img src="/media/hero-banco-master-1200x630.jpg" alt="" loading="lazy" />
+          <span class="ep-play">▶</span>
+        </div>
+        <div class="ep-body">
+          <span class="stamp">{ep.date} · {ep.dur}</span>
+          <h3>{ep.title}</h3>
+          <p>{ep.desc}</p>
+          <div class="ep-links">
+            <a class="btn solid" href={ep.href}>READ THE STORY</a>
+            <a class="btn line" href="/dossier/banco-master">THE RECEIPTS</a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <!-- SEGMENTS -->
+  <div class="section-h">Segments <span class="sub">the recurring formats</span></div>
+  <section class="seg-grid">
+    {segments.map((s) => (
+      <div class="seg">
+        <span class="seg-icon">{s.icon}</span>
+        <b>{s.name}</b>
+        <p>{s.desc}</p>
+        <span class="seg-status">{s.status}</span>
+      </div>
+    ))}
+  </section>
+
+  <!-- LATEST EDITION CROSSOVER -->
+  <div class="section-h">Latest from the desk <span class="sub">the current edition, show treatment</span></div>
+  <section class="xover">
+    <div class="xover-main">
+      <span class="chip" style="color:var(--gold)">EVENING EDITION · {current.publishTime} CT</span>
+      <h3>{current.leadHeadline}</h3>
+      <p>{current.editorsBrief.slice(0, 220)}…</p>
+      <a class="btn solid" href="/story/banco-master">READ</a>
+      <a class="btn line" href="/editions/">ALL EDITIONS</a>
+    </div>
+    <div class="xover-side">
+      <span class="ip-head">THE RECEIPTS</span>
+      {current.documentsAdded.map((doc) => (
+        <a class="xdoc" href={`/documents/${doc.slug}.pdf`} target="_blank" rel="noopener">
+          <img src={`/media/thumbs/${doc.slug}.png`} alt={doc.title} loading="lazy" />
+          <span>{doc.title} →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</TourBase>
+
+<style>
+  .showhead { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 70%); color: var(--paper); border: 1px solid var(--navy-3); position: relative; overflow: hidden; margin-bottom: 1rem; }
+  .showhead::before { content:''; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 90% at 90% 10%, rgba(212,160,23,0.12), transparent); }
+  .sh-inner { position: relative; display: flex; gap: 1.6rem; align-items: center; padding: 2rem 1.6rem; flex-wrap: wrap; }
+  .sh-frenchie { width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--gold); box-shadow: 0 6px 30px rgba(0,0,0,0.6); }
+  .sh-kicker { font-family: var(--sans); font-size: 0.64rem; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold-soft); }
+  .showhead h1 { font-family: var(--sans); font-size: clamp(2rem, 5.5vw, 3.4rem); font-weight: 900; line-height: 1; margin: 0.3rem 0; }
+  .sh-meaning { font-family: var(--sans); font-size: 0.84rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
+  .sh-line { font-size: 0.98rem; font-style: italic; color: rgba(255,255,255,0.8); margin-top: 0.6rem; max-width: 520px; }
+
+  .ep-list { display: flex; flex-direction: column; gap: 1.1rem; }
+  .ep { display: grid; border: 1px solid var(--rule); background: var(--paper); }
+  @media (min-width: 780px) { .ep { grid-template-columns: 1fr 1.4fr; } }
+  .ep-cover { position: relative; }
+  .ep-cover img { width: 100%; height: 100%; min-height: 220px; object-fit: cover; display: block; opacity: 0.92; }
+  .ep-n { position: absolute; top: 0.6rem; left: 0.6rem; font-family: var(--sans); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em; background: var(--ink); color: var(--paper); padding: 0.2rem 0.55rem; }
+  .ep-play { position: absolute; bottom: 0.7rem; right: 0.7rem; width: 2.8rem; height: 2.8rem; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1rem; border-radius: 50%; }
+  .ep-body { padding: 1.1rem 1.3rem; }
+  .ep-body h3 { font-size: 1.3rem; margin: 0.35rem 0 0.45rem; }
+  .ep-body p { font-size: 0.92rem; color: var(--ink-soft); }
+  .ep-links { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
+
+  .seg-grid { display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .seg { border: 1px solid var(--rule); border-top: 3px solid var(--gold); background: var(--paper); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.3rem; }
+  .seg-icon { font-size: 1.5rem; }
+  .seg b { font-family: var(--sans); font-size: 0.88rem; }
+  .seg p { font-size: 0.82rem; color: var(--ink-soft); }
+  .seg-status { font-family: var(--sans); font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-top: auto; padding-top: 0.4rem; }
+
+  .xover { display: grid; border: 1px solid var(--navy-3); background: var(--navy); color: var(--paper); }
+  @media (min-width: 820px) { .xover { grid-template-columns: 1.5fr 1fr; } }
+  .xover-main { padding: 1.4rem 1.5rem; }
+  .xover-main h3 { font-size: 1.4rem; margin: 0.5rem 0 0.5rem; }
+  .xover-main p { color: rgba(250,250,246,0.8); font-size: 0.92rem; margin-bottom: 0.9rem; }
+  .xover-side { padding: 1.4rem 1.3rem; border-left: 1px solid var(--rule-dark); display: flex; flex-direction: column; gap: 0.8rem; }
+  .ip-head { font-family: var(--sans); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold-soft); }
+  .xdoc { display: flex; gap: 0.6rem; align-items: center; text-decoration: none; color: rgba(250,250,246,0.85); border-bottom: 1px dotted var(--rule-dark); padding-bottom: 0.5rem; }
+  .xdoc img { width: 74px; height: 52px; object-fit: cover; object-position: top; }
+  .xdoc span { font-family: var(--sans); font-size: 0.74rem; }
+  .xdoc:hover span { color: var(--gold-soft); }
+</style>
