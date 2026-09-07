@@ -1,13 +1,44 @@
-/* T.O.U.R. NEWS — Design Token Reference (Phase B) */
-:root{
-  --ink:#16130e;--paper:#fbfaf6;--paper-2:#f3f1e9;--rule:#d8d4c6;
-  --rule-soft:#e7e4d8;--accent:#8b0000;--accent-2:#0f4c81;--gold:#a16207;
-  --ink-soft:#3d382f;--serif:Georgia,"Iowan Old Style","Times New Roman",serif;
-  --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
-  --measure:68ch;--space-xs:.25rem;--space-sm:.5rem;--space-md:1rem;
-  --space-lg:2rem;--space-xl:3rem;--bp-mobile:360px;--bp-tablet:768px;
-  --bp-desktop:1024px;--bp-wide:1440px;
+/* T.O.U.R. NEWS — Professional Newsroom Design System (Redesign A) */
+:root {
+  /* Brand — preserved bulldog + T.O.U.R. */
+  --ink: #16130e; --paper: #fbfaf6; --paper-2: #f3f1e9;
+  --rule: #d8d4c6; --rule-soft: #e7e4d8;
+  --accent: #8b0000; --accent-2: #0f4c81; --gold: #a16207;
+  --ink-soft: #3d382f; --ink-faint: #6e6558;
+  /* Typography */
+  --font-serif: Georgia,"Iowan Old Style","Times New Roman",serif;
+  --font-sans: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --measure: 68ch; --measure-wide: 78ch;
+  /* Scale (8pt base) */
+  --s-xs: 0.25rem; --s-sm: 0.5rem; --s-md: 1rem; --s-lg: 2rem; --s-xl: 3rem; --s-2xl: 4rem;
+  /* Breakpoints */
+  --bp-mobile: 360px; --bp-tablet: 768px; --bp-laptop: 1024px; --bp-wide: 1440px;
+  /* Spacing system */
+  --container: 1100px; --container-wide: 1280px;
+  /* Card system */
+  --card-radius: 2px; --card-border: 1px solid var(--rule); --card-shadow: 0 1px 0 var(--ink);
+  /* Edition stamps */
+  --morning: #b45309; --midday: #1e40af; --evening: #4c1d95;
+  /* Evidence / fact-check */
+  --fact: #166534; --allegation: #92400e; --analysis: #1e40af; --opinion: #6b7280; --unverified: #991b1b;
 }
-[data-type=morning]{border-color:#b45309;}
-[data-type=midday]{border-color:#1e40af;}
-[data-type=evening]{border-color:#4c1d95;}
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #e8e4d8; --paper: #14120e; --paper-2: #1c1913; --rule: #33301f; --ink-soft: #b5afa0; }
+}
+/* Consistency fixes — same on every route */
+.ecard, .desk-card, .investigation-card {
+  border: 1px solid var(--rule); border-radius: var(--card-radius);
+  background: var(--paper); box-shadow: var(--card-shadow);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.ecard:hover, .desk-card:hover { border-color: var(--ink-soft); box-shadow: 0 2px 0 var(--ink); }
+/* Typography hierarchy */
+.h1 { font-family: var(--font-serif); font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.08; letter-spacing: -0.02em; }
+.h2 { font-family: var(--font-serif); font-size: clamp(1.6rem, 3.5vw, 2.2rem); line-height: 1.15; letter-spacing: -0.01em; }
+.h3 { font-family: var(--font-sans); font-size: 1.05rem; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
+.meta { font-family: var(--font-sans); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+/* Breaking strip */
+.breaking-strip { background: var(--ink); color: var(--paper); font-family: var(--font-sans); font-size: 0.78rem; letter-spacing: 0.06em; }
+/* Utilities */
+.container { max-width: var(--container); margin-inline: auto; padding-inline: var(--s-md); }
+@media (min-width: 1024px) { .container { padding-inline: var(--s-lg); } }
