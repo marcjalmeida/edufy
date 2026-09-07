@@ -1,32 +1,37 @@
 {
   "_meta": {
-    "note": "Rendered by portal/src/pages/editions.astro — update via toto-edition-pipeline"
+    "note": "Rendered latest edition feed — update via toto-edition-pipeline"
   },
   "id": "2026-09-06-evening",
   "type": "evening",
-  "published": "2026-09-06T23:17:03.404388Z",
-  "status": "LAUNCH SAMPLE",
+  "published": "2026-09-06T19:00:00-05:00",
+  "status": "PUBLISHED",
   "top_story": {
-    "headline": "The banker, the justice, and 52 messages",
+    "headline": "Mendonça sends the Moraes file to the full court",
     "desk": "brazil-public-integrity",
     "href": "/story/banco-master"
   },
   "items": [
     {
       "desk": "brazil-public-integrity",
-      "text": "STF plenary on the Moraes/Mendonça case postponed to late September; PGR opinions due on the 5-day clock",
+      "text": "Mendonça tonight released the PF forensic report to a full-court session — the case is now formally headed to the plenary; only Fachin sets the date, and he could choose a closed chamber.",
+      "grade": "B"
+    },
+    {
+      "desk": "brazil",
+      "text": "Fachin signals a firm plenary response and defends winding down the fake-news inquiry — the same inquiry Moraes used to target Mendonça.",
       "grade": "B"
     },
     {
       "desk": "brazil-public-integrity",
-      "text": "PF report documents R$3M/month + specific payments — the R$131M figure remains press aggregation, not in the file",
+      "text": "PGR's Gonet has already argued in writing the PF report is null; his formal opinion under the five-day clock is due this week.",
       "grade": "A"
     },
     {
-      "desk": "world",
-      "text": "No material overnight developments on watchlist conflicts — monitoring continues",
-      "grade": "N/A"
+      "desk": "brazil",
+      "text": "Flávio Bolsonaro's Sept 7 event is planned as a show of support ('desagravo') for Mendonça.",
+      "grade": "C"
     }
   ],
-  "editors_note": "Launch sample edition. Regular editions begin with the Phase 4 publishing crons."
+  "editors_note": "First live edition. Mendonça handed the full court the PF report; the plenary path is set and the fake-news inquiry itself is on the table."
 }

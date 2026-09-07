@@ -15,63 +15,57 @@
       "status": "PUBLISHED",
       "cover": "/media/hero-banco-master.jpg",
       "coverAlt": "Editorial composite: Brasília map, evidence pin, PF report and Banco Master contract",
-      "leadHeadline": "The banker, the justice, and 52 messages",
+      "leadHeadline": "Mendonça sends the Moraes file to the full court",
       "secondaryHeadlines": [
-        "Fachin postpones plenary — the STF buys itself a week",
-        "The R$131M figure that isn't in the report"
+        "Fachin may retire the fake-news inquiry",
+        "The PGR opinion that could undo the whole file"
       ],
-      "editorsBrief": "Today the Banco Master case stopped moving fast and started moving seriously. The plenary slipped to late September, but the five-day clocks keep running: the PGR owes two opinions, the plenary owes a decision on whether Moraes himself faces an inquiry, and the dossier gained its most important correction — the R$131M figure everyone repeated is not in the police report.",
-      "storyCount": 8,
-      "readingMin": 9,
+      "editorsBrief": "Tonight the case stopped being postponed and started being decided. Mendonça handed the Supreme Court's full bench the PF report the whole country was waiting to see — and reopened a deeper question: whether the court will wind down the very inquiry Moraes used against him. The PGR opinion still ticking, and a September 7 stage, round out the night.",
+      "storyCount": 4,
+      "readingMin": 5,
       "audio": null,
       "documentCount": 5,
       "leadStory": {
-        "headline": "The banker, the justice, and 52 messages: inside the case testing Brazil's Supreme Court",
-        "deck": "A 218-page police forensic report, a family law firm's contract, and a fight over who broke the rules first — what the Banco Master file actually proves, and what it doesn't.",
+        "headline": "Mendonça sends the Moraes file to the full court — who decides the plenary, and can the bench survive it?",
+        "deck": "A 218-page police report, a bench turning on itself, and a chief justice weighing whether the inquiry Moraes used should even survive. What the full court is about to sit through — and what the PGR opinion could stop.",
         "href": "/story/banco-master",
         "desk": "brazil-public-integrity",
-        "readingMin": 6
+        "readingMin": 5
       },
       "stories": [
-        {"headline": "Fachin postpones plenary — the STF buys itself a week", "grade": "B", "label": "CONFIRMED", "desk": "brazil", "text": "The public session on the PF report moves to the second half of September, but the five-day manifestation clocks keep running for Moraes, Mendonça, the PGR and the PF director-general.", "source": "Poder360 · Al Jazeera"},
-        {"headline": "The R$131M figure that isn't in the report", "grade": "A", "label": "PRIMARY DOCUMENT", "desk": "brazil-public-integrity", "text": "The 218-page PF analysis documents R$3M/month, R$3,422,268.14, R$22,815,120.95 and an aircraft donation. The R$131M total repeated in Congress exists only as press aggregation.", "source": "PF IPJ-A 3298613/2026"},
-        {"headline": "Denial watch: what Moraes's March note did — and didn't — say", "grade": "B", "label": "CORROBORATED", "desk": "brazil", "text": "The 6 March denial addressed the CPMI-INSS dataset, not this extraction. His office has not repeated it since unsealing. Both 'he lied' and 'the denial stands' outrun the record.", "source": "Official STF note · press record"},
-        {"headline": "PGR manifestação lands on the case file", "grade": "A", "label": "PRIMARY DOCUMENT", "desk": "brazil-public-integrity", "text": "The Attorney-General's office filed its position on Pet 16662 — the document is public and in our evidence library.", "source": "PGR/ASSCRIM 1428987/2026"},
-        {"headline": "No material overnight developments on watchlist conflicts", "grade": null, "label": "MONITORING", "desk": "world", "text": "World and security desks monitored through the cycle; no confirmed developments crossed the breaking threshold.", "source": "Desk monitoring"}
+        {"headline": "Mendonça sends the Moraes file to the full court", "grade": "B", "label": "CORROBORATED", "desk": "brazil-public-integrity", "text": "Justice Mendonça tonight released the PF forensic report to a plenary session — the same report with 52 one-way WhatsApp messages to a contact saved as 'Alexandre de Moraes BRASÍLIA'. Only Fachin can set the date, and he could still choose a closed deliberation.", "source": "Valor Econômico · 6 Sep"},
+        {"headline": "Fachin wants the bench before the full court — and may retire the fake-news inquiry", "grade": "B", "label": "CONFIRMED", "desk": "brazil", "text": "The chief justice signalled a firm plenary response and defended winding down the 'inqúerito das fake news' — the very vehicle Moraes used to request an investigation of Mendonça. Justice Dino publicly criticised 'applause-seeking promises'.", "source": "G1 Valdo Cruz · Valor · 5–6 Sep"},
+        {"headline": "The PGR opinion that could undo the whole file", "grade": "A", "label": "PRIMARY DOCUMENT", "desk": "brazil-public-integrity", "text": "Prosecutor-General Paulo Gonet has already argued in writing the PF report is null — a judge may not order his own investigation of a colleague without the prosecutor's office or police. His formal opinion under Fachin's five-day clock is due this week.", "source": "PGR manifestação (Pet 16662)"},
+        {"headline": "September 7 becomes a stage", "grade": "C", "label": "SCHEDULED / REPORT", "desk": "brazil", "text": "Flávio Bolsonaro's Independence Day act is being planned as a public show of support ('desagravo') for Mendonça. With Moraes's fate heading to the plenary, the street and the bench now run on parallel clocks.", "source": "Valor Econômico · 6 Sep"}
       ],
       "whatChanged": [
-        {"time": "16:20", "kind": "NEW DOCUMENT", "label": "PRIMARY DOCUMENT", "text": "PGR manifestation added to the evidence library (ASSCRIM 1428987/2026)"},
-        {"time": "12:10", "kind": "CORRECTION", "label": "CONFIRMED", "text": "R$131M aggregate refuted — PF report figures replace it in the dossier"},
-        {"time": "09:45", "kind": "TIMELINE", "label": "CONFIRMED", "text": "Plenary postponement to late September confirmed and logged"}
+        {"time": "19:00", "kind": "NEW DEVELOPMENT", "label": "CORROBORATED", "text": "Mendonça releases the PF report to a full-court session — the case is now formally headed to the plenary"},
+        {"time": "17:10", "kind": "POLICY SIGNAL", "label": "CONFIRMED", "text": "Fachin defends ending the fake-news inquiry and signals a firm plenary response"},
+        {"time": "15:40", "kind": "EVENT", "label": "SCHEDULED", "text": "7 Sept event planned as a show of support ('desagravo') for Mendonça"}
       ],
       "desks": {
         "brazil": [
-          {"headline": "Fachin postpones plenary; five-day clocks continue", "grade": "B", "label": "CONFIRMED"},
-          {"headline": "Nikolas Ferreira presents 218-page dossier in plenary", "grade": "D", "label": "ALLEGATION"}
+          {"headline": "Fachin may retire the fake-news inquiry", "grade": "B", "label": "CONFIRMED"},
+          {"headline": "September 7 becomes a stage", "grade": "C", "label": "SCHEDULED / REPORT"}
         ],
         "brazil-public-integrity": [
-          {"headline": "PF figures vs press aggregates — the money, precisely", "grade": "A", "label": "PRIMARY DOCUMENT"},
-          {"headline": "Contract metadata: 'Ministro Alexandre de Moraes' as last editor", "grade": "A", "label": "PRIMARY DOCUMENT"}
-        ],
-        "world": [
-          {"headline": "No material developments crossing the breaking threshold", "grade": null, "label": "MONITORING"}
+          {"headline": "Mendonça sends the Moraes file to the full court", "grade": "B", "label": "CORROBORATED"},
+          {"headline": "The PGR opinion that could undo the whole file", "grade": "A", "label": "PRIMARY DOCUMENT"}
         ]
       },
-      "documentsAdded": [
-        {"title": "PGR/ASSCRIM manifestação (Pet 16662)", "issuer": "Procuradoria-Geral da República", "date": "Sep 2026", "slug": "pgr-brief", "label": "PRIMARY DOCUMENT"},
-        {"title": "Fachin despacho (PET 16704)", "issuer": "STF Presidency", "date": "Sep 3, 2026", "slug": "fachin-order", "label": "COURT DOCUMENT"}
-      ],
+      "documentsAdded": [],
       "watchingNext": [
-        "STF plenary vote on opening an inquiry into Moraes (late September)",
-        "Two PGR opinions due on the five-day clocks",
-        "Any independent forensic audit of the extraction methodology"
+        "Fachin sets a plenary date — public or closed chamber",
+        "PGR opinion lands on the five-day clock (~this week)",
+        "Plenary verdict on whether Moraes himself faces an inquiry",
+        "7 Sept events force the crisis onto a political stage"
       ],
       "sources": [
-        "PF IPJ-A 3298613/2026 — 218-page forensic report, 27 Aug 2026",
-        "Contrato Barci de Moraes ↔ Banco Master S.A. (PET 16662)",
-        "STF despacho PET 16704, 3 Sep 2026, auth 0CB6-92DB-256B-89FB",
-        "PGR/ASSCRIM manifestação, Pet 16662",
-        "Reuters 4 Sep · Al Jazeera 4 Sep · O Globo 1 Sep · Poder360 5 Sep"
+        "Valor Econômico — 'Mendonça libera para análise do plenário do STF relatório sobre mensagens de Vorcaro a Moraes,' 6 Sep 2026",
+        "G1 (Valdo Cruz) — 'Fachin indica intenção de levar ao plenário crise envolvendo Moraes e Mendonça,' 5 Sep 2026",
+        "Valor Econômico — 'Após Fachin defender fim do inquérito das fake news, Dino critica promessas para receber aplausos,' 6 Sep 2026",
+        "PGR manifestação (Pet 16662) — Procuradoria-Geral da República, Sep 2026",
+        "Valor Econômico — 7 Sept act with 'desagravo a Mendonça,' 6 Sep 2026"
       ],
       "breakingSincePrevious": []
     }

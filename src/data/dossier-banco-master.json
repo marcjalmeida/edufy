@@ -249,6 +249,18 @@
       "event": "Planned protests; Fachin-scheduled public plenary on the PF report; plenary vote on opening inquiry into Moraes; two PGR opinions due on the two 5-day clocks",
       "source": "CHILD B consolidated (multiple outlets)",
       "classification": "B"
+    },
+    {
+      "date": "2026-09-06",
+      "event": "Mendonça releases PF forensic report to plenary analysis (Sun); only Fachin sets the date, and he could choose a closed deliberation",
+      "source": "Valor Econômico",
+      "classification": "B"
+    },
+    {
+      "date": "2026-09-05/06",
+      "event": "Fachin signals he intends to bring the crisis to the plenary with a 'firm response' and defends ending the fake-news inquiry (the vehicle Moraes used to request the Mendonça probe); Dino criticises 'applause-seeking promises'",
+      "source": "G1 Valdo Cruz / Valor Econômico",
+      "classification": "B"
     }
   ],
   "claims": [
@@ -387,6 +399,11 @@
       "ts": "2026-09-06T07:00:00Z",
       "what_changed": "Dossier seeded from Phase 1-2 intelligence DBs (15 claims, 14 entities, 13 timeline events, 4 contradictions, 3 financial flows, 5 primary docs inherited)",
       "edition_or_alert": "construction"
+    },
+    {
+      "ts": "2026-09-06T19:00:00Z",
+      "what_changed": "Mendonça released the PF report to plenary analysis (Sun) — case formally headed to the full court, no longer parked in late September. Fachin signals firm plenary response + defends winding down the fake-news inquiry (Moraes's vehicle against Mendonça); Dino objects. 7 Sept event planned as 'desagravo' for Mendonça. PGR opinion on 5-day clock still due this week.",
+      "edition_or_alert": "2026-09-06-evening"
     }
   ],
   "corrections": [],
