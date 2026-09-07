@@ -5,6 +5,8 @@ import EditionHero from '../components/EditionHero.astro';
 import EditionCard from '../components/EditionCard.astro';
 import EvidenceLabel from '../components/EvidenceLabel.astro';
 import editionsIndex from '../data/editions-index.json';
+import EditionArchive from '../components/EditionArchive.astro';
+import EditionAudio from '../components/EditionAudio.astro';
 
 const current = editionsIndex.editions[0];
 const typeLabel = current.type === 'morning' ? 'MORNING BRIEF' : current.type === 'midday' ? 'MIDDAY UPDATE' : 'EVENING EDITION';
@@ -133,6 +135,15 @@ const deskNames: Record<string, string> = {
     ))}
   </section>
 
+  {current.audio && (
+    <>
+      <div class="section-h">Listen <span class="sub">the {typeLabel.toLowerCase()} · {current.audio}</span></div>
+      <section style="margin-bottom:1.6rem">
+        <EditionAudio src="/audio/2026-09-06-evening.mp3" duration={current.audio} title="Evening Edition — Tonight's brief" date={current.date} />
+      </section>
+    </>
+  )}
+
   <!-- BETWEEN EDITIONS — verified stream -->
   <div class="section-h">Between editions <span class="sub">verified developments after the last formal edition</span></div>
   <section class="between">
@@ -176,12 +187,7 @@ const deskNames: Record<string, string> = {
 
   <!-- ARCHIVE -->
   <div class="section-h">Previous editions</div>
-  <section class="archive">
-    <div class="arch-empty">
-      <b>TOTO GLOBAL DESK IS BUILDING ITS FIRST DAILY ARCHIVE</b>
-      <span>The {typeLabel.toLowerCase()} above is the first issue. This archive fills automatically as each edition publishes — covers, headlines and evidence counts for every issue.</span>
-    </div>
-  </section>
+  <EditionArchive editions={editionsIndex.editions} excludeId={current.id} />
 </Base>
 
 <style>

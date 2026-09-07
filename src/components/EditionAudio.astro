@@ -1,0 +1,61 @@
+---
+// EditionAudio — professional audio player for an edition brief (honest: only renders when audio exists)
+interface Props { src: string; duration: string; title: string; date: string; }
+const { src, duration, title, date } = Astro.props;
+---
+<div class="eaudio">
+  <div class="ea-left">
+    <button class="ea-play" data-src={src} aria-label="Play edition audio">▶</button>
+    <div>
+      <b>{title}</b>
+      <span class="sans">{date} · {duration} · pt-BR · AntonioNeural</span>
+    </div>
+  </div>
+  <audio class="ea-player" src={src} preload="none"></audio>
+  <div class="ea-bar" data-state="idle"><div class="ea-fill"></div></div>
+  <div class="ea-controls sans">
+    <button class="ea-speed" data-speeds="1,1.5,2">1×</button>
+    <a class="ea-dl" href={src} download>Download</a>
+  </div>
+</div>
+<style>
+  .eaudio { border: 1px solid var(--rule); background: var(--ink); color: var(--paper); border-radius: 4px; padding: 0.9rem 1.1rem; display: flex; flex-direction: column; gap: 0.6rem; max-width: var(--measure); margin: 0 auto; }
+  .ea-left { display: flex; gap: 0.9rem; align-items: center; }
+  .ea-play { width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 2px solid var(--paper); background: transparent; color: var(--paper); font-size: 0.9rem; cursor: pointer; }
+  .eaudio.playing .ea-play { background: var(--accent); border-color: var(--accent); }
+  .ea-left b { display: block; font-size: 0.95rem; }
+  .ea-left span { font-size: 0.66rem; opacity: 0.7; }
+  .ea-bar { height: 4px; background: rgba(250,250,246,0.2); border-radius: 2px; overflow: hidden; cursor: pointer; }
+  .ea-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.2s linear; }
+  .ea-controls { display: flex; gap: 1rem; align-items: center; font-size: 0.66rem; }
+  .ea-speed { background: transparent; border: 1px solid rgba(250,250,246,0.4); color: var(--paper); font-size: 0.62rem; padding: 0.15rem 0.5rem; border-radius: 2px; cursor: pointer; }
+  .ea-dl { color: rgba(250,250,246,0.7); }
+</style>
+<script>
+  document.querySelectorAll('.eaudio').forEach((box) => {
+    const player = box.querySelector('audio');
+    const playBtn = box.querySelector('.ea-play');
+    const fill = box.querySelector('.ea-fill');
+    const bar = box.querySelector('.ea-bar');
+    const speed = box.querySelector('.ea-speed');
+    const speeds = [1, 1.5, 2];
+    let si = 0;
+    playBtn.addEventListener('click', () => {
+      if (player.paused) { player.play(); box.classList.add('playing'); playBtn.textContent = '❚❚'; }
+      else { player.pause(); box.classList.remove('playing'); playBtn.textContent = '▶'; }
+    });
+    player.addEventListener('timeupdate', () => {
+      fill.style.width = (player.currentTime / player.duration * 100) + '%';
+    });
+    player.addEventListener('ended', () => { box.classList.remove('playing'); playBtn.textContent = '▶'; fill.style.width = '0%'; });
+    bar.addEventListener('click', (e) => {
+      const rect = bar.getBoundingClientRect();
+      player.currentTime = ((e.clientX - rect.left) / rect.width) * player.duration;
+    });
+    speed.addEventListener('click', () => {
+      si = (si + 1) % speeds.length;
+      player.playbackRate = speeds[si];
+      speed.textContent = speeds[si] + '×';
+    });
+  });
+</script>

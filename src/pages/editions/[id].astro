@@ -1,0 +1,95 @@
+---
+// Per-edition detail page: /editions/<id> — full magazine-issue view
+import Base from '../../layouts/Base.astro';
+import EvidenceLabel from '../../components/EvidenceLabel.astro';
+import editionsIndex from '../../data/editions-index.json';
+import EditionAudio from '../../components/EditionAudio.astro';
+
+export function getStaticPaths() {
+  return editionsIndex.editions.map((e) => ({ params: { id: e.id }, props: { ed: e } }));
+}
+const { ed } = Astro.props;
+const typeLabel = ed.type === 'morning' ? 'MORNING BRIEF' : ed.type === 'midday' ? 'MIDDAY UPDATE' : 'EVENING EDITION';
+const dateLong = new Date(ed.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).replace(/,/g, ' ·');
+const deskNames: Record<string, string> = {
+  'us-immigration': 'US IMMIGRATION', 'united-states': 'UNITED STATES', 'brazil': 'BRAZIL',
+  'brazil-public-integrity': 'BRAZIL PUBLIC INTEGRITY', 'world': 'WORLD', 'war-security': 'WAR & SECURITY',
+};
+---
+<Base title={`${typeLabel} — ${dateLong} | TOTO GLOBAL DESK`} desc={ed.editorsBrief.slice(0, 150)}>
+  <style>
+    .ehead { text-align: center; padding: .6rem 0 1.2rem; border-bottom: 1px solid var(--rule); }
+    .ehead .type { font-family: var(--sans); font-size: .66rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+    .ehead h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 900; margin: .4rem 0; }
+    .ehead .dateline { font-family: var(--sans); font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-soft); }
+    .cover { max-width: 900px; margin: 1.2rem auto; border: 1px solid var(--rule); }
+    .cover img { width: 100%; display: block; }
+    .brief { max-width: var(--measure); margin: 1.4rem auto; font-size: 1.04rem; }
+    .brief b { font-family: var(--sans); font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); display: block; margin-bottom: .3rem; }
+    h2.sec { font-family: var(--sans); font-size: .95rem; text-transform: uppercase; letter-spacing: .11em; border-bottom: 2px solid var(--ink); padding-bottom: .3rem; margin: 2rem 0 .8rem; max-width: var(--measure); margin-left: auto; margin-right: auto; }
+    .story { max-width: var(--measure); margin: 0 auto .9rem; padding: .6rem 0; border-bottom: 1px dotted var(--rule); }
+    .story h3 { font-size: 1.1rem; margin: .3rem 0; } .story p { font-size: .95rem; color: var(--ink-soft); }
+    .story .src { font-family: var(--sans); font-size: .62rem; color: var(--ink-soft); }
+    .docs { max-width: var(--measure); margin: 0 auto; display: grid; gap: .7rem; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+    .doc { border: 1px solid var(--rule); text-decoration: none; overflow: hidden; background: var(--paper); }
+    .doc img { width: 100%; height: 130px; object-fit: cover; object-position: top; border-bottom: 1px solid var(--rule); }
+    .doc b { font-size: .8rem; padding: 0 .55rem; display: block; } .doc span { font-family: var(--sans); font-size: .62rem; color: var(--ink-soft); padding: 0 .55rem .5rem; display: block; }
+    .watch { max-width: var(--measure); margin: 0 auto; }
+    .watch div { padding: .4rem 0; border-bottom: 1px dotted var(--rule); font-size: .92rem; }
+    .wch2 { max-width: var(--measure); margin: 0 auto 1.5rem; background: var(--paper-2); border: 1px solid var(--rule); padding: .9rem 1.1rem; }
+    .wch2 div { padding: .35rem 0; font-size: .88rem; border-bottom: 1px dotted var(--rule); }
+    .wch2 b { font-family: var(--sans); font-size: .66rem; color: var(--accent); margin-right: .5rem; }
+  </style>
+  <article>
+    <div class="ehead">
+      <div class="type">{typeLabel} · {ed.status}</div>
+      <h1>{ed.leadHeadline}</h1>
+      <div class="dateline">{dateLong} · {ed.publishTime} CT · {ed.storyCount} stories · {ed.readingMin} min read · {ed.documentCount} documents</div>
+    </div>
+    <div class="cover"><img src={ed.cover} alt={ed.coverAlt} /></div>
+
+    <div class="brief"><b>Editor's brief</b>{ed.editorsBrief}</div>
+
+    <h2 class="sec">Top stories</h2>
+    {ed.stories.map((s) => (
+      <div class="story">
+        <span class="grade" style={`color:${s.grade === 'A' ? '#1d4ed8' : s.grade === 'B' ? '#166534' : '#6b7280'}`}>{s.label}</span>
+        <h3>{s.headline}</h3><p>{s.text}</p><span class="src">{s.source}</span>
+      </div>
+    ))}
+
+    <h2 class="sec">What changed in this edition</h2>
+    <div class="wch2">
+      {ed.whatChanged.map((w) => <div><b>{w.time} CT · {w.kind}</b>{w.text}</div>)}
+    </div>
+
+    {ed.documentsAdded.length > 0 && (
+      <>
+        <h2 class="sec">Documents added to the evidence library</h2>
+        <div class="docs">
+          {ed.documentsAdded.map((doc) => (
+            <a class="doc" href={`/documents/${doc.slug}.pdf`} target="_blank" rel="noopener">
+              <img src={`/media/thumbs/${doc.slug}.png`} alt={doc.title} loading="lazy" />
+              <b>{doc.title}</b><span>{doc.issuer} · {doc.date} · {doc.label} · Open →</span>
+            </a>
+          ))}
+        </div>
+      </>
+    )}
+
+    {ed.audio && (
+      <>
+        <h2 class="sec">Listen to this edition</h2>
+        <EditionAudio src={`/audio/${ed.id}.mp3`} duration={ed.audio} title={`${typeLabel} — audio brief`} date={ed.date} />
+      </>
+    )}
+
+    <h2 class="sec">What we are watching next</h2>
+    <div class="watch">{ed.watchingNext.map((w) => <div>🎯 {w}</div>)}</div>
+
+    <h2 class="sec">Full source index</h2>
+    <div class="wch2" style="font-family:var(--sans);font-size:.78rem">
+      <ol style="padding-left:1.2rem">{ed.sources.map((s) => <li style="margin:.25rem 0">{s}</li>)}</ol>
+    </div>
+  </article>
+</Base>

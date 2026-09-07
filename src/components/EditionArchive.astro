@@ -1,0 +1,41 @@
+---
+// BreakingBetweenEditions + Archive grid are data-driven; this adds the archive section
+// to the editions page rendering ALL editions from editions-index.json (today + past).
+// (The main /editions/ page already renders current; this component = archive strip.)
+interface Props { editions: {id:string; type:string; date:string; cover:string; leadHeadline:string; storyCount:number; updatedAt:string; audio?:string|null}[]; excludeId?: string; }
+const { editions, excludeId } = Astro.props;
+const past = editions.filter(e => e.id !== excludeId);
+const typeLabel: Record<string,string> = { morning:'Morning Brief', midday:'Midday Update', evening:'Evening Edition' };
+const typeAccent: Record<string,string> = { morning:'#b45309', midday:'#1e40af', evening:'#4c1d95' };
+---
+{past.length > 0 ? (
+  <div class="archgrid">
+    {past.map((e) => (
+      <a class="acard" href={`/editions/${e.id}`} style={`--ta:${typeAccent[e.type]}`}>
+        <img src={e.cover} alt={`Cover: ${e.leadHeadline}`} loading="lazy" />
+        <span class="ac-type">{typeLabel[e.type]}</span>
+        <span class="ac-date">{e.date}</span>
+        <b>{e.leadHeadline}</b>
+        <span class="ac-meta">{e.storyCount} stories · upd. {e.updatedAt.slice(11,16)}{e.audio ? ` · ▶ ${e.audio}` : ''}</span>
+      </a>
+    ))}
+  </div>
+) : (
+  <div class="arch-empty">
+    <b>TOTO GLOBAL DESK IS BUILDING ITS FIRST DAILY ARCHIVE</b>
+    <span>The first issue is above. This archive fills automatically as each edition publishes — covers, headlines and evidence counts for every issue.</span>
+  </div>
+)}
+<style>
+  .archgrid { display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .acard { border: 1px solid var(--rule); background: var(--paper); text-decoration: none; overflow: hidden; display: flex; flex-direction: column; }
+  .acard:hover { border-color: var(--ta); }
+  .acard img { width: 100%; height: 130px; object-fit: cover; border-bottom: 2px solid var(--ta); }
+  .ac-type { font-family: var(--sans); font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ta); padding: 0.45rem 0.6rem 0; }
+  .ac-date { font-family: var(--sans); font-size: 0.6rem; color: var(--ink-soft); padding: 0 0.6rem; }
+  .acard b { font-size: 0.88rem; padding: 0.25rem 0.6rem 0; line-height: 1.3; }
+  .ac-meta { font-family: var(--sans); font-size: 0.62rem; color: var(--ink-soft); padding: 0.2rem 0.6rem 0.6rem; margin-top: auto; }
+  .arch-empty { border: 1px dashed var(--rule); background: var(--paper-2); padding: 1.6rem 1.4rem; text-align: center; }
+  .arch-empty b { display: block; font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .arch-empty span { font-size: 0.88rem; color: var(--ink-soft); }
+</style>
