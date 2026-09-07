@@ -1,0 +1,13 @@
+/* T.O.U.R. NEWS — Design Token Reference (Phase B) */
+:root{
+  --ink:#16130e;--paper:#fbfaf6;--paper-2:#f3f1e9;--rule:#d8d4c6;
+  --rule-soft:#e7e4d8;--accent:#8b0000;--accent-2:#0f4c81;--gold:#a16207;
+  --ink-soft:#3d382f;--serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --measure:68ch;--space-xs:.25rem;--space-sm:.5rem;--space-md:1rem;
+  --space-lg:2rem;--space-xl:3rem;--bp-mobile:360px;--bp-tablet:768px;
+  --bp-desktop:1024px;--bp-wide:1440px;
+}
+[data-type=morning]{border-color:#b45309;}
+[data-type=midday]{border-color:#1e40af;}
+[data-type=evening]{border-color:#4c1d95;}
